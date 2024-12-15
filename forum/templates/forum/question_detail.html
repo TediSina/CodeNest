@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CodeNest - Question Detail{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="question-header">
+        <h1 class="mb-4">{{ question.title }}</h1>
+        <div class="question-body bg-dark p-4 rounded shadow-sm">
+            <p>{{ question.body }}</p>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h2 class="mb-4">Answers</h2>
+    <div class="answers-list">
+        {% for answer in answers %}
+            <div class="answer bg-dark p-4 rounded shadow-sm mb-3">
+                <p>{{ answer.body }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="answer-form mt-4">
+            <h3>Post an Answer</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-lg">Post Answer</button>
+            </form>
+        </div>
+    {% else %}
+        <p class="mt-3">Please <a href="{% url 'login' %}">login</a> to answer.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/showdown@latest/dist/showdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="{% static 'js/question_detail.js' %}" type="text/javascript"></script>
+{% endblock %}
