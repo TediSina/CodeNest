@@ -1,13 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const questionBodyElement = document.querySelector('.question-body p');
-
     const converter = new showdown.Converter({ tables: true, simplifiedAutoLink: true });
-    const markdownContent = questionBodyElement.textContent;
-    const htmlContent = converter.makeHtml(markdownContent);
 
-    questionBodyElement.innerHTML = htmlContent;
+    const questionBodyElement = document.querySelector('.question-body p');
+    if (questionBodyElement) {
+        const markdownContent = questionBodyElement.textContent;
+        const htmlContent = converter.makeHtml(markdownContent);
+        questionBodyElement.innerHTML = htmlContent;
+    }
 
-    document.querySelectorAll('pre code').forEach((block) => {
+    const answerElements = document.querySelectorAll('.answers-list .answer p');
+    answerElements.forEach(answerElement => {
+        const markdownContent = answerElement.textContent;
+        const htmlContent = converter.makeHtml(markdownContent);
+        answerElement.innerHTML = htmlContent;
+    });
+
+    document.querySelectorAll('pre code').forEach(block => {
         hljs.highlightElement(block);
 
         const blockClasses = block.className.split(/\s+/);
@@ -25,4 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.appendChild(languageLabel);
         wrapper.appendChild(preElement);
     });
+
+    const markdownInput = document.querySelector('.markdown-input');
+    const previewElement = document.querySelector('#markdown-preview');
+
+    if (markdownInput && previewElement) {
+        markdownInput.addEventListener('input', () => {
+            const markdownContent = markdownInput.value;
+            const htmlContent = converter.makeHtml(markdownContent);
+            previewElement.innerHTML = htmlContent;
+
+            previewElement.querySelectorAll('pre code').forEach(block => {
+                hljs.highlightElement(block);
+            });
+        });
+    }
 });

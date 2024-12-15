@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Question
+from .models import Question, Answer
 from django.contrib.auth.decorators import login_required
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 
 def index(request):
     questions = Question.objects.all().order_by('-created_at')
@@ -11,9 +11,25 @@ def question_detail(request, pk):
     question = get_object_or_404(Question, pk=pk)
     answers = question.answers.all()
 
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = AnswerForm(request.POST)
+            if form.is_valid():
+                answer = form.save(commit=False)
+                answer.question = question
+                answer.author = request.user
+                answer.save()
+                return redirect('question_detail', pk=question.pk)
+        else:
+            pass
+
+    else:
+        form = AnswerForm()
+
     return render(request, 'forum/question_detail.html', {
         'question': question,
-        'answers': answers
+        'answers': answers,
+        'form': form
     })
 
 @login_required

@@ -27,7 +27,7 @@ class AnswerForm(forms.ModelForm):
         widgets = {
             'body': forms.Textarea(attrs={
                 'class': 'form-control bg-dark text-light border-secondary markdown-input',
-                'rows': 5, 
+                'rows': 20, 
                 'placeholder': 'Write your answer using Markdown'
             }),
         }
