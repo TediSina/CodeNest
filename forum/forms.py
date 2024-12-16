@@ -15,9 +15,6 @@ class QuestionForm(forms.ModelForm):
                 'rows': 20, 
                 'placeholder': 'Write your question using Markdown'
             }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-control bg-dark text-light border-secondary'
-            }),
         }
 
 class AnswerForm(forms.ModelForm):

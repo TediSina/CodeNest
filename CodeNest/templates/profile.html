@@ -1,22 +1,69 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<div class="card text-light bg-dark border-light mx-auto" style="max-width: 600px;">
-    <div class="card-header bg-secondary">
-        <h5 class="card-title mb-0">Your Profile</h5>
+<div class="container mt-4">
+    <div class="card text-light bg-dark border-light mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-secondary">
+            <h5 class="card-title mb-0">Your Profile</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p><strong>Date Joined:</strong> {{ user.date_joined|date:"D, M j, Y" }}</p>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
+            <a href="{% url 'index' %}" class="btn btn-primary">Back to Home</a>
+        </div>
     </div>
-    <div class="card-body">
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>First Name:</strong> {{ user.first_name }}</p>
-        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"D, M j, Y" }}</p>
+
+    <div class="mt-5">
+        <h3 class="text-white">Your Questions</h3>
+        {% if questions %}
+            <div class="list-group">
+                {% for question in questions %}
+                    <a href="{% url 'question_detail' question.id %}" class="list-group-item list-group-item-action bg-dark text-white">
+                        <h5 class="mb-1 text-white">{{ question.title }}</h5>
+                        <small class="text-light">Posted on {{ question.created_at|date:"F j, Y, g:i a" }}</small>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-light mt-3">You haven't posted any questions yet.</p>
+        {% endif %}
     </div>
-    <div class="card-footer text-end">
-        <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
-        <a href="{% url 'index' %}" class="btn btn-primary">Back to Home</a>
+
+    <div class="mt-5">
+        <h3 class="text-white">Your Answers</h3>
+        {% if answers %}
+            <div class="list-group">
+                {% for answer in answers %}
+                    <div class="list-group-item bg-dark text-white">
+                        <div class="markdown-body">
+                            <p class="answer-body">{{ answer.body }}</p>
+                        </div>
+                        <small class="text-light">
+                            Answered on {{ answer.created_at|date:"F j, Y, g:i a" }} 
+                            for <a href="{% url 'question_detail' answer.question.id %}" class="text-info">{{ answer.question.title }}</a>
+                        </small>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-light mt-3">You haven't posted any answers yet.</p>
+        {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/showdown@latest/dist/showdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
 {% endblock %}

@@ -5,10 +5,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from forum.models import Question, Answer
 
 @login_required
 def profile_view(request):
-    return render(request, 'profile.html', {'user': request.user})
+    user_questions = Question.objects.filter(author=request.user).order_by('-created_at')
+    user_answers = Answer.objects.filter(author=request.user).order_by('-created_at')
+    return render(request, 'profile.html', {
+        'user': request.user,
+        'questions': user_questions,   
+        'answers': user_answers
+    })
 
 @login_required
 def edit_profile_view(request):
