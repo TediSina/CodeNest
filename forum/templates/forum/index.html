@@ -2,12 +2,18 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Questions</h1>
+    <h1 class="mb-4 text-white">Questions</h1>
 
     <div class="list-group">
         {% for question in questions %}
-            <a href="{% url 'question_detail' question.id %}" class="list-group-item list-group-item-action bg-dark text-light">
-                {{ question.title }}
+            <a href="{% url 'question_detail' question.id %}" class="list-group-item list-group-item-action bg-dark text-white">
+                <div>
+                    <h5 class="mb-1 text-white">{{ question.title }}</h5>
+                    <small class="text-light">
+                        Asked by <strong>{{ question.author.username }}</strong> 
+                        on {{ question.created_at|date:"F j, Y, g:i a" }}
+                    </small>
+                </div>
             </a>
         {% endfor %}
     </div>

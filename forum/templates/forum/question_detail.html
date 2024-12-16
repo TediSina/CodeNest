@@ -8,11 +8,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 text-light">
     <div class="question-header">
         <h1 class="mb-4">{{ question.title }}</h1>
+        <div class="question-meta mb-3 text-muted">
+            <small class="text-light">
+                Posted by <strong>{{ question.author.username }}</strong> 
+                on {{ question.created_at|date:"F j, Y, g:i a" }}
+            </small>
+        </div>
         <div class="question-body bg-dark p-4 rounded shadow-sm">
-            <p>{{ question.body }}</p>
+            <p class="text-light">{{ question.body }}</p>
         </div>
     </div>
 
@@ -20,28 +26,34 @@
 
     {% if user.is_authenticated %}
         <div class="answer-form mt-4">
-            <h3>Post an Answer</h3>
+            <h3 class="text-light">Post an Answer</h3>
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="form-group mt-4">
-                    <label for="markdown-preview">Preview:</label>
+                    <label for="markdown-preview" class="text-light">Preview:</label>
                     <div id="markdown-preview" class="p-3 border bg-dark text-light" style="border-radius: 5px;"></div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg mt-3">Post Answer</button>
             </form>
         </div>
     {% else %}
-        <p class="mt-3">Please <a href="{% url 'login' %}">login</a> to answer.</p>
+        <p class="mt-3 text-light">Please <a href="{% url 'login' %}">login</a> to answer.</p>
     {% endif %}
 
     <hr class="my-4">
 
-    <h2 class="mb-4">Answers</h2>
+    <h2 class="mb-4 text-light">Answers</h2>
     <div class="answers-list">
         {% for answer in answers %}
             <div class="answer bg-dark p-4 rounded shadow-sm mb-3">
-                <p>{{ answer.body }}</p>
+                <div class="answer-meta mb-2 text-muted">
+                    <small class="text-light">
+                        Answered by <strong>{{ answer.author.username }}</strong> 
+                        on {{ answer.created_at|date:"F j, Y, g:i a" }}
+                    </small>
+                </div>
+                <p class="text-light">{{ answer.body }}</p>
             </div>
         {% endfor %}
     </div>
