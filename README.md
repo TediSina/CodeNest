@@ -45,7 +45,19 @@ To set up and run the development server, follow these steps:
     python manage.py migrate
     ```
 
-5. **Start the Django Development Server**
+5. **Set the Secret Key in the Configuration File**
+
+    Create a `.env` file in the root directory of the repository.
+
+    Add the following line to the file:
+
+    ```env
+    SECRET_KEY="enter_a_random_secret_key_here"
+    ```
+
+    Replace `enter_a_random_secret_key_here` with a strong, unique secret key.
+
+6. **Start the Django Development Server**
 
     In another terminal, run:
 
@@ -53,7 +65,7 @@ To set up and run the development server, follow these steps:
     python manage.py runserver
     ```
 
-6. **Access the Website**
+7. **Access the Website**
 
     Open your web browser and navigate to `http://127.0.0.1:8000` to view the website.
 
