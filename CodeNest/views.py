@@ -4,17 +4,30 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.db.models import Count
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from forum.models import Question, Answer
 
 @login_required
 def profile_view(request):
-    user_questions = Question.objects.filter(author=request.user).order_by('-created_at')
-    user_answers = Answer.objects.filter(author=request.user).order_by('-created_at')
+    user_questions = (
+        Question.objects.filter(author=request.user)
+        .prefetch_related('tags')
+        .annotate(answer_count=Count('answers'))
+        .order_by('-created_at')
+    )
+    user_answers = (
+        Answer.objects.filter(author=request.user)
+        .select_related('question')
+        .order_by('-created_at')
+    )
+
     return render(request, 'profile.html', {
         'user': request.user,
-        'questions': user_questions,   
-        'answers': user_answers
+        'questions': user_questions,
+        'answers': user_answers,
+        'question_total': user_questions.count(),
+        'answer_total': user_answers.count(),
     })
 
 @login_required

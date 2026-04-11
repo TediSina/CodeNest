@@ -8,25 +8,122 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="text-light">Ask a Question</h1>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.title.label_tag }}
-            {{ form.title }}
+<section class="page-hero page-hero--compact">
+    <div class="hero-copy">
+        <span class="eyebrow">New Thread</span>
+        <h1>Ask a question developers can solve fast.</h1>
+        <p>Lead with context, show what you tried, and make the problem easy to reproduce. The clearer the thread starts, the better the replies get.</p>
+        <div class="hero-actions">
+            <a href="{% url 'index' %}" class="app-btn app-btn--ghost">
+                <i class="bi bi-arrow-left"></i>
+                <span>Back to questions</span>
+            </a>
         </div>
-        <div class="form-group">
-            {{ form.body.label_tag }}
-            {{ form.body }}
+    </div>
+
+    <div class="hero-panel">
+        <span class="eyebrow">Writing Tips</span>
+        <h2>Great questions invite great answers.</h2>
+        <ul class="note-list">
+            <li>
+                <i class="bi bi-list-check"></i>
+                <div>
+                    <strong>State the goal first</strong>
+                    <span>Describe what you expected to happen before you describe the failure.</span>
+                </div>
+            </li>
+            <li>
+                <i class="bi bi-terminal"></i>
+                <div>
+                    <strong>Include the smallest useful snippet</strong>
+                    <span>Short, reproducible examples help other developers test ideas quickly.</span>
+                </div>
+            </li>
+            <li>
+                <i class="bi bi-tags"></i>
+                <div>
+                    <strong>Add tags intentionally</strong>
+                    <span>They help the right people notice your thread sooner.</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="editor-layout">
+    <div class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Editor</span>
+                <h2>Compose your question</h2>
+            </div>
+            <p>Use Markdown for code fences, lists, and examples. Your preview updates live as you write.</p>
         </div>
-        <div class="markdown-preview-container mt-4">
-            <h3 class="text-light">Preview</h3>
-            <div id="markdown-preview" class="p-3 border bg-dark text-light" style="border-radius: 5px;"></div>
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="field-group">
+                <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+
+            <div class="field-group">
+                <label for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
+                {{ form.body }}
+                {{ form.body.errors }}
+            </div>
+
+            <div class="field-group">
+                <label for="{{ form.tags.id_for_label }}">{{ form.tags.label }}</label>
+                {{ form.tags }}
+                {% if form.tags.help_text %}
+                    <div class="field-help">{{ form.tags.help_text }}</div>
+                {% endif %}
+                {{ form.tags.errors }}
+            </div>
+
+            <button type="submit" class="app-btn app-btn--secondary">
+                <i class="bi bi-send"></i>
+                <span>Publish Question</span>
+            </button>
+        </form>
+    </div>
+
+    <aside class="content-card">
+        <div class="preview-panel__header">
+            <div>
+                <span class="eyebrow">Live Preview</span>
+                <h3>See the final post as you write</h3>
+            </div>
+            <span class="preview-kicker">Markdown + Code Highlighting</span>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Post Question</button>
-    </form>
-</div>
+        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
+            <p class="preview-placeholder">Start typing in the editor to preview your question here.</p>
+        </div>
+
+        <div class="tips-list">
+            <div class="tip-item">
+                <i class="bi bi-check2-square"></i>
+                <span>Explain what you expected and what actually happened.</span>
+            </div>
+            <div class="tip-item">
+                <i class="bi bi-braces"></i>
+                <span>Wrap code in fenced blocks like <code>```js</code> for better readability.</span>
+            </div>
+            <div class="tip-item">
+                <i class="bi bi-chat-left-text"></i>
+                <span>List the debugging steps you already tried so replies can build from there.</span>
+            </div>
+        </div>
+    </aside>
+</section>
 {% endblock %}
 
 {% block scripts %}

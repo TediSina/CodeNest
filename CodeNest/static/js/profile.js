@@ -1,32 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const converter = new showdown.Converter({ tables: true, simplifiedAutoLink: true });
+    const converter = new showdown.Converter({
+        tables: true,
+        simplifiedAutoLink: true,
+        strikethrough: true,
+        tasklists: true,
+    });
 
-    document.querySelectorAll('.answer-body').forEach((element) => {
-        const markdownContent = element.textContent;
-        const htmlContent = converter.makeHtml(markdownContent);
-        element.innerHTML = htmlContent;
-
-        element.querySelectorAll('pre code').forEach((block) => {
+    function decorateCodeBlocks(scope) {
+        scope.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);
 
-            const languageClass = block.className.match(/language-([\w-]+)/);
-            if (languageClass) {
-                const language = languageClass[1];
-                const label = document.createElement('div');
-                label.textContent = language.toUpperCase();
-                label.style.cssText = `
-                    position: absolute;
-                    top: 5px;
-                    right: 10px;
-                    background: #444;
-                    color: #fff;
-                    padding: 2px 6px;
-                    font-size: 12px;
-                    border-radius: 4px;
-                `;
-                block.parentElement.style.position = 'relative';
-                block.parentElement.appendChild(label);
+            const preElement = block.parentElement;
+            if (preElement.parentElement && preElement.parentElement.classList.contains('code-block-wrapper')) {
+                return;
             }
+
+            const languageClass = Array.from(block.classList).find((cls) => cls.startsWith('language-'));
+            const language = languageClass ? languageClass.replace('language-', '') : 'plaintext';
+
+            const label = document.createElement('div');
+            label.textContent = language.toUpperCase();
+            label.classList.add('code-block-language-label');
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('code-block-wrapper');
+            preElement.parentElement.insertBefore(wrapper, preElement);
+            wrapper.appendChild(label);
+            wrapper.appendChild(preElement);
         });
+    }
+
+    document.querySelectorAll('.js-markdown').forEach((element) => {
+        const markdownContent = element.textContent.trim();
+
+        if (!markdownContent) {
+            element.innerHTML = '';
+            return;
+        }
+
+        element.innerHTML = converter.makeHtml(markdownContent);
+        decorateCodeBlocks(element);
     });
 });

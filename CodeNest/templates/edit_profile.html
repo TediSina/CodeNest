@@ -3,30 +3,97 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<div class="card text-light bg-dark border-light mx-auto" style="max-width: 800px;">
-    <div class="card-header bg-secondary">
-        <h5 class="card-title mb-0">Edit Your Profile</h5>
+<section class="page-hero page-hero--compact">
+    <div class="hero-copy">
+        <span class="eyebrow">Settings</span>
+        <h1>Keep your profile current.</h1>
+        <p>Update the account details other developers see and change your password without leaving your workspace behind.</p>
+        <div class="hero-actions">
+            <a href="{% url 'profile' %}" class="app-btn app-btn--ghost">
+                <i class="bi bi-arrow-left"></i>
+                <span>Back to profile</span>
+            </a>
+        </div>
     </div>
-    <div class="card-body">
-        <form method="post" class="mb-4">
-            {% csrf_token %}
-            <h5>Update Profile Information</h5>
-            {{ profile_form.as_p }}
-            <button type="submit" name="profile_submit" class="btn btn-success">Update Profile</button>
-        </form>
 
-        <hr class="text-light">
+    <div class="hero-panel">
+        <span class="eyebrow">Quick Reminder</span>
+        <h2>Profiles work best when they stay lightweight and useful.</h2>
+        <p>Keep your contact details accurate so your contribution history is easy to recognize, and update your password whenever you need a fresh start.</p>
+    </div>
+</section>
+
+<section class="settings-grid">
+    <div class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Profile</span>
+                <h2>Update your details</h2>
+            </div>
+            <p>These fields shape how your account appears across CodeNest.</p>
+        </div>
 
         <form method="post">
             {% csrf_token %}
-            <h5>Change Password</h5>
-            {{ password_form.as_p }}
-            <button type="submit" name="password_submit" class="btn btn-primary">Change Password</button>
-        </form>
 
-        <div class="mt-3 text-end">
-            <a href="{% url 'profile' %}" class="btn btn-danger">Cancel</a>
-        </div>
+            {% if profile_form.non_field_errors %}
+                <div class="form-errors">
+                    {{ profile_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in profile_form %}
+                <div class="field-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="field-help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" name="profile_submit" class="app-btn app-btn--secondary">
+                <i class="bi bi-check2-circle"></i>
+                <span>Save Profile</span>
+            </button>
+        </form>
     </div>
-</div>
+
+    <div class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Security</span>
+                <h2>Change your password</h2>
+            </div>
+            <p>Use a strong password you're not reusing elsewhere.</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% if password_form.non_field_errors %}
+                <div class="form-errors">
+                    {{ password_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in password_form %}
+                <div class="field-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="field-help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" name="password_submit" class="app-btn">
+                <i class="bi bi-shield-lock"></i>
+                <span>Update Password</span>
+            </button>
+        </form>
+    </div>
+</section>
 {% endblock %}

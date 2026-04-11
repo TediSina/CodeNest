@@ -1,51 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const converter = new showdown.Converter({ tables: true, simplifiedAutoLink: true });
+    const converter = new showdown.Converter({
+        tables: true,
+        simplifiedAutoLink: true,
+        strikethrough: true,
+        tasklists: true,
+    });
 
-    const questionBodyElement = document.querySelector('.question-body p');
-    if (questionBodyElement) {
-        const markdownContent = questionBodyElement.textContent;
-        const htmlContent = converter.makeHtml(markdownContent);
-        questionBodyElement.innerHTML = htmlContent;
+    function decorateCodeBlocks(scope) {
+        scope.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+
+            const preElement = block.parentElement;
+            if (preElement.parentElement && preElement.parentElement.classList.contains('code-block-wrapper')) {
+                return;
+            }
+
+            const languageClass = Array.from(block.classList).find((cls) => cls.startsWith('language-'));
+            const language = languageClass ? languageClass.replace('language-', '') : 'plaintext';
+
+            const languageLabel = document.createElement('div');
+            languageLabel.textContent = language.toUpperCase();
+            languageLabel.classList.add('code-block-language-label');
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('code-block-wrapper');
+            preElement.parentElement.insertBefore(wrapper, preElement);
+            wrapper.appendChild(languageLabel);
+            wrapper.appendChild(preElement);
+        });
     }
 
-    const answerElements = document.querySelectorAll('.answers-list .answer p');
-    answerElements.forEach(answerElement => {
-        const markdownContent = answerElement.textContent;
-        const htmlContent = converter.makeHtml(markdownContent);
-        answerElement.innerHTML = htmlContent;
-    });
+    function renderMarkdownBlocks(selector) {
+        document.querySelectorAll(selector).forEach((element) => {
+            const markdownContent = element.textContent.trim();
 
-    document.querySelectorAll('pre code').forEach(block => {
-        hljs.highlightElement(block);
+            if (!markdownContent) {
+                element.innerHTML = '';
+                return;
+            }
 
-        const blockClasses = block.className.split(/\s+/);
-        const languageClass = blockClasses.find(cls => cls.startsWith('language-'));
-        const language = languageClass ? languageClass.replace('language-', '') : 'plaintext';
+            element.innerHTML = converter.makeHtml(markdownContent);
+            decorateCodeBlocks(element);
+        });
+    }
 
-        const languageLabel = document.createElement('div');
-        languageLabel.textContent = language.toUpperCase();
-        languageLabel.classList.add('code-block-language-label');
+    function renderPreview(input, preview) {
+        const markdownContent = input.value.trim();
 
-        const preElement = block.parentElement;
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('code-block-wrapper');
-        preElement.parentElement.insertBefore(wrapper, preElement);
-        wrapper.appendChild(languageLabel);
-        wrapper.appendChild(preElement);
-    });
+        if (!markdownContent) {
+            preview.classList.add('preview-surface--empty');
+            preview.innerHTML = '<p class="preview-placeholder">Your live preview appears here as you type.</p>';
+            return;
+        }
+
+        preview.classList.remove('preview-surface--empty');
+        preview.innerHTML = converter.makeHtml(input.value);
+        decorateCodeBlocks(preview);
+    }
+
+    renderMarkdownBlocks('.js-markdown');
 
     const markdownInput = document.querySelector('.markdown-input');
-    const previewElement = document.querySelector('#markdown-preview');
+    const previewElement = document.getElementById('markdown-preview');
 
     if (markdownInput && previewElement) {
-        markdownInput.addEventListener('input', () => {
-            const markdownContent = markdownInput.value;
-            const htmlContent = converter.makeHtml(markdownContent);
-            previewElement.innerHTML = htmlContent;
-
-            previewElement.querySelectorAll('pre code').forEach(block => {
-                hljs.highlightElement(block);
-            });
-        });
+        renderPreview(markdownInput, previewElement);
+        markdownInput.addEventListener('input', () => renderPreview(markdownInput, previewElement));
     }
 });

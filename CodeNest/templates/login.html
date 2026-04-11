@@ -3,36 +3,71 @@
 {% block title %}Login - CodeNest{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5 border-secondary">
-            <div class="card-header bg-dark text-light border-secondary">
-                <h5 class="card-title">Login</h5>
-            </div>
-            <div class="card-body bg-dark text-light">
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control bg-dark text-light border-secondary" id="username"
-                            name="username" placeholder="Enter your username" required>
+<section class="auth-layout">
+    <div class="auth-showcase">
+        <div>
+            <span class="eyebrow">Welcome Back</span>
+            <h1>Step back into the conversation.</h1>
+            <p>Review the threads you care about, post cleaner answers, and keep your best debugging notes inside one polished developer space.</p>
+
+            <ul class="feature-list">
+                <li>
+                    <i class="bi bi-lightning-charge"></i>
+                    <div>
+                        <strong>Resume where you left off</strong>
+                        <span>Jump straight into active questions and keep momentum when you're in the middle of solving something tricky.</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control bg-dark text-light border-secondary" id="password"
-                            name="password" placeholder="Enter your password" required>
+                </li>
+                <li>
+                    <i class="bi bi-journal-code"></i>
+                    <div>
+                        <strong>Answer with clarity</strong>
+                        <span>Markdown support makes it easy to share commands, snippets, and structured reasoning.</span>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
-                {% if messages %}
-                <div class="mt-3">
-                    {% for message in messages %}
-                    <div class="alert alert-danger">{{ message }}</div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
+                </li>
+                <li>
+                    <i class="bi bi-person-badge"></i>
+                    <div>
+                        <strong>Build your profile</strong>
+                        <span>Keep your questions and answers organized in one place so your contributions stay easy to revisit.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="auth-showcase__footer">
+            <span class="tag-chip">Focused discussions</span>
+            <span class="tag-chip">Readable code posts</span>
+            <span class="tag-chip">Signal over noise</span>
         </div>
     </div>
-</div>
+
+    <div class="auth-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Sign In</span>
+                <h1>Login to CodeNest</h1>
+            </div>
+            <p>Use your account details to continue contributing.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="field-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" value="{{ request.POST.username|default:'' }}" required>
+            </div>
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="app-btn app-btn--block">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+            </button>
+        </form>
+
+        <p class="auth-card__footer">Need an account? <a href="{% url 'register' %}">Create one here</a>.</p>
+    </div>
+</section>
 {% endblock %}

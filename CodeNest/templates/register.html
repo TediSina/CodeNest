@@ -3,39 +3,81 @@
 {% block title %}Register - CodeNest{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5 border-secondary">
-            <div class="card-header bg-dark text-light border-secondary">
-                <h5 class="card-title">Register</h5>
-            </div>
-            <div class="card-body bg-dark text-light">
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control bg-dark text-light border-secondary" id="username"
-                            name="username" placeholder="Choose a username" required>
+<section class="auth-layout">
+    <div class="auth-showcase">
+        <div>
+            <span class="eyebrow">Join CodeNest</span>
+            <h1>Build a better home for your developer notes.</h1>
+            <p>Create an account to ask sharper questions, keep your answers organized, and leave behind solutions your future self will be glad you wrote down.</p>
+
+            <ul class="feature-list">
+                <li>
+                    <i class="bi bi-stars"></i>
+                    <div>
+                        <strong>Start thoughtful threads</strong>
+                        <span>Open conversations with clean formatting, useful tags, and enough context for great answers.</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control bg-dark text-light border-secondary" id="email"
-                            name="email" placeholder="Enter your email" required>
+                </li>
+                <li>
+                    <i class="bi bi-code-slash"></i>
+                    <div>
+                        <strong>Share code without friction</strong>
+                        <span>Markdown previews and syntax highlighting keep examples readable for everyone jumping in.</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="password1" class="form-label">Password</label>
-                        <input type="password" class="form-control bg-dark text-light border-secondary" id="password1"
-                            name="password1" placeholder="Create a password" required>
+                </li>
+                <li>
+                    <i class="bi bi-collection"></i>
+                    <div>
+                        <strong>Track your work</strong>
+                        <span>Your profile becomes a living archive of questions asked, answers given, and problems solved.</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="password2" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control bg-dark text-light border-secondary" id="password2"
-                            name="password2" placeholder="Confirm your password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
-                </form>
-            </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="auth-showcase__footer">
+            <span class="tag-chip">Questions</span>
+            <span class="tag-chip">Answers</span>
+            <span class="tag-chip">Profile history</span>
         </div>
     </div>
-</div>
+
+    <div class="auth-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Create Account</span>
+                <h1>Register for CodeNest</h1>
+            </div>
+            <p>Pick a username and you're ready to start posting.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="field-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="field-help">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="app-btn app-btn--block">
+                <i class="bi bi-person-plus"></i>
+                <span>Create Account</span>
+            </button>
+        </form>
+
+        <p class="auth-card__footer">Already have an account? <a href="{% url 'login' %}">Login instead</a>.</p>
+    </div>
+</section>
 {% endblock %}
