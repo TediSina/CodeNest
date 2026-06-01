@@ -1,73 +1,31 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Login - CodeNest{% endblock %}
+{% block title %}Sign In | CodeNest{% endblock %}
 
 {% block content %}
-<section class="auth-layout">
-    <div class="auth-showcase">
-        <div>
-            <span class="eyebrow">Welcome Back</span>
-            <h1>Step back into the conversation.</h1>
-            <p>Review the threads you care about, post cleaner answers, and keep your best debugging notes inside one polished developer space.</p>
+<div class="auth-container">
+    <a class="auth-brand" href="{% url 'index' %}" aria-label="CodeNest home">
+        <img src="{% static 'images/codenest-logo.png' %}" alt="CodeNest" class="site-brand__logo">
+    </a>
+    <section class="auth-card">
+        <h1>Sign in</h1>
+        <p>Use your CodeNest account to ask questions and post answers.</p>
 
-            <ul class="feature-list">
-                <li>
-                    <i class="bi bi-lightning-charge"></i>
-                    <div>
-                        <strong>Resume where you left off</strong>
-                        <span>Jump straight into active questions and keep momentum when you're in the middle of solving something tricky.</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="bi bi-journal-code"></i>
-                    <div>
-                        <strong>Answer with clarity</strong>
-                        <span>Markdown support makes it easy to share commands, snippets, and structured reasoning.</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="bi bi-person-badge"></i>
-                    <div>
-                        <strong>Build your profile</strong>
-                        <span>Keep your questions and answers organized in one place so your contributions stay easy to revisit.</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="auth-showcase__footer">
-            <span class="tag-chip">Focused discussions</span>
-            <span class="tag-chip">Readable code posts</span>
-            <span class="tag-chip">Signal over noise</span>
-        </div>
-    </div>
-
-    <div class="auth-card">
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">Sign In</span>
-                <h1>Login to CodeNest</h1>
-            </div>
-            <p>Use your account details to continue contributing.</p>
-        </div>
-
-        <form method="POST">
+        <form method="post">
             {% csrf_token %}
             <div class="field-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" value="{{ request.POST.username|default:'' }}" required>
+                <input type="text" id="username" name="username" placeholder="Your username" value="{{ request.POST.username|default:'' }}" required>
             </div>
             <div class="field-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Your password" required>
             </div>
-            <button type="submit" class="app-btn app-btn--block">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </button>
+            <button type="submit" class="app-btn app-btn--block">Sign in</button>
         </form>
 
-        <p class="auth-card__footer">Need an account? <a href="{% url 'register' %}">Create one here</a>.</p>
-    </div>
-</section>
+        <p class="auth-card__footer">New to CodeNest? <a href="{% url 'register' %}">Create an account</a>.</p>
+    </section>
+</div>
 {% endblock %}

@@ -1,71 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}CodeNest - Ask a Question{% endblock %}
+{% block title %}Ask a Question | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
 {% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero--compact">
-    <div class="hero-copy">
-        <span class="eyebrow">New Thread</span>
-        <h1>Ask a question developers can solve fast.</h1>
-        <p>Lead with context, show what you tried, and make the problem easy to reproduce. The clearer the thread starts, the better the replies get.</p>
-        <div class="hero-actions">
-            <a href="{% url 'index' %}" class="app-btn app-btn--ghost">
-                <i class="bi bi-arrow-left"></i>
-                <span>Back to questions</span>
-            </a>
-        </div>
-    </div>
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">Questions</a>
+    <span>/</span>
+    <span>Ask a question</span>
+</div>
 
-    <div class="hero-panel">
-        <span class="eyebrow">Writing Tips</span>
-        <h2>Great questions invite great answers.</h2>
-        <ul class="note-list">
-            <li>
-                <i class="bi bi-list-check"></i>
-                <div>
-                    <strong>State the goal first</strong>
-                    <span>Describe what you expected to happen before you describe the failure.</span>
-                </div>
-            </li>
-            <li>
-                <i class="bi bi-terminal"></i>
-                <div>
-                    <strong>Include the smallest useful snippet</strong>
-                    <span>Short, reproducible examples help other developers test ideas quickly.</span>
-                </div>
-            </li>
-            <li>
-                <i class="bi bi-tags"></i>
-                <div>
-                    <strong>Add tags intentionally</strong>
-                    <span>They help the right people notice your thread sooner.</span>
-                </div>
-            </li>
-        </ul>
+<div class="page-header">
+    <div>
+        <h1>Ask a question</h1>
+        <p>Explain the problem, include the code you tried, and add relevant tags.</p>
     </div>
-</section>
+</div>
 
-<section class="editor-layout">
-    <div class="content-card">
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">Editor</span>
-                <h2>Compose your question</h2>
-            </div>
-            <p>Use Markdown for code fences, lists, and examples. Your preview updates live as you write.</p>
-        </div>
+<div class="editor-layout">
+    <section class="panel">
         <form method="post">
             {% csrf_token %}
 
             {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {{ form.non_field_errors }}
-                </div>
+                <div class="form-errors">{{ form.non_field_errors }}</div>
             {% endif %}
 
             <div class="field-group">
@@ -89,41 +51,32 @@
                 {{ form.tags.errors }}
             </div>
 
-            <button type="submit" class="app-btn app-btn--secondary">
+            <button type="submit" class="app-btn">
                 <i class="bi bi-send"></i>
-                <span>Publish Question</span>
+                <span>Publish question</span>
             </button>
         </form>
-    </div>
+    </section>
 
-    <aside class="content-card">
-        <div class="preview-panel__header">
-            <div>
-                <span class="eyebrow">Live Preview</span>
-                <h3>See the final post as you write</h3>
+    <aside>
+        <section class="panel">
+            <div class="preview-header">
+                <h2>Preview</h2>
             </div>
-            <span class="preview-kicker">Markdown + Code Highlighting</span>
-        </div>
-        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
-            <p class="preview-placeholder">Start typing in the editor to preview your question here.</p>
-        </div>
-
-        <div class="tips-list">
-            <div class="tip-item">
-                <i class="bi bi-check2-square"></i>
-                <span>Explain what you expected and what actually happened.</span>
+            <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
+                <p class="preview-placeholder">Your formatted question appears here as you type.</p>
             </div>
-            <div class="tip-item">
-                <i class="bi bi-braces"></i>
-                <span>Wrap code in fenced blocks like <code>```js</code> for better readability.</span>
-            </div>
-            <div class="tip-item">
-                <i class="bi bi-chat-left-text"></i>
-                <span>List the debugging steps you already tried so replies can build from there.</span>
-            </div>
-        </div>
+        </section>
+        <section class="panel">
+            <h2>Before posting</h2>
+            <ul class="tips-list">
+                <li>Use a title that clearly describes the problem.</li>
+                <li>Keep code samples as small as possible.</li>
+                <li>Mention the debugging steps you already tried.</li>
+            </ul>
+        </section>
     </aside>
-</section>
+</div>
 {% endblock %}
 
 {% block scripts %}

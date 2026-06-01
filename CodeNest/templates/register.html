@@ -1,63 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Register - CodeNest{% endblock %}
+{% block title %}Register | CodeNest{% endblock %}
 
 {% block content %}
-<section class="auth-layout">
-    <div class="auth-showcase">
-        <div>
-            <span class="eyebrow">Join CodeNest</span>
-            <h1>Build a better home for your developer notes.</h1>
-            <p>Create an account to ask sharper questions, keep your answers organized, and leave behind solutions your future self will be glad you wrote down.</p>
+<div class="auth-container">
+    <a class="auth-brand" href="{% url 'index' %}" aria-label="CodeNest home">
+        <img src="{% static 'images/codenest-logo.png' %}" alt="CodeNest" class="site-brand__logo">
+    </a>
+    <section class="auth-card">
+        <h1>Create an account</h1>
+        <p>Register to ask questions and contribute answers.</p>
 
-            <ul class="feature-list">
-                <li>
-                    <i class="bi bi-stars"></i>
-                    <div>
-                        <strong>Start thoughtful threads</strong>
-                        <span>Open conversations with clean formatting, useful tags, and enough context for great answers.</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="bi bi-code-slash"></i>
-                    <div>
-                        <strong>Share code without friction</strong>
-                        <span>Markdown previews and syntax highlighting keep examples readable for everyone jumping in.</span>
-                    </div>
-                </li>
-                <li>
-                    <i class="bi bi-collection"></i>
-                    <div>
-                        <strong>Track your work</strong>
-                        <span>Your profile becomes a living archive of questions asked, answers given, and problems solved.</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="auth-showcase__footer">
-            <span class="tag-chip">Questions</span>
-            <span class="tag-chip">Answers</span>
-            <span class="tag-chip">Profile history</span>
-        </div>
-    </div>
-
-    <div class="auth-card">
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">Create Account</span>
-                <h1>Register for CodeNest</h1>
-            </div>
-            <p>Pick a username and you're ready to start posting.</p>
-        </div>
-
-        <form method="POST">
+        <form method="post">
             {% csrf_token %}
 
             {% if form.non_field_errors %}
-                <div class="form-errors">
-                    {{ form.non_field_errors }}
-                </div>
+                <div class="form-errors">{{ form.non_field_errors }}</div>
             {% endif %}
 
             {% for field in form %}
@@ -71,13 +30,10 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" class="app-btn app-btn--block">
-                <i class="bi bi-person-plus"></i>
-                <span>Create Account</span>
-            </button>
+            <button type="submit" class="app-btn app-btn--block">Create account</button>
         </form>
 
-        <p class="auth-card__footer">Already have an account? <a href="{% url 'login' %}">Login instead</a>.</p>
-    </div>
-</section>
+        <p class="auth-card__footer">Already have an account? <a href="{% url 'login' %}">Sign in</a>.</p>
+    </section>
+</div>
 {% endblock %}

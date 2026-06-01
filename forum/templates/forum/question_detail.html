@@ -8,210 +8,137 @@
 {% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero--compact">
-    <div class="hero-copy">
-        <span class="eyebrow">Thread</span>
-        <h1>{{ question.title }}</h1>
-        <div class="inline-meta">
-            <span><i class="bi bi-person"></i> {{ question.author.username }}</span>
-            <span><i class="bi bi-calendar-event"></i> {{ question.created_at|date:"F j, Y, g:i a" }}</span>
-            <span><i class="bi bi-chat-square-text"></i> {{ answer_total }} answer{{ answer_total|pluralize }}</span>
-        </div>
-        <div class="tag-row">
-            {% for tag in question.tags.all %}
-                <span class="tag-chip">#{{ tag.name }}</span>
-            {% empty %}
-                <span class="tag-chip tag-chip--muted">Untagged</span>
-            {% endfor %}
-        </div>
-        <div class="hero-actions">
-            <a href="{% url 'index' %}" class="app-btn app-btn--ghost">
-                <i class="bi bi-arrow-left"></i>
-                <span>Back to questions</span>
-            </a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'create_question' %}" class="app-btn app-btn--secondary">
-                    <i class="bi bi-plus-lg"></i>
-                    <span>Ask another question</span>
-                </a>
-            {% endif %}
-        </div>
-    </div>
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">Questions</a>
+    <span>/</span>
+    <span>Thread</span>
+</div>
 
-    <div class="hero-panel">
-        <span class="eyebrow">Thread Notes</span>
-        <h2>Clear context makes strong answers easier to write.</h2>
-        <p>This conversation supports Markdown and syntax highlighting, so code samples, commands, and structured explanations stay readable.</p>
-        <ul class="note-list">
-            <li>
-                <i class="bi bi-check2-circle"></i>
-                <div>
-                    <strong>Explain expected vs actual behavior</strong>
-                    <span>That difference is often what helps other developers spot the real bug fastest.</span>
-                </div>
-            </li>
-            <li>
-                <i class="bi bi-braces"></i>
-                <div>
-                    <strong>Use fenced code blocks</strong>
-                    <span>Adding a language like <code>```python</code> gives you cleaner highlighting in the preview.</span>
-                </div>
-            </li>
-        </ul>
+<header class="thread-header">
+    <h1>{{ question.title }}</h1>
+    <div class="meta-line">
+        <span>Asked by {{ question.author.username }}</span>
+        <span>{{ question.created_at|date:"F j, Y, g:i a" }}</span>
+        <span>{{ answer_total }} answer{{ answer_total|pluralize }}</span>
     </div>
-</section>
+    <div class="tag-row">
+        {% for tag in question.tags.all %}
+            <span class="tag">#{{ tag.name }}</span>
+        {% empty %}
+            <span class="tag tag--muted">untagged</span>
+        {% endfor %}
+    </div>
+</header>
 
-<section class="question-layout">
-    <div class="list-stack">
-        <article class="content-card">
-            <div class="thread-head">
-                <span class="eyebrow">Question Body</span>
-                <h2>Problem statement</h2>
-            </div>
+<div class="thread-layout">
+    <div>
+        <article class="post-card">
             <div class="rich-markdown js-markdown">{{ question.body }}</div>
         </article>
 
-        {% if user.is_authenticated %}
-            <section class="content-card composer-card">
-                <div class="section-heading">
-                    <div>
-                        <span class="eyebrow">Reply</span>
-                        <h2>Post an answer</h2>
+        <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
+        <div class="answer-list">
+            {% for answer in answers %}
+                <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}">
+                    <div class="meta-line">
+                        <span>{{ answer.author.username }}</span>
+                        <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
                     </div>
-                    <p>Share the fix, why it works, and anything the next developer should watch out for.</p>
+                    {% if answer.is_accepted %}
+                        <span class="accepted-label">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Accepted answer</span>
+                        </span>
+                    {% endif %}
+                    <div class="rich-markdown js-markdown">{{ answer.body }}</div>
+                </article>
+            {% empty %}
+                <div class="panel empty-state">
+                    <p>No answers yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+            <section class="panel composer">
+                <div class="section-header">
+                    <div>
+                        <h2>Add an answer</h2>
+                        <p>Share the fix and explain why it works.</p>
+                    </div>
                 </div>
                 <div class="composer-grid">
                     <form method="post">
                         {% csrf_token %}
-
                         {% if form.non_field_errors %}
-                            <div class="form-errors">
-                                {{ form.non_field_errors }}
-                            </div>
+                            <div class="form-errors">{{ form.non_field_errors }}</div>
                         {% endif %}
-
                         <div class="field-group">
                             <label for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
                             {{ form.body }}
-                            {% if form.body.help_text %}
-                                <div class="field-help">{{ form.body.help_text|safe }}</div>
-                            {% endif %}
                             {{ form.body.errors }}
                         </div>
-
-                        <button type="submit" class="app-btn app-btn--secondary">
+                        <button type="submit" class="app-btn">
                             <i class="bi bi-send"></i>
-                            <span>Post Answer</span>
+                            <span>Post answer</span>
                         </button>
                     </form>
-
                     <div>
-                        <div class="preview-panel__header">
-                            <div>
-                                <span class="eyebrow">Live Preview</span>
-                                <h3>What your answer will look like</h3>
-                            </div>
-                            <span class="preview-kicker">Markdown + Highlighting</span>
+                        <div class="preview-header">
+                            <h3>Preview</h3>
                         </div>
                         <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
-                            <p class="preview-placeholder">Your live preview appears here as you type.</p>
+                            <p class="preview-placeholder">Your formatted answer appears here as you type.</p>
                         </div>
                     </div>
                 </div>
             </section>
         {% else %}
-            <section class="content-card">
-                <div class="section-heading">
-                    <div>
-                        <span class="eyebrow">Join In</span>
-                        <h2>Want to answer this one?</h2>
-                    </div>
-                    <p>Sign in to post a reply, save your activity, and keep the thread moving.</p>
-                </div>
+            <section class="panel composer">
+                <h2>Want to answer this question?</h2>
+                <p>Sign in to post an answer.</p>
                 <div class="button-row">
-                    <a href="{% url 'login' %}" class="app-btn">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        <span>Login to answer</span>
-                    </a>
-                    <a href="{% url 'register' %}" class="app-btn app-btn--ghost">
-                        <i class="bi bi-person-plus"></i>
-                        <span>Create an account</span>
-                    </a>
+                    <a href="{% url 'login' %}" class="app-btn">Sign in</a>
+                    <a href="{% url 'register' %}" class="app-btn app-btn--secondary">Register</a>
                 </div>
             </section>
         {% endif %}
-
-        <section class="content-section">
-            <div class="section-heading">
-                <div>
-                    <span class="eyebrow">Answers</span>
-                    <h2>{{ answer_total }} response{{ answer_total|pluralize }}</h2>
-                </div>
-                <p>Thoughtful replies from the community, ordered with accepted answers first.</p>
-            </div>
-
-            <div class="list-stack answers-list">
-                {% for answer in answers %}
-                    <article class="content-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}">
-                        <div class="inline-meta">
-                            <span><i class="bi bi-person"></i> {{ answer.author.username }}</span>
-                            <span><i class="bi bi-clock-history"></i> {{ answer.created_at|date:"F j, Y, g:i a" }}</span>
-                        </div>
-                        {% if answer.is_accepted %}
-                            <span class="answer-badge">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>Accepted Answer</span>
-                            </span>
-                        {% endif %}
-                        <div class="rich-markdown js-markdown">{{ answer.body }}</div>
-                    </article>
-                {% empty %}
-                    <div class="empty-state">
-                        <p>No answers yet. Be the first person to help solve it.</p>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
     </div>
 
-    <aside class="question-layout__sidebar">
-        <div class="side-panel sticky-panel">
-            <span class="eyebrow">Thread Stats</span>
+    <aside>
+        <section class="panel">
+            <h2>Thread details</h2>
             <div class="detail-list">
-                <div class="detail-item">
+                <div class="detail-list__item">
                     <span>Asked by</span>
                     <strong>{{ question.author.username }}</strong>
                 </div>
-                <div class="detail-item">
+                <div class="detail-list__item">
                     <span>Published</span>
                     <strong>{{ question.created_at|date:"M j, Y" }}</strong>
                 </div>
-                <div class="detail-item">
-                    <span>Last updated</span>
+                <div class="detail-list__item">
+                    <span>Updated</span>
                     <strong>{{ question.updated_at|date:"M j, Y" }}</strong>
                 </div>
-                <div class="detail-item">
-                    <span>Total answers</span>
-                    <strong>{{ answer_total }}</strong>
-                </div>
             </div>
-        </div>
+        </section>
 
         {% if related_questions %}
-            <div class="side-panel">
-                <span class="eyebrow">More Threads</span>
+            <section class="panel">
+                <h2>Related questions</h2>
                 <div class="related-list">
                     {% for related in related_questions %}
                         <a href="{% url 'question_detail' related.id %}" class="related-link">
                             <strong>{{ related.title }}</strong>
-                            <span>{{ related.answer_count }} answer{{ related.answer_count|pluralize }} by {{ related.author.username }}</span>
+                            <span>{{ related.answer_count }} answer{{ related.answer_count|pluralize }}</span>
                         </a>
                     {% endfor %}
                 </div>
-            </div>
+            </section>
         {% endif %}
     </aside>
-</section>
+</div>
 {% endblock %}
 
 {% block scripts %}

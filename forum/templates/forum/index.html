@@ -1,143 +1,85 @@
 {% extends "base.html" %}
 
-{% block title %}CodeNest | Developer Discussions{% endblock %}
+{% block title %}Questions | CodeNest{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-    <div class="hero-copy">
-        <span class="eyebrow">Developer Forum</span>
-        <h1>Turn hard-won fixes into answers the next developer can actually use.</h1>
-        <p>CodeNest is built for signal-first engineering conversations: clear problem statements, Markdown-ready code examples, and replies that stay useful long after the bug is gone.</p>
-
-        <div class="hero-actions">
-            {% if user.is_authenticated %}
-                <a href="{% url 'create_question' %}" class="app-btn">
-                    <i class="bi bi-stars"></i>
-                    <span>Start a new thread</span>
-                </a>
-                <a href="{% url 'profile' %}" class="app-btn app-btn--ghost">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Open your profile</span>
-                </a>
-            {% else %}
-                <a href="{% url 'register' %}" class="app-btn">
-                    <i class="bi bi-person-plus"></i>
-                    <span>Join the community</span>
-                </a>
-                <a href="{% url 'login' %}" class="app-btn app-btn--ghost">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Sign in</span>
-                </a>
-            {% endif %}
-        </div>
-
-        <div class="hero-stats">
-            <div class="stat-tile">
-                <strong>{{ question_total }}</strong>
-                <span>Questions asked</span>
-            </div>
-            <div class="stat-tile">
-                <strong>{{ answer_total }}</strong>
-                <span>Answers shared</span>
-            </div>
-            <div class="stat-tile">
-                <strong>{{ member_total }}</strong>
-                <span>Developers here</span>
-            </div>
-        </div>
+<div class="page-header">
+    <div>
+        <h1>All questions</h1>
+        <p>Browse recent programming questions or share a problem with the community.</p>
     </div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'create_question' %}" class="app-btn">
+            <i class="bi bi-plus-lg"></i>
+            <span>Ask question</span>
+        </a>
+    {% else %}
+        <a href="{% url 'login' %}" class="app-btn">Sign in to ask</a>
+    {% endif %}
+</div>
 
-    <div class="hero-panel">
-        <span class="eyebrow">Why It Works</span>
-        <h2>Designed for people who like thoughtful answers more than noisy feeds.</h2>
-        <ul class="feature-list">
-            <li>
-                <i class="bi bi-code-square"></i>
-                <div>
-                    <strong>Markdown-ready posts</strong>
-                    <span>Share code snippets, command output, and step-by-step fixes without fighting the editor.</span>
-                </div>
-            </li>
-            <li>
-                <i class="bi bi-lightning-charge"></i>
-                <div>
-                    <strong>Fast signal scanning</strong>
-                    <span>Answer counts, timestamps, and tags are surfaced up front so you can find the right thread quickly.</span>
-                </div>
-            </li>
-            <li>
-                <i class="bi bi-people"></i>
-                <div>
-                    <strong>Built around collaboration</strong>
-                    <span>Ask clearly, explain deeply, and leave behind a trail that helps the next engineer ship faster.</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class="content-section">
-    <div class="section-heading">
-        <div>
-            <span class="eyebrow">Latest Threads</span>
-            <h2>Fresh questions from the CodeNest community</h2>
-        </div>
-        <p>Browse the newest conversations, jump into the ones you can help solve, or start your own.</p>
-    </div>
-
-    <div class="question-feed">
-        {% for question in questions %}
-            <a href="{% url 'question_detail' question.id %}" class="question-card">
-                <div>
-                    <div class="question-card__meta">
-                        <span><i class="bi bi-person"></i> {{ question.author.username }}</span>
-                        <span><i class="bi bi-clock-history"></i> {{ question.created_at|date:"M j, Y" }}</span>
-                    </div>
-                    <h3>{{ question.title }}</h3>
-                    <p class="question-card__preview">{{ question.body|truncatechars:210 }}</p>
-                    <div class="tag-row">
-                        {% for tag in question.tags.all %}
-                            <span class="tag-chip">#{{ tag.name }}</span>
-                        {% empty %}
-                            <span class="tag-chip tag-chip--muted">Untagged</span>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="question-card__stats">
-                    <div class="question-card__stat">
+<div class="content-grid">
+    <section>
+        <div class="question-list">
+            {% for question in questions %}
+                <a href="{% url 'question_detail' question.id %}" class="question-row">
+                    <div class="question-row__answers">
                         <strong>{{ question.answer_count }}</strong>
                         <span>answer{{ question.answer_count|pluralize }}</span>
                     </div>
-                    <div class="question-card__stat">
-                        <strong>{{ question.created_at|timesince }}</strong>
-                        <span>since posted</span>
+                    <div>
+                        <div class="meta-line">
+                            <span>{{ question.author.username }}</span>
+                            <span>asked {{ question.created_at|timesince }} ago</span>
+                        </div>
+                        <h2>{{ question.title }}</h2>
+                        <p class="question-row__preview">{{ question.body|truncatechars:180 }}</p>
+                        <div class="tag-row">
+                            {% for tag in question.tags.all %}
+                                <span class="tag">#{{ tag.name }}</span>
+                            {% empty %}
+                                <span class="tag tag--muted">untagged</span>
+                            {% endfor %}
+                        </div>
                     </div>
+                </a>
+            {% empty %}
+                <div class="empty-state">
+                    <p>No questions have been posted yet.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'create_question' %}" class="app-btn">Ask the first question</a>
+                    {% endif %}
                 </div>
-            </a>
-        {% empty %}
-            <div class="empty-state">
-                <p>No questions have been posted yet.</p>
-                {% if user.is_authenticated %}
-                    <div class="button-row justify-content-center">
-                        <a href="{% url 'create_question' %}" class="app-btn">Be the first to ask</a>
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </section>
 
-    <div class="button-row">
-        {% if user.is_authenticated %}
-            <a href="{% url 'create_question' %}" class="app-btn app-btn--secondary">
-                <i class="bi bi-plus-lg"></i>
-                <span>Ask a Question</span>
-            </a>
-        {% else %}
-            <a href="{% url 'login' %}" class="app-btn app-btn--secondary">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login to Ask a Question</span>
-            </a>
-        {% endif %}
-    </div>
-</section>
+    <aside>
+        <div class="panel">
+            <h2>Community</h2>
+            <div class="stats-list">
+                <div class="stats-list__item">
+                    <span>Questions</span>
+                    <strong>{{ question_total }}</strong>
+                </div>
+                <div class="stats-list__item">
+                    <span>Answers</span>
+                    <strong>{{ answer_total }}</strong>
+                </div>
+                <div class="stats-list__item">
+                    <span>Members</span>
+                    <strong>{{ member_total }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <h2>Asking a question</h2>
+            <ul class="tips-list">
+                <li>Describe the expected result.</li>
+                <li>Include a small code example.</li>
+                <li>Add tags for the relevant tools.</li>
+            </ul>
+        </div>
+    </aside>
+</div>
 {% endblock %}

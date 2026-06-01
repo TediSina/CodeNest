@@ -1,45 +1,32 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Edit Profile{% endblock %}
+{% block title %}Edit Profile | CodeNest{% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero--compact">
-    <div class="hero-copy">
-        <span class="eyebrow">Settings</span>
-        <h1>Keep your profile current.</h1>
-        <p>Update the account details other developers see and change your password without leaving your workspace behind.</p>
-        <div class="hero-actions">
-            <a href="{% url 'profile' %}" class="app-btn app-btn--ghost">
-                <i class="bi bi-arrow-left"></i>
-                <span>Back to profile</span>
-            </a>
-        </div>
-    </div>
+<div class="breadcrumb-line">
+    <a href="{% url 'profile' %}">Profile</a>
+    <span>/</span>
+    <span>Edit profile</span>
+</div>
 
-    <div class="hero-panel">
-        <span class="eyebrow">Quick Reminder</span>
-        <h2>Profiles work best when they stay lightweight and useful.</h2>
-        <p>Keep your contact details accurate so your contribution history is easy to recognize, and update your password whenever you need a fresh start.</p>
+<div class="page-header">
+    <div>
+        <h1>Edit profile</h1>
+        <p>Update your account information or change your password.</p>
     </div>
-</section>
+</div>
 
-<section class="settings-grid">
-    <div class="content-card">
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">Profile</span>
-                <h2>Update your details</h2>
-            </div>
-            <p>These fields shape how your account appears across CodeNest.</p>
+<div class="settings-grid">
+    <section class="panel">
+        <div class="section-header">
+            <h2>Account information</h2>
         </div>
 
         <form method="post">
             {% csrf_token %}
 
             {% if profile_form.non_field_errors %}
-                <div class="form-errors">
-                    {{ profile_form.non_field_errors }}
-                </div>
+                <div class="form-errors">{{ profile_form.non_field_errors }}</div>
             {% endif %}
 
             {% for field in profile_form %}
@@ -53,29 +40,20 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" name="profile_submit" class="app-btn app-btn--secondary">
-                <i class="bi bi-check2-circle"></i>
-                <span>Save Profile</span>
-            </button>
+            <button type="submit" name="profile_submit" class="app-btn">Save profile</button>
         </form>
-    </div>
+    </section>
 
-    <div class="content-card">
-        <div class="section-heading">
-            <div>
-                <span class="eyebrow">Security</span>
-                <h2>Change your password</h2>
-            </div>
-            <p>Use a strong password you're not reusing elsewhere.</p>
+    <section class="panel">
+        <div class="section-header">
+            <h2>Change password</h2>
         </div>
 
         <form method="post">
             {% csrf_token %}
 
             {% if password_form.non_field_errors %}
-                <div class="form-errors">
-                    {{ password_form.non_field_errors }}
-                </div>
+                <div class="form-errors">{{ password_form.non_field_errors }}</div>
             {% endif %}
 
             {% for field in password_form %}
@@ -89,11 +67,8 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" name="password_submit" class="app-btn">
-                <i class="bi bi-shield-lock"></i>
-                <span>Update Password</span>
-            </button>
+            <button type="submit" name="password_submit" class="app-btn">Update password</button>
         </form>
-    </div>
-</section>
+    </section>
+</div>
 {% endblock %}
