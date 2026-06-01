@@ -1,5 +1,8 @@
+import re
+
 from django import forms
-from .models import Question, Answer, Comment
+
+from .models import Answer, Question, Tag
 
 
 def _add_widget_classes(field, classes, placeholder=None):
@@ -9,6 +12,15 @@ def _add_widget_classes(field, classes, placeholder=None):
 
 
 class QuestionForm(forms.ModelForm):
+    tags = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control app-field',
+            'placeholder': 'python, django, javascript',
+        }),
+        help_text='Add tags separated by commas. New tags are created automatically.',
+    )
+
     class Meta:
         model = Question
         fields = ['title', 'body', 'tags']
@@ -22,18 +34,47 @@ class QuestionForm(forms.ModelForm):
                 'rows': 18,
                 'placeholder': 'Write your question using Markdown'
             }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-select app-field app-field--select',
-                'size': 6,
-            }),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _add_widget_classes(self.fields['title'], 'form-control app-field', 'Summarize the problem in one clear sentence')
         _add_widget_classes(self.fields['body'], 'form-control app-field app-field--textarea markdown-input', 'Add context, the code you tried, and the result you expected')
-        _add_widget_classes(self.fields['tags'], 'form-select app-field app-field--select')
-        self.fields['tags'].help_text = 'Hold Ctrl (or Cmd on Mac) to select multiple tags.'
+        _add_widget_classes(self.fields['tags'], 'form-control app-field', 'python, django, javascript')
+
+    def clean_tags(self):
+        tag_names = []
+        seen_names = set()
+        max_length = Tag._meta.get_field('name').max_length
+
+        for raw_name in re.split(r'[,\n]+', self.cleaned_data['tags']):
+            name = raw_name.strip().lstrip('#').strip().lower()
+
+            if not name or name in seen_names:
+                continue
+
+            if len(name) > max_length:
+                raise forms.ValidationError(
+                    f'Tags must be {max_length} characters or fewer.'
+                )
+
+            tag_names.append(name)
+            seen_names.add(name)
+
+        return tag_names
+
+    def _save_m2m(self):
+        tags = []
+
+        for name in self.cleaned_data['tags']:
+            tag = Tag.objects.filter(name__iexact=name).order_by('pk').first()
+
+            if tag is None:
+                tag, _ = Tag.objects.get_or_create(name=name)
+
+            tags.append(tag)
+
+        self.instance.tags.set(tags)
 
 class AnswerForm(forms.ModelForm):
     class Meta:
