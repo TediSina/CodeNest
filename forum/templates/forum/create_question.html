@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Ask a Question | CodeNest{% endblock %}
+{% block title %}{% if is_edit %}Edit Question{% else %}Ask a Question{% endif %} | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
@@ -11,13 +11,24 @@
 <div class="breadcrumb-line">
     <a href="{% url 'index' %}">Questions</a>
     <span>/</span>
-    <span>Ask a question</span>
+    {% if is_edit %}
+        <a href="{% url 'question_detail' question.pk %}">{{ question.title }}</a>
+        <span>/</span>
+        <span>Edit</span>
+    {% else %}
+        <span>Ask a question</span>
+    {% endif %}
 </div>
 
 <div class="page-header">
     <div>
-        <h1>Ask a question</h1>
-        <p>Explain the problem, include the code you tried, and add relevant tags.</p>
+        {% if is_edit %}
+            <h1>Edit question</h1>
+            <p>Update the title, details, or tags for your question.</p>
+        {% else %}
+            <h1>Ask a question</h1>
+            <p>Explain the problem, include the code you tried, and add relevant tags.</p>
+        {% endif %}
     </div>
 </div>
 
@@ -52,8 +63,8 @@
             </div>
 
             <button type="submit" class="app-btn">
-                <i class="bi bi-send"></i>
-                <span>Publish question</span>
+                <i class="bi bi-{% if is_edit %}check-lg{% else %}send{% endif %}"></i>
+                <span>{% if is_edit %}Save changes{% else %}Publish question{% endif %}</span>
             </button>
         </form>
     </section>

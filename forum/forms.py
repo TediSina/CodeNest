@@ -42,6 +42,11 @@ class QuestionForm(forms.ModelForm):
         _add_widget_classes(self.fields['body'], 'form-control app-field app-field--textarea markdown-input', 'Add context, the code you tried, and the result you expected')
         _add_widget_classes(self.fields['tags'], 'form-control app-field', 'python, django, javascript')
 
+        if self.instance.pk:
+            self.initial['tags'] = ', '.join(
+                self.instance.tags.values_list('name', flat=True)
+            )
+
     def clean_tags(self):
         tag_names = []
         seen_names = set()

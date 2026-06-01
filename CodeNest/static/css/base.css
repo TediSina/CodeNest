@@ -472,6 +472,39 @@ button.app-btn {
   margin-top: 10px;
 }
 
+.content-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.edit-link,
+.comment-meta a {
+  color: var(--blue-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.edit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.edit-link:hover,
+.comment-meta a:hover {
+  text-decoration: underline;
+}
+
 .post-card .rich-markdown {
   margin-top: 0;
 }
@@ -591,6 +624,14 @@ body.app-body .comment-form textarea {
 
 .comment-login:hover {
   text-decoration: underline;
+}
+
+.narrow-panel {
+  max-width: 680px;
+}
+
+body.app-body .comment-edit-form textarea {
+  min-height: 120px;
 }
 
 .related-link {

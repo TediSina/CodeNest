@@ -28,6 +28,14 @@
             <span class="tag tag--muted">untagged</span>
         {% endfor %}
     </div>
+    {% if user == question.author %}
+        <div class="content-actions">
+            <a href="{% url 'edit_question' question.pk %}" class="edit-link">
+                <i class="bi bi-pencil"></i>
+                <span>Edit question</span>
+            </a>
+        </div>
+    {% endif %}
 </header>
 
 <div class="thread-layout">
@@ -44,6 +52,9 @@
                                 <div class="comment-meta">
                                     <span>{{ comment.author.username }}</span>
                                     <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                    {% if user == comment.author %}
+                                        <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}
@@ -64,10 +75,18 @@
         <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
         <div class="answer-list">
             {% for answer in answers %}
-                <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}">
-                    <div class="meta-line">
-                        <span>{{ answer.author.username }}</span>
-                        <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
+                <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}" id="answer-{{ answer.pk }}">
+                    <div class="post-header">
+                        <div class="meta-line">
+                            <span>{{ answer.author.username }}</span>
+                            <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
+                        </div>
+                        {% if user == answer.author %}
+                            <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
+                                <i class="bi bi-pencil"></i>
+                                <span>Edit answer</span>
+                            </a>
+                        {% endif %}
                     </div>
                     {% if answer.is_accepted %}
                         <span class="accepted-label">
@@ -86,6 +105,9 @@
                                         <div class="comment-meta">
                                             <span>{{ comment.author.username }}</span>
                                             <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                            {% if user == comment.author %}
+                                                <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}

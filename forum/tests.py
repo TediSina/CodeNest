@@ -167,3 +167,184 @@ class CommentTests(TestCase):
 
         with self.assertRaises(ValidationError):
             comment.full_clean()
+
+
+class ContentEditTests(TestCase):
+    def setUp(self):
+        self.author = User.objects.create_user(
+            username='content-author',
+            password='test-password',
+        )
+        self.other_user = User.objects.create_user(
+            username='other-user',
+            password='test-password',
+        )
+        self.question = Question.objects.create(
+            title='Original question title',
+            body='Original question body',
+            author=self.author,
+        )
+        self.python_tag = Tag.objects.create(name='python')
+        self.question.tags.add(self.python_tag)
+        self.answer = Answer.objects.create(
+            question=self.question,
+            body='Original answer body',
+            author=self.author,
+        )
+        self.question_comment = Comment.objects.create(
+            content='Original question comment',
+            author=self.author,
+            question=self.question,
+        )
+        self.answer_comment = Comment.objects.create(
+            content='Original answer comment',
+            author=self.author,
+            answer=self.answer,
+        )
+
+    def test_question_edit_form_includes_existing_tags(self):
+        self.client.force_login(self.author)
+
+        response = self.client.get(
+            reverse('edit_question', args=[self.question.pk])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['form']['tags'].value(), 'python')
+
+    def test_author_can_open_answer_and_comment_editors(self):
+        self.client.force_login(self.author)
+
+        answer_response = self.client.get(
+            reverse('edit_answer', args=[self.answer.pk])
+        )
+        comment_response = self.client.get(
+            reverse('edit_comment', args=[self.answer_comment.pk])
+        )
+
+        self.assertEqual(answer_response.status_code, 200)
+        self.assertContains(answer_response, 'Original answer body')
+        self.assertEqual(comment_response.status_code, 200)
+        self.assertContains(comment_response, 'Original answer comment')
+
+    def test_author_can_edit_a_question_and_replace_tags(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('edit_question', args=[self.question.pk]),
+            {
+                'title': 'Updated question title',
+                'body': 'Updated question body',
+                'tags': 'django, testing',
+            },
+        )
+
+        self.question.refresh_from_db()
+
+        self.assertRedirects(
+            response,
+            reverse('question_detail', args=[self.question.pk]),
+        )
+        self.assertEqual(self.question.title, 'Updated question title')
+        self.assertEqual(self.question.body, 'Updated question body')
+        self.assertCountEqual(
+            self.question.tags.values_list('name', flat=True),
+            ['django', 'testing'],
+        )
+
+    def test_author_can_edit_an_answer(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('edit_answer', args=[self.answer.pk]),
+            {'body': 'Updated answer body'},
+        )
+
+        self.answer.refresh_from_db()
+
+        self.assertRedirects(
+            response,
+            f"{reverse('question_detail', args=[self.question.pk])}"
+            f"#answer-{self.answer.pk}",
+        )
+        self.assertEqual(self.answer.body, 'Updated answer body')
+
+    def test_author_can_edit_a_question_comment(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('edit_comment', args=[self.question_comment.pk]),
+            {'content': 'Updated question comment'},
+        )
+
+        self.question_comment.refresh_from_db()
+
+        self.assertRedirects(
+            response,
+            f"{reverse('question_detail', args=[self.question.pk])}"
+            f"#comment-{self.question_comment.pk}",
+        )
+        self.assertEqual(
+            self.question_comment.content,
+            'Updated question comment',
+        )
+
+    def test_author_can_edit_an_answer_comment(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('edit_comment', args=[self.answer_comment.pk]),
+            {'content': 'Updated answer comment'},
+        )
+
+        self.answer_comment.refresh_from_db()
+
+        self.assertRedirects(
+            response,
+            f"{reverse('question_detail', args=[self.question.pk])}"
+            f"#comment-{self.answer_comment.pk}",
+        )
+        self.assertEqual(self.answer_comment.content, 'Updated answer comment')
+
+    def test_user_cannot_edit_another_users_content(self):
+        self.client.force_login(self.other_user)
+        urls = [
+            reverse('edit_question', args=[self.question.pk]),
+            reverse('edit_answer', args=[self.answer.pk]),
+            reverse('edit_comment', args=[self.question_comment.pk]),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertEqual(self.client.get(url).status_code, 404)
+                self.assertEqual(self.client.post(url, {}).status_code, 404)
+
+    def test_anonymous_user_is_redirected_to_sign_in(self):
+        url = reverse('edit_question', args=[self.question.pk])
+
+        response = self.client.get(url)
+
+        self.assertRedirects(response, f"{reverse('login')}?next={url}")
+
+    def test_thread_only_shows_edit_links_for_the_content_author(self):
+        thread_url = reverse('question_detail', args=[self.question.pk])
+        edit_urls = [
+            reverse('edit_question', args=[self.question.pk]),
+            reverse('edit_answer', args=[self.answer.pk]),
+            reverse('edit_comment', args=[self.question_comment.pk]),
+            reverse('edit_comment', args=[self.answer_comment.pk]),
+        ]
+
+        self.client.force_login(self.author)
+        author_response = self.client.get(thread_url)
+
+        for url in edit_urls:
+            with self.subTest(url=url):
+                self.assertContains(author_response, url)
+
+        self.client.force_login(self.other_user)
+        other_user_response = self.client.get(thread_url)
+
+        for url in edit_urls:
+            with self.subTest(url=url):
+                self.assertNotContains(other_user_response, url)

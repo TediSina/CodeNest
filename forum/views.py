@@ -111,6 +111,82 @@ def add_answer_comment(request, pk):
     messages.error(request, 'Comment cannot be empty.')
     return redirect('question_detail', pk=answer.question_id)
 
+
+@login_required
+def edit_question(request, pk):
+    question = get_object_or_404(Question, pk=pk, author=request.user)
+
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance=question)
+        if form.is_valid():
+            form.save()
+            return redirect('question_detail', pk=question.pk)
+    else:
+        form = QuestionForm(instance=question)
+
+    return render(request, 'forum/create_question.html', {
+        'form': form,
+        'is_edit': True,
+        'question': question,
+    })
+
+
+@login_required
+def edit_answer(request, pk):
+    answer = get_object_or_404(
+        Answer.objects.select_related('question'),
+        pk=pk,
+        author=request.user,
+    )
+
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, instance=answer)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                f"{reverse('question_detail', kwargs={'pk': answer.question_id})}"
+                f"#answer-{answer.pk}"
+            )
+    else:
+        form = AnswerForm(instance=answer)
+
+    return render(request, 'forum/edit_answer.html', {
+        'answer': answer,
+        'form': form,
+    })
+
+
+@login_required
+def edit_comment(request, pk):
+    comment = get_object_or_404(
+        Comment.objects.select_related('question', 'answer__question'),
+        pk=pk,
+        author=request.user,
+    )
+    question_pk = (
+        comment.question_id
+        if comment.question_id is not None
+        else comment.answer.question_id
+    )
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                f"{reverse('question_detail', kwargs={'pk': question_pk})}"
+                f"#comment-{comment.pk}"
+            )
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request, 'forum/edit_comment.html', {
+        'comment': comment,
+        'form': form,
+        'question_pk': question_pk,
+    })
+
+
 @login_required
 def create_question(request):
     if request.method == 'POST':

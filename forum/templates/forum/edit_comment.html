@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Comment | CodeNest{% endblock %}
+
+{% block content %}
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">Questions</a>
+    <span>/</span>
+    <a href="{% url 'question_detail' question_pk %}">Thread</a>
+    <span>/</span>
+    <span>Edit comment</span>
+</div>
+
+<div class="page-header">
+    <div>
+        <h1>Edit comment</h1>
+        <p>Update your comment and save the changes.</p>
+    </div>
+</div>
+
+<section class="panel narrow-panel">
+    <form method="post" class="comment-edit-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="form-errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="field-group">
+            <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+            {{ form.content }}
+            {{ form.content.errors }}
+        </div>
+        <div class="button-row">
+            <button type="submit" class="app-btn">Save changes</button>
+            <a href="{% url 'question_detail' question_pk %}#comment-{{ comment.pk }}" class="app-btn app-btn--secondary">Cancel</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
