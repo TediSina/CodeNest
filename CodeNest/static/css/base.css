@@ -506,6 +506,93 @@ button.app-btn {
   margin-top: 12px;
 }
 
+.comments-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.comments-section h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.comment-list {
+  margin-top: 7px;
+}
+
+.comment-item {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+
+.comment-item:first-child {
+  border-top: 0;
+}
+
+.comment-item p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.comment-form {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+body.app-body .comment-form textarea {
+  min-height: 38px;
+  height: 38px;
+  padding: 8px 9px;
+  font-size: 0.86rem;
+}
+
+.comment-submit,
+.comment-login {
+  flex: 0 0 auto;
+  color: var(--blue-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.comment-submit {
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--surface);
+  transition: background-color 150ms ease;
+}
+
+.comment-submit:hover,
+.comment-submit:focus {
+  background: var(--blue-soft);
+}
+
+.comment-login {
+  display: inline-flex;
+  margin-top: 8px;
+}
+
+.comment-login:hover {
+  text-decoration: underline;
+}
+
 .related-link {
   display: block;
   padding: 10px 0;
@@ -961,6 +1048,14 @@ a.timeline-item:hover h3 {
 
   .question-row__preview {
     display: none;
+  }
+
+  .comment-form {
+    display: grid;
+  }
+
+  .comment-submit {
+    justify-self: start;
   }
 
   .panel,

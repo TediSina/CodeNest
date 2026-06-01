@@ -34,6 +34,31 @@
     <div>
         <article class="post-card">
             <div class="rich-markdown js-markdown">{{ question.body }}</div>
+            <section class="comments-section">
+                <h3>Comments</h3>
+                {% if question_comments %}
+                    <div class="comment-list">
+                        {% for comment in question_comments %}
+                            <div class="comment-item" id="comment-{{ comment.pk }}">
+                                <p>{{ comment.content|linebreaksbr }}</p>
+                                <div class="comment-meta">
+                                    <span>{{ comment.author.username }}</span>
+                                    <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'add_question_comment' question.pk %}" class="comment-form">
+                        {% csrf_token %}
+                        <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this question" required></textarea>
+                        <button type="submit" class="comment-submit">Add comment</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
+                {% endif %}
+            </section>
         </article>
 
         <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
@@ -51,6 +76,31 @@
                         </span>
                     {% endif %}
                     <div class="rich-markdown js-markdown">{{ answer.body }}</div>
+                    <section class="comments-section">
+                        <h3>Comments</h3>
+                        {% if answer.comment_set.all %}
+                            <div class="comment-list">
+                                {% for comment in answer.comment_set.all %}
+                                    <div class="comment-item" id="comment-{{ comment.pk }}">
+                                        <p>{{ comment.content|linebreaksbr }}</p>
+                                        <div class="comment-meta">
+                                            <span>{{ comment.author.username }}</span>
+                                            <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'add_answer_comment' answer.pk %}" class="comment-form">
+                                {% csrf_token %}
+                                <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this answer" required></textarea>
+                                <button type="submit" class="comment-submit">Add comment</button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
+                        {% endif %}
+                    </section>
                 </article>
             {% empty %}
                 <div class="panel empty-state">

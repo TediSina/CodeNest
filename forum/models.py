@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 class Tag(models.Model):
@@ -35,3 +36,23 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=(
+                    models.Q(question__isnull=False, answer__isnull=True)
+                    | models.Q(question__isnull=True, answer__isnull=False)
+                ),
+                name='comment_has_exactly_one_target',
+            ),
+        ]
+
+    def clean(self):
+        if (self.question_id is None) == (self.answer_id is None):
+            raise ValidationError(
+                'A comment must belong to exactly one question or answer.'
+            )
+
+    def __str__(self):
+        return f'Comment by {self.author}'

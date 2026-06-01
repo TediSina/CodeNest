@@ -2,7 +2,7 @@ import re
 
 from django import forms
 
-from .models import Answer, Question, Tag
+from .models import Answer, Comment, Question, Tag
 
 
 def _add_widget_classes(field, classes, placeholder=None):
@@ -95,3 +95,15 @@ class AnswerForm(forms.ModelForm):
             'form-control app-field app-field--textarea markdown-input',
             'Share the fix, why it works, and any caveats someone should know'
         )
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'rows': 2,
+                'placeholder': 'Add a comment',
+            }),
+        }

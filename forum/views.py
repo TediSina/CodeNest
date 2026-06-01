@@ -1,9 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Question, Answer
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-from .forms import QuestionForm, AnswerForm
+from django.db.models import Count, Prefetch
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_POST
+
+from .forms import AnswerForm, CommentForm, QuestionForm
+from .models import Answer, Comment, Question
 
 def index(request):
     questions = (
@@ -25,7 +29,19 @@ def question_detail(request, pk):
         Question.objects.select_related('author').prefetch_related('tags'),
         pk=pk
     )
-    answers = question.answers.select_related('author').order_by('-is_accepted', 'created_at')
+    answers = (
+        question.answers.select_related('author')
+        .prefetch_related(
+            Prefetch(
+                'comment_set',
+                queryset=Comment.objects.select_related('author').order_by('created_at'),
+            )
+        )
+        .order_by('-is_accepted', 'created_at')
+    )
+    question_comments = (
+        question.comment_set.select_related('author').order_by('created_at')
+    )
     related_questions = (
         Question.objects.exclude(pk=question.pk)
         .select_related('author')
@@ -50,9 +66,50 @@ def question_detail(request, pk):
         'question': question,
         'answers': answers,
         'form': form,
+        'question_comments': question_comments,
         'answer_total': answers.count(),
         'related_questions': related_questions,
     })
+
+
+@login_required
+@require_POST
+def add_question_comment(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    form = CommentForm(
+        request.POST,
+        instance=Comment(author=request.user, question=question),
+    )
+
+    if form.is_valid():
+        comment = form.save()
+        return redirect(
+            f"{reverse('question_detail', kwargs={'pk': question.pk})}"
+            f"#comment-{comment.pk}"
+        )
+
+    messages.error(request, 'Comment cannot be empty.')
+    return redirect('question_detail', pk=question.pk)
+
+
+@login_required
+@require_POST
+def add_answer_comment(request, pk):
+    answer = get_object_or_404(Answer.objects.select_related('question'), pk=pk)
+    form = CommentForm(
+        request.POST,
+        instance=Comment(author=request.user, answer=answer),
+    )
+
+    if form.is_valid():
+        comment = form.save()
+        return redirect(
+            f"{reverse('question_detail', kwargs={'pk': answer.question_id})}"
+            f"#comment-{comment.pk}"
+        )
+
+    messages.error(request, 'Comment cannot be empty.')
+    return redirect('question_detail', pk=answer.question_id)
 
 @login_required
 def create_question(request):
