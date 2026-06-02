@@ -481,6 +481,21 @@ class TranslationTests(TestCase):
         self.assertContains(response, 'Të gjitha pyetjet')
         self.assertContains(response, 'Hyni për të bërë një pyetje')
 
+    def test_page_includes_persistent_theme_controls(self):
+        response = self.client.get(reverse('index'))
+
+        self.assertContains(response, 'localStorage.getItem("codenest-theme")')
+        self.assertContains(response, 'data-theme-toggle')
+        self.assertContains(
+            response,
+            'data-label-light="Aktivizoni modalitetin e çelët"',
+        )
+        self.assertContains(
+            response,
+            'data-label-dark="Aktivizoni modalitetin e errët"',
+        )
+        self.assertContains(response, 'js/theme.js')
+
     def test_user_can_switch_to_english(self):
         response = self.client.post(
             reverse('set_language'),

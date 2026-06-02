@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CodeNest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 18:52+0200\n"
+"POT-Creation-Date: 2026-06-02 19:17+0200\n"
 "PO-Revision-Date: 2026-06-02 19:10+0200\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
@@ -54,16 +54,16 @@ msgstr "Shqip"
 msgid "English"
 msgstr "Anglisht"
 
-#: .\CodeNest\templates\base.html:22 .\CodeNest\templates\base.html:83
+#: .\CodeNest\templates\base.html:34 .\CodeNest\templates\base.html:106
 #: .\CodeNest\templates\login.html:8 .\CodeNest\templates\register.html:8
 msgid "CodeNest home"
 msgstr "Faqja kryesore e CodeNest"
 
-#: .\CodeNest\templates\base.html:26
+#: .\CodeNest\templates\base.html:38
 msgid "Toggle navigation"
 msgstr "Hapni ose mbyllni menunë"
 
-#: .\CodeNest\templates\base.html:32 .\CodeNest\templates\base.html:91
+#: .\CodeNest\templates\base.html:44 .\CodeNest\templates\base.html:114
 #: .\CodeNest\templates\profile.html:88
 #: .\forum\templates\forum\create_question.html:12
 #: .\forum\templates\forum\edit_answer.html:12
@@ -73,32 +73,40 @@ msgstr "Hapni ose mbyllni menunë"
 msgid "Questions"
 msgstr "Pyetje"
 
-#: .\CodeNest\templates\base.html:36 .\CodeNest\templates\profile.html:29
+#: .\CodeNest\templates\base.html:48 .\CodeNest\templates\profile.html:29
 #: .\forum\templates\forum\index.html:15
 msgid "Ask question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:42
+#: .\CodeNest\templates\base.html:54
 msgid "Log out"
 msgstr "Dilni"
 
-#: .\CodeNest\templates\base.html:46 .\CodeNest\templates\register.html:4
+#: .\CodeNest\templates\base.html:58 .\CodeNest\templates\register.html:4
 #: .\forum\templates\forum\question_detail.html:197
 msgid "Register"
 msgstr "Regjistrohuni"
 
-#: .\CodeNest\templates\base.html:49 .\CodeNest\templates\base.html:97
+#: .\CodeNest\templates\base.html:61 .\CodeNest\templates\base.html:120
 #: .\CodeNest\templates\login.html:4 .\CodeNest\templates\login.html:12
 #: .\CodeNest\templates\login.html:25 .\CodeNest\templates\register.html:36
 #: .\forum\templates\forum\question_detail.html:196
 msgid "Sign in"
 msgstr "Hyni"
 
-#: .\CodeNest\templates\base.html:53
+#: .\CodeNest\templates\base.html:68
+msgid "Use light mode"
+msgstr "Aktivizoni modalitetin e çelët"
+
+#: .\CodeNest\templates\base.html:69 .\CodeNest\templates\base.html:70
+msgid "Use dark mode"
+msgstr "Aktivizoni modalitetin e errët"
+
+#: .\CodeNest\templates\base.html:76
 msgid "Language"
 msgstr "Gjuha"
 
-#: .\CodeNest\templates\base.html:87
+#: .\CodeNest\templates\base.html:110
 msgid ""
 "A programming forum built for the Albanian developer community and open to "
 "everyone. Ask questions, share answers, and keep useful knowledge easy to "
@@ -108,47 +116,47 @@ msgstr ""
 "hapur për të gjithë. Bëni pyetje, ndani përgjigje dhe mbajini njohuritë e "
 "dobishme të lehta për t'u gjetur."
 
-#: .\CodeNest\templates\base.html:89
+#: .\CodeNest\templates\base.html:112
 msgid "Explore CodeNest"
 msgstr "Eksploroni CodeNest"
 
-#: .\CodeNest\templates\base.html:90
+#: .\CodeNest\templates\base.html:113
 msgid "Explore"
 msgstr "Eksploroni"
 
-#: .\CodeNest\templates\base.html:93
+#: .\CodeNest\templates\base.html:116
 #: .\forum\templates\forum\create_question.html:4
 #: .\forum\templates\forum\create_question.html:19
 #: .\forum\templates\forum\create_question.html:29
 msgid "Ask a question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:94
+#: .\CodeNest\templates\base.html:117
 msgid "Your profile"
 msgstr "Profili juaj"
 
-#: .\CodeNest\templates\base.html:96 .\CodeNest\templates\login.html:28
+#: .\CodeNest\templates\base.html:119 .\CodeNest\templates\login.html:28
 #: .\CodeNest\templates\register.html:12
 msgid "Create an account"
 msgstr "Krijoni një llogari"
 
-#: .\CodeNest\templates\base.html:100
+#: .\CodeNest\templates\base.html:123
 msgid "CodeNest project links"
 msgstr "Lidhjet e projektit CodeNest"
 
-#: .\CodeNest\templates\base.html:101
+#: .\CodeNest\templates\base.html:124
 msgid "Project"
 msgstr "Projekti"
 
-#: .\CodeNest\templates\base.html:102
+#: .\CodeNest\templates\base.html:125
 msgid "GitHub repository"
 msgstr "Depoja në GitHub"
 
-#: .\CodeNest\templates\base.html:103
+#: .\CodeNest\templates\base.html:126
 msgid "MIT License"
 msgstr "Licenca MIT"
 
-#: .\CodeNest\templates\base.html:108
+#: .\CodeNest\templates\base.html:131
 msgid "Built in Tirana, Albania."
 msgstr "Ndërtuar në Tiranë, Shqipëri."
 
