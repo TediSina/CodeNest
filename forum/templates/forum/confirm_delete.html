@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | CodeNest{% endblock %}
+
+{% block content %}
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
+    <span>/</span>
+    <a href="{{ cancel_url }}">{% translate "Thread" %}</a>
+    <span>/</span>
+    <span>{{ title }}</span>
+</div>
+
+<div class="page-header">
+    <div>
+        <h1>{{ title }}</h1>
+        <p>{% translate "Confirm this action before continuing." %}</p>
+    </div>
+</div>
+
+<section class="panel narrow-panel delete-confirmation">
+    <p>{{ description }}</p>
+    <p class="delete-confirmation__subject">{{ subject|truncatechars:240 }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="button-row">
+            <button type="submit" class="app-btn app-btn--danger">
+                <i class="bi bi-trash"></i>
+                <span>{% translate "Delete permanently" %}</span>
+            </button>
+            <a href="{{ cancel_url }}" class="app-btn app-btn--secondary">{% translate "Cancel" %}</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

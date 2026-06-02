@@ -695,3 +695,135 @@ class ContentEditTests(TestCase):
         for url in edit_urls:
             with self.subTest(url=url):
                 self.assertNotContains(other_user_response, url)
+
+    def test_author_can_open_delete_confirmations(self):
+        self.client.force_login(self.author)
+        urls = [
+            reverse('delete_question', args=[self.question.pk]),
+            reverse('delete_answer', args=[self.answer.pk]),
+            reverse('delete_comment', args=[self.question_comment.pk]),
+            reverse('delete_comment', args=[self.answer_comment.pk]),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, 'Fshini përgjithmonë')
+
+    def test_author_can_delete_a_question_and_its_thread_content(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('delete_question', args=[self.question.pk])
+        )
+
+        self.assertRedirects(response, reverse('index'))
+        self.assertFalse(Question.objects.filter(pk=self.question.pk).exists())
+        self.assertFalse(Answer.objects.filter(pk=self.answer.pk).exists())
+        self.assertFalse(
+            Comment.objects.filter(
+                pk__in=[self.question_comment.pk, self.answer_comment.pk]
+            ).exists()
+        )
+
+    def test_author_can_delete_an_answer_and_its_comments(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('delete_answer', args=[self.answer.pk])
+        )
+
+        self.assertRedirects(
+            response,
+            reverse('question_detail', args=[self.question.pk]),
+        )
+        self.assertTrue(Question.objects.filter(pk=self.question.pk).exists())
+        self.assertFalse(Answer.objects.filter(pk=self.answer.pk).exists())
+        self.assertTrue(
+            Comment.objects.filter(pk=self.question_comment.pk).exists()
+        )
+        self.assertFalse(
+            Comment.objects.filter(pk=self.answer_comment.pk).exists()
+        )
+
+    def test_author_can_delete_a_question_comment(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('delete_comment', args=[self.question_comment.pk])
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('question_detail', args=[self.question.pk])}"
+            f"#question-{self.question.pk}",
+        )
+        self.assertFalse(
+            Comment.objects.filter(pk=self.question_comment.pk).exists()
+        )
+
+    def test_author_can_delete_an_answer_comment(self):
+        self.client.force_login(self.author)
+
+        response = self.client.post(
+            reverse('delete_comment', args=[self.answer_comment.pk])
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('question_detail', args=[self.question.pk])}"
+            f"#answer-{self.answer.pk}",
+        )
+        self.assertFalse(
+            Comment.objects.filter(pk=self.answer_comment.pk).exists()
+        )
+
+    def test_user_cannot_delete_another_users_content(self):
+        self.client.force_login(self.other_user)
+        urls = [
+            reverse('delete_question', args=[self.question.pk]),
+            reverse('delete_answer', args=[self.answer.pk]),
+            reverse('delete_comment', args=[self.question_comment.pk]),
+            reverse('delete_comment', args=[self.answer_comment.pk]),
+        ]
+
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertEqual(self.client.get(url).status_code, 404)
+                self.assertEqual(self.client.post(url).status_code, 404)
+
+        self.assertTrue(Question.objects.filter(pk=self.question.pk).exists())
+        self.assertTrue(Answer.objects.filter(pk=self.answer.pk).exists())
+        self.assertEqual(Comment.objects.count(), 2)
+
+    def test_anonymous_user_cannot_open_a_delete_confirmation(self):
+        url = reverse('delete_question', args=[self.question.pk])
+
+        response = self.client.get(url)
+
+        self.assertRedirects(response, f"{reverse('login')}?next={url}")
+
+    def test_thread_only_shows_delete_links_for_the_content_author(self):
+        thread_url = reverse('question_detail', args=[self.question.pk])
+        delete_urls = [
+            reverse('delete_question', args=[self.question.pk]),
+            reverse('delete_answer', args=[self.answer.pk]),
+            reverse('delete_comment', args=[self.question_comment.pk]),
+            reverse('delete_comment', args=[self.answer_comment.pk]),
+        ]
+
+        self.client.force_login(self.author)
+        author_response = self.client.get(thread_url)
+
+        for url in delete_urls:
+            with self.subTest(url=url):
+                self.assertContains(author_response, url)
+
+        self.client.force_login(self.other_user)
+        other_user_response = self.client.get(thread_url)
+
+        for url in delete_urls:
+            with self.subTest(url=url):
+                self.assertNotContains(other_user_response, url)

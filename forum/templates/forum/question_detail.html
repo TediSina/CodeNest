@@ -37,6 +37,10 @@
                 <i class="bi bi-pencil"></i>
                 <span>{% translate "Edit question" %}</span>
             </a>
+            <a href="{% url 'delete_question' question.pk %}" class="delete-link">
+                <i class="bi bi-trash"></i>
+                <span>{% translate "Delete question" %}</span>
+            </a>
         </div>
     {% endif %}
 </header>
@@ -63,6 +67,7 @@
                                                     <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                     {% if user == comment.author %}
                                                         <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
+                                                        <a href="{% url 'delete_comment' comment.pk %}" class="delete-link">{% translate "Delete" %}</a>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -98,10 +103,16 @@
                                     <span>{{ answer.created_at|date:"j F Y, H:i" }}</span>
                                 </div>
                                 {% if user == answer.author %}
-                                    <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
-                                        <i class="bi bi-pencil"></i>
-                                        <span>{% translate "Edit answer" %}</span>
-                                    </a>
+                                    <div class="content-actions content-actions--inline">
+                                        <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
+                                            <i class="bi bi-pencil"></i>
+                                            <span>{% translate "Edit answer" %}</span>
+                                        </a>
+                                        <a href="{% url 'delete_answer' answer.pk %}" class="delete-link">
+                                            <i class="bi bi-trash"></i>
+                                            <span>{% translate "Delete answer" %}</span>
+                                        </a>
+                                    </div>
                                 {% endif %}
                             </div>
                             {% if answer.is_accepted %}
@@ -126,6 +137,7 @@
                                                             <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                             {% if user == comment.author %}
                                                                 <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
+                                                                <a href="{% url 'delete_comment' comment.pk %}" class="delete-link">{% translate "Delete" %}</a>
                                                             {% endif %}
                                                         </div>
                                                     </div>

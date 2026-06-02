@@ -13,12 +13,14 @@
   --line-strong: #b9cee3;
   --success: #1d7a4d;
   --danger: #b42318;
+  --danger-dark: #8f1c13;
   --warning: #a15c07;
   --background: #f5faff;
   --surface-muted: #f0f4f8;
   --surface-code: #edf3f8;
   --inline-code: #a12d22;
   --on-primary: #ffffff;
+  --on-danger: #ffffff;
   --avatar-background: #06264b;
   --avatar-text: #ffffff;
   --focus-ring: rgba(37, 105, 216, 0.14);
@@ -60,12 +62,14 @@
   --line-strong: #4b5c6d;
   --success: #83c89e;
   --danger: #f19b94;
+  --danger-dark: #ffc0bb;
   --warning: #dfb370;
   --background: #12181e;
   --surface-muted: #252f39;
   --surface-code: #252e37;
   --inline-code: #f0a39c;
   --on-primary: #10161c;
+  --on-danger: #10161c;
   --avatar-background: #2d5d92;
   --avatar-text: #ffffff;
   --focus-ring: rgba(111, 153, 207, 0.25);
@@ -576,6 +580,20 @@ button.app-btn {
   color: var(--navy);
 }
 
+.app-btn--danger,
+.app-btn--danger:hover,
+.app-btn--danger:focus {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--on-danger);
+}
+
+.app-btn--danger:hover,
+.app-btn--danger:focus {
+  border-color: var(--danger-dark);
+  background: var(--danger-dark);
+}
+
 .app-btn--block {
   width: 100%;
 }
@@ -624,6 +642,10 @@ button.app-btn {
   margin-top: 10px;
 }
 
+.content-actions--inline {
+  margin-top: 0;
+}
+
 .post-header {
   display: flex;
   align-items: center;
@@ -632,6 +654,7 @@ button.app-btn {
 }
 
 .edit-link,
+.delete-link,
 .comment-meta a {
   color: var(--blue-dark);
   font-size: 0.78rem;
@@ -645,9 +668,22 @@ button.app-btn {
   flex: 0 0 auto;
 }
 
+.delete-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  color: var(--danger);
+}
+
 .edit-link:hover,
+.delete-link:hover,
 .comment-meta a:hover {
   text-decoration: underline;
+}
+
+.comment-meta .delete-link {
+  color: var(--danger);
 }
 
 .post-card .rich-markdown {
@@ -848,6 +884,19 @@ body.app-body .comment-form textarea {
 
 .narrow-panel {
   max-width: 680px;
+}
+
+.delete-confirmation > p {
+  margin: 0;
+}
+
+.delete-confirmation__subject {
+  margin-top: 14px !important;
+  padding: 10px 12px;
+  border-left: 3px solid var(--danger);
+  background: var(--danger-background);
+  color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 body.app-body .comment-edit-form textarea {

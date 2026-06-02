@@ -7,7 +7,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 
 from .forms import AnswerForm, CommentForm, QuestionForm
 from .models import Answer, AnswerVote, Comment, CommentVote, Question, QuestionVote, Vote
@@ -345,6 +345,92 @@ def edit_comment(request, pk):
         'comment': comment,
         'form': form,
         'question_pk': question_pk,
+    })
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def delete_question(request, pk):
+    question = get_object_or_404(Question, pk=pk, author=request.user)
+
+    if request.method == 'POST':
+        question.delete()
+        messages.success(request, _('Question deleted.'))
+        return redirect('index')
+
+    return render(request, 'forum/confirm_delete.html', {
+        'title': _('Delete question'),
+        'description': _(
+            'This permanently deletes the question, its answers, and its comments.'
+        ),
+        'subject': question.title,
+        'cancel_url': reverse('question_detail', kwargs={'pk': question.pk}),
+    })
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def delete_answer(request, pk):
+    answer = get_object_or_404(
+        Answer.objects.select_related('question'),
+        pk=pk,
+        author=request.user,
+    )
+    question_pk = answer.question_id
+
+    if request.method == 'POST':
+        answer.delete()
+        messages.success(request, _('Answer deleted.'))
+        return redirect('question_detail', pk=question_pk)
+
+    return render(request, 'forum/confirm_delete.html', {
+        'title': _('Delete answer'),
+        'description': _(
+            'This permanently deletes the answer and its comments.'
+        ),
+        'subject': answer.body,
+        'cancel_url': (
+            f"{reverse('question_detail', kwargs={'pk': question_pk})}"
+            f"#answer-{answer.pk}"
+        ),
+    })
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def delete_comment(request, pk):
+    comment = get_object_or_404(
+        Comment.objects.select_related('question', 'answer__question'),
+        pk=pk,
+        author=request.user,
+    )
+    question_pk = (
+        comment.question_id
+        if comment.question_id is not None
+        else comment.answer.question_id
+    )
+    return_fragment = (
+        f"question-{comment.question_id}"
+        if comment.question_id is not None
+        else f"answer-{comment.answer_id}"
+    )
+
+    if request.method == 'POST':
+        comment.delete()
+        messages.success(request, _('Comment deleted.'))
+        return redirect(
+            f"{reverse('question_detail', kwargs={'pk': question_pk})}"
+            f"#{return_fragment}"
+        )
+
+    return render(request, 'forum/confirm_delete.html', {
+        'title': _('Delete comment'),
+        'description': _('This permanently deletes the comment.'),
+        'subject': comment.content,
+        'cancel_url': (
+            f"{reverse('question_detail', kwargs={'pk': question_pk})}"
+            f"#comment-{comment.pk}"
+        ),
     })
 
 

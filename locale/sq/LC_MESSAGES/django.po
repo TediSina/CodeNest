@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CodeNest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 19:17+0200\n"
+"POT-Creation-Date: 2026-06-02 19:54+0200\n"
 "PO-Revision-Date: 2026-06-02 19:10+0200\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
@@ -65,6 +65,7 @@ msgstr "Hapni ose mbyllni menunë"
 
 #: .\CodeNest\templates\base.html:44 .\CodeNest\templates\base.html:114
 #: .\CodeNest\templates\profile.html:88
+#: .\forum\templates\forum\confirm_delete.html:8
 #: .\forum\templates\forum\create_question.html:12
 #: .\forum\templates\forum\edit_answer.html:12
 #: .\forum\templates\forum\edit_comment.html:8
@@ -83,14 +84,14 @@ msgid "Log out"
 msgstr "Dilni"
 
 #: .\CodeNest\templates\base.html:58 .\CodeNest\templates\register.html:4
-#: .\forum\templates\forum\question_detail.html:197
+#: .\forum\templates\forum\question_detail.html:209
 msgid "Register"
 msgstr "Regjistrohuni"
 
 #: .\CodeNest\templates\base.html:61 .\CodeNest\templates\base.html:120
 #: .\CodeNest\templates\login.html:4 .\CodeNest\templates\login.html:12
 #: .\CodeNest\templates\login.html:25 .\CodeNest\templates\register.html:36
-#: .\forum\templates\forum\question_detail.html:196
+#: .\forum\templates\forum\question_detail.html:208
 msgid "Sign in"
 msgstr "Hyni"
 
@@ -228,8 +229,8 @@ msgstr "Pyetjet tuaja"
 
 #: .\CodeNest\templates\profile.html:45
 #: .\forum\templates\forum\question_detail.html:25
-#: .\forum\templates\forum\question_detail.html:88
-#: .\forum\templates\forum\question_detail.html:233
+#: .\forum\templates\forum\question_detail.html:93
+#: .\forum\templates\forum\question_detail.html:245
 #, python-format
 msgid "%(answer_count)s answer"
 msgid_plural "%(answer_count)s answers"
@@ -359,8 +360,8 @@ msgstr "Ndani zgjidhjen, arsyen pse funksionon dhe çdo kufizim që duhet ditur"
 msgid "Comment"
 msgstr "Komenti"
 
-#: .\forum\forms.py:125 .\forum\templates\forum\question_detail.html:77
-#: .\forum\templates\forum\question_detail.html:140
+#: .\forum\forms.py:125 .\forum\templates\forum\question_detail.html:82
+#: .\forum\templates\forum\question_detail.html:152
 msgid "Add a comment"
 msgstr "Shtoni një koment"
 
@@ -376,6 +377,25 @@ msgstr "Votë pozitive"
 msgid "Downvote"
 msgstr "Votë negative"
 
+#: .\forum\templates\forum\confirm_delete.html:10
+#: .\forum\templates\forum\edit_comment.html:10
+#: .\forum\templates\forum\question_detail.html:17
+msgid "Thread"
+msgstr "Diskutimi"
+
+#: .\forum\templates\forum\confirm_delete.html:18
+msgid "Confirm this action before continuing."
+msgstr "Konfirmoni këtë veprim përpara se të vazhdoni."
+
+#: .\forum\templates\forum\confirm_delete.html:30
+msgid "Delete permanently"
+msgstr "Fshini përgjithmonë"
+
+#: .\forum\templates\forum\confirm_delete.html:32
+#: .\forum\templates\forum\edit_comment.html:35
+msgid "Cancel"
+msgstr "Anuloni"
+
 #: .\forum\templates\forum\create_question.html:4
 #: .\forum\templates\forum\create_question.html:26
 #: .\forum\templates\forum\question_detail.html:38
@@ -383,8 +403,8 @@ msgid "Edit question"
 msgstr "Ndryshoni pyetjen"
 
 #: .\forum\templates\forum\create_question.html:17
-#: .\forum\templates\forum\question_detail.html:65
-#: .\forum\templates\forum\question_detail.html:128
+#: .\forum\templates\forum\question_detail.html:69
+#: .\forum\templates\forum\question_detail.html:139
 msgid "Edit"
 msgstr "Ndryshoni"
 
@@ -410,7 +430,7 @@ msgstr "Publikoni pyetjen"
 
 #: .\forum\templates\forum\create_question.html:75
 #: .\forum\templates\forum\edit_answer.html:47
-#: .\forum\templates\forum\question_detail.html:183
+#: .\forum\templates\forum\question_detail.html:195
 msgid "Preview"
 msgstr "Paraafishimi"
 
@@ -441,7 +461,7 @@ msgstr "Përmendni hapat e diagnostikimit që keni provuar."
 #: .\forum\templates\forum\edit_answer.html:4
 #: .\forum\templates\forum\edit_answer.html:16
 #: .\forum\templates\forum\edit_answer.html:21
-#: .\forum\templates\forum\question_detail.html:103
+#: .\forum\templates\forum\question_detail.html:109
 msgid "Edit answer"
 msgstr "Ndryshoni përgjigjen"
 
@@ -451,8 +471,8 @@ msgstr "Përditësoni përgjigjen dhe ruani shpjegimin e rishikuar."
 
 #: .\forum\templates\forum\edit_answer.html:49
 #: .\forum\templates\forum\edit_answer.html:50
-#: .\forum\templates\forum\question_detail.html:185
-#: .\forum\templates\forum\question_detail.html:186
+#: .\forum\templates\forum\question_detail.html:197
+#: .\forum\templates\forum\question_detail.html:198
 msgid "Your formatted answer appears here as you type."
 msgstr "Përgjigjja e formatuar shfaqet këtu ndërsa shkruani."
 
@@ -462,18 +482,9 @@ msgstr "Përgjigjja e formatuar shfaqet këtu ndërsa shkruani."
 msgid "Edit comment"
 msgstr "Ndryshoni komentin"
 
-#: .\forum\templates\forum\edit_comment.html:10
-#: .\forum\templates\forum\question_detail.html:17
-msgid "Thread"
-msgstr "Diskutimi"
-
 #: .\forum\templates\forum\edit_comment.html:18
 msgid "Update your comment and save the changes."
 msgstr "Përditësoni komentin dhe ruani ndryshimet."
-
-#: .\forum\templates\forum\edit_comment.html:35
-msgid "Cancel"
-msgstr "Anuloni"
 
 #: .\forum\templates\forum\includes\vote_controls.html:6
 #, python-format
@@ -589,82 +600,95 @@ msgstr "komentin"
 msgid "Asked by %(username)s"
 msgstr "Pyetur nga %(username)s"
 
-#: .\forum\templates\forum\question_detail.html:52
-#: .\forum\templates\forum\question_detail.html:115
+#: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:362
+msgid "Delete question"
+msgstr "Fshini pyetjen"
+
+#: .\forum\templates\forum\question_detail.html:56
+#: .\forum\templates\forum\question_detail.html:126
 msgid "Comments"
 msgstr "Komente"
 
-#: .\forum\templates\forum\question_detail.html:77
+#: .\forum\templates\forum\question_detail.html:70
+#: .\forum\templates\forum\question_detail.html:140
+msgid "Delete"
+msgstr "Fshini"
+
+#: .\forum\templates\forum\question_detail.html:82
 msgid "Comment on this question"
 msgstr "Komentoni këtë pyetje"
 
-#: .\forum\templates\forum\question_detail.html:78
-#: .\forum\templates\forum\question_detail.html:141
+#: .\forum\templates\forum\question_detail.html:83
+#: .\forum\templates\forum\question_detail.html:153
 msgid "Add comment"
 msgstr "Shtoni komentin"
 
-#: .\forum\templates\forum\question_detail.html:81
-#: .\forum\templates\forum\question_detail.html:144
+#: .\forum\templates\forum\question_detail.html:86
+#: .\forum\templates\forum\question_detail.html:156
 msgid "Sign in to add a comment"
 msgstr "Hyni për të shtuar një koment"
 
-#: .\forum\templates\forum\question_detail.html:110
+#: .\forum\templates\forum\question_detail.html:113 .\forum\views.py:387
+msgid "Delete answer"
+msgstr "Fshini përgjigjen"
+
+#: .\forum\templates\forum\question_detail.html:121
 msgid "Accepted answer"
 msgstr "Përgjigje e pranuar"
 
-#: .\forum\templates\forum\question_detail.html:140
+#: .\forum\templates\forum\question_detail.html:152
 msgid "Comment on this answer"
 msgstr "Komentoni këtë përgjigje"
 
-#: .\forum\templates\forum\question_detail.html:152
+#: .\forum\templates\forum\question_detail.html:164
 msgid "No answers yet."
 msgstr "Ende nuk ka përgjigje."
 
-#: .\forum\templates\forum\question_detail.html:161
+#: .\forum\templates\forum\question_detail.html:173
 msgid "Add an answer"
 msgstr "Shtoni një përgjigje"
 
-#: .\forum\templates\forum\question_detail.html:162
+#: .\forum\templates\forum\question_detail.html:174
 msgid "Share the fix and explain why it works."
 msgstr "Ndani zgjidhjen dhe shpjegoni pse funksionon."
 
-#: .\forum\templates\forum\question_detail.html:178
+#: .\forum\templates\forum\question_detail.html:190
 msgid "Post answer"
 msgstr "Postoni përgjigjen"
 
-#: .\forum\templates\forum\question_detail.html:193
+#: .\forum\templates\forum\question_detail.html:205
 msgid "Want to answer this question?"
 msgstr "Dëshironi t'i përgjigjeni kësaj pyetjeje?"
 
-#: .\forum\templates\forum\question_detail.html:194
+#: .\forum\templates\forum\question_detail.html:206
 msgid "Sign in to post an answer."
 msgstr "Hyni për të postuar një përgjigje."
 
-#: .\forum\templates\forum\question_detail.html:205
+#: .\forum\templates\forum\question_detail.html:217
 msgid "Thread details"
 msgstr "Hollësitë e diskutimit"
 
-#: .\forum\templates\forum\question_detail.html:208
+#: .\forum\templates\forum\question_detail.html:220
 msgid "Asked by"
 msgstr "Pyetur nga"
 
-#: .\forum\templates\forum\question_detail.html:212
+#: .\forum\templates\forum\question_detail.html:224
 msgid "Published"
 msgstr "Publikuar"
 
-#: .\forum\templates\forum\question_detail.html:216
+#: .\forum\templates\forum\question_detail.html:228
 msgid "Updated"
 msgstr "Përditësuar"
 
-#: .\forum\templates\forum\question_detail.html:220
+#: .\forum\templates\forum\question_detail.html:232
 msgid "Vote score"
 msgstr "Rezultati i votave"
 
-#: .\forum\templates\forum\question_detail.html:228
+#: .\forum\templates\forum\question_detail.html:240
 msgid "Related questions"
 msgstr "Pyetje të ngjashme"
 
-#: .\forum\templates\forum\question_detail.html:233
+#: .\forum\templates\forum\question_detail.html:245
 #, python-format
 msgid "%(vote_count)s vote"
 msgid_plural "%(vote_count)s votes"
@@ -678,3 +702,31 @@ msgstr "Vota duhet të jetë pozitive ose negative."
 #: .\forum\views.py:252 .\forum\views.py:272
 msgid "Comment cannot be empty."
 msgstr "Komenti nuk mund të jetë bosh."
+
+#: .\forum\views.py:358
+msgid "Question deleted."
+msgstr "Pyetja u fshi."
+
+#: .\forum\views.py:364
+msgid "This permanently deletes the question, its answers, and its comments."
+msgstr "Kjo fshin përgjithmonë pyetjen, përgjigjet dhe komentet e saj."
+
+#: .\forum\views.py:383
+msgid "Answer deleted."
+msgstr "Përgjigjja u fshi."
+
+#: .\forum\views.py:389
+msgid "This permanently deletes the answer and its comments."
+msgstr "Kjo fshin përgjithmonë përgjigjen dhe komentet e saj."
+
+#: .\forum\views.py:420
+msgid "Comment deleted."
+msgstr "Komenti u fshi."
+
+#: .\forum\views.py:427
+msgid "Delete comment"
+msgstr "Fshini komentin"
+
+#: .\forum\views.py:428
+msgid "This permanently deletes the comment."
+msgstr "Kjo fshin përgjithmonë komentin."
