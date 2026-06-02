@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block title %}{% translate "Profile" %} | CodeNest{% endblock %}
+{% block title %}{{ profile_user.username }} | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
@@ -9,33 +9,37 @@
 
 {% block content %}
 <header class="profile-header">
-    <div class="profile-avatar">{{ user.username|first|upper }}</div>
+    <div class="profile-avatar">{{ profile_user.username|first|upper }}</div>
     <div class="profile-header__content">
-        <h1>{{ user.get_full_name|default:user.username }}</h1>
+        <h1>{{ profile_user.get_full_name|default:profile_user.username }}</h1>
         <div class="meta-line">
-            <span>@{{ user.username }}</span>
-            {% translate "No email added" as no_email_added %}
-            <span>{{ user.email|default:no_email_added }}</span>
-            <span>{% blocktranslate with joined_at=user.date_joined|date:"F Y" %}Joined {{ joined_at }}{% endblocktranslate %}</span>
+            <span>@{{ profile_user.username }}</span>
+            {% if is_owner %}
+                {% translate "No email added" as no_email_added %}
+                <span>{{ profile_user.email|default:no_email_added }}</span>
+            {% endif %}
+            <span>{% blocktranslate with joined_at=profile_user.date_joined|date:"F Y" %}Joined {{ joined_at }}{% endblocktranslate %}</span>
         </div>
     </div>
-    <div class="button-row">
-        <a href="{% url 'edit_profile' %}" class="app-btn app-btn--secondary">
-            <i class="bi bi-pencil"></i>
-            <span>{% translate "Edit profile" %}</span>
-        </a>
-        <a href="{% url 'create_question' %}" class="app-btn">
-            <i class="bi bi-plus-lg"></i>
-            <span>{% translate "Ask question" %}</span>
-        </a>
-    </div>
+    {% if is_owner %}
+        <div class="button-row">
+            <a href="{% url 'edit_profile' %}" class="app-btn app-btn--secondary">
+                <i class="bi bi-pencil"></i>
+                <span>{% translate "Edit profile" %}</span>
+            </a>
+            <a href="{% url 'create_question' %}" class="app-btn">
+                <i class="bi bi-plus-lg"></i>
+                <span>{% translate "Ask question" %}</span>
+            </a>
+        </div>
+    {% endif %}
 </header>
 
 <div class="profile-layout">
     <div class="profile-panels">
         <section class="panel">
             <div class="section-header">
-                <h2>{% translate "Your questions" %}</h2>
+                <h2>{% if is_owner %}{% translate "Your questions" %}{% else %}{% translate "Questions" %}{% endif %}</h2>
             </div>
             {% for question in questions %}
                 <a href="{% url 'question_detail' question.id %}" class="timeline-item">
@@ -54,14 +58,14 @@
                 </a>
             {% empty %}
                 <div class="empty-state">
-                    <p>{% translate "You have not posted any questions yet." %}</p>
+                    <p>{% if is_owner %}{% translate "You have not posted any questions yet." %}{% else %}{% translate "This member has not posted any questions yet." %}{% endif %}</p>
                 </div>
             {% endfor %}
         </section>
 
         <section class="panel">
             <div class="section-header">
-                <h2>{% translate "Your answers" %}</h2>
+                <h2>{% if is_owner %}{% translate "Your answers" %}{% else %}{% translate "Answers" %}{% endif %}</h2>
             </div>
             {% for answer in answers %}
                 <article class="timeline-item">
@@ -75,14 +79,14 @@
                 </article>
             {% empty %}
                 <div class="empty-state">
-                    <p>{% translate "You have not posted any answers yet." %}</p>
+                    <p>{% if is_owner %}{% translate "You have not posted any answers yet." %}{% else %}{% translate "This member has not posted any answers yet." %}{% endif %}</p>
                 </div>
             {% endfor %}
         </section>
     </div>
 
     <aside class="panel">
-        <h2>{% translate "Account details" %}</h2>
+        <h2>{% if is_owner %}{% translate "Account details" %}{% else %}{% translate "Member details" %}{% endif %}</h2>
         <div class="detail-list">
             <div class="detail-list__item">
                 <span>{% translate "Questions" %}</span>
@@ -95,11 +99,11 @@
             <div class="detail-list__item">
                 <span>{% translate "First name" %}</span>
                 {% translate "Not set" as not_set %}
-                <strong>{{ user.first_name|default:not_set }}</strong>
+                <strong>{{ profile_user.first_name|default:not_set }}</strong>
             </div>
             <div class="detail-list__item">
                 <span>{% translate "Last name" %}</span>
-                <strong>{{ user.last_name|default:not_set }}</strong>
+                <strong>{{ profile_user.last_name|default:not_set }}</strong>
             </div>
         </div>
     </aside>

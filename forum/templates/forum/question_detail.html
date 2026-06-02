@@ -20,7 +20,7 @@
 <header class="thread-header">
     <h1>{{ question.title }}</h1>
     <div class="meta-line">
-        <span>{% blocktranslate with username=question.author.username %}Asked by {{ username }}{% endblocktranslate %}</span>
+        <span>{% translate "Asked by" %} <a href="{% url 'member_profile' question.author.username %}" class="author-link">{{ question.author.username }}</a></span>
         <span>{{ question.created_at|date:"j F Y, H:i" }}</span>
         <span>{% blocktranslate count answer_count=answer_total %}{{ answer_count }} answer{% plural %}{{ answer_count }} answers{% endblocktranslate %}</span>
     </div>
@@ -63,7 +63,7 @@
                                             <div>
                                                 <p>{{ comment.content|linebreaksbr }}</p>
                                                 <div class="comment-meta">
-                                                    <span>{{ comment.author.username }}</span>
+                                                    <a href="{% url 'member_profile' comment.author.username %}" class="author-link">{{ comment.author.username }}</a>
                                                     <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                     {% if user == comment.author %}
                                                         <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
@@ -99,7 +99,7 @@
                         <div>
                             <div class="post-header">
                                 <div class="meta-line">
-                                    <span>{{ answer.author.username }}</span>
+                                    <a href="{% url 'member_profile' answer.author.username %}" class="author-link">{{ answer.author.username }}</a>
                                     <span>{{ answer.created_at|date:"j F Y, H:i" }}</span>
                                 </div>
                                 {% if user == answer.author %}
@@ -133,7 +133,7 @@
                                                     <div>
                                                         <p>{{ comment.content|linebreaksbr }}</p>
                                                         <div class="comment-meta">
-                                                            <span>{{ comment.author.username }}</span>
+                                                            <a href="{% url 'member_profile' comment.author.username %}" class="author-link">{{ comment.author.username }}</a>
                                                             <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                             {% if user == comment.author %}
                                                                 <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
@@ -218,7 +218,7 @@
             <div class="detail-list">
                 <div class="detail-list__item">
                     <span>{% translate "Asked by" %}</span>
-                    <strong>{{ question.author.username }}</strong>
+                    <strong><a href="{% url 'member_profile' question.author.username %}" class="author-link">{{ question.author.username }}</a></strong>
                 </div>
                 <div class="detail-list__item">
                     <span>{% translate "Published" %}</span>

@@ -64,7 +64,7 @@
                                 <a class="site-nav__link site-nav__link--primary" href="{% url 'create_question' %}">{% translate "Ask question" %}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="site-nav__link" href="{% url 'profile' %}">{{ user.username }}</a>
+                                <a class="site-nav__link" href="{% url 'member_profile' user.username %}">{{ user.username }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="site-nav__link site-nav__link--muted" href="{% url 'logout' %}">{% translate "Log out" %}</a>

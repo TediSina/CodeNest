@@ -380,6 +380,142 @@ class SearchTests(TestCase):
         self.assertContains(response, 'role="search"')
 
 
+class PublicProfileTests(TestCase):
+    def setUp(self):
+        self.author = User.objects.create_user(
+            username='public-profile-author',
+            password='test-password',
+            email='author@example.com',
+            first_name='Ada',
+            last_name='Lovelace',
+        )
+        self.answer_author = User.objects.create_user(
+            username='public-profile-answer-author',
+            password='test-password',
+        )
+        self.comment_author = User.objects.create_user(
+            username='public-profile-comment-author',
+            password='test-password',
+        )
+        self.viewer = User.objects.create_user(
+            username='public-profile-viewer',
+            password='test-password',
+        )
+        self.question = Question.objects.create(
+            title='Public profile question',
+            body='Question body',
+            author=self.author,
+        )
+        self.answer = Answer.objects.create(
+            question=self.question,
+            body='Public profile answer',
+            author=self.answer_author,
+        )
+        self.question_comment = Comment.objects.create(
+            question=self.question,
+            content='Question comment',
+            author=self.comment_author,
+        )
+        self.answer_comment = Comment.objects.create(
+            answer=self.answer,
+            content='Answer comment',
+            author=self.comment_author,
+        )
+
+    def test_anonymous_user_can_view_a_members_public_profile(self):
+        response = self.client.get(
+            reverse('member_profile', args=[self.author.username])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Ada Lovelace')
+        self.assertContains(response, '@public-profile-author')
+        self.assertContains(response, self.question.title)
+        self.assertContains(response, 'Hollësitë e anëtarit')
+        self.assertNotContains(response, self.author.email)
+        self.assertNotContains(response, reverse('edit_profile'))
+
+    def test_public_profile_lists_the_members_answers(self):
+        response = self.client.get(
+            reverse('member_profile', args=[self.answer_author.username])
+        )
+
+        self.assertContains(response, self.answer.body)
+        self.assertContains(response, self.question.title)
+        self.assertEqual(response.context['answer_total'], 1)
+
+    def test_owner_profile_keeps_private_email_and_edit_controls(self):
+        self.client.force_login(self.author)
+
+        response = self.client.get(reverse('profile'))
+
+        self.assertEqual(response.context['profile_user'], self.author)
+        self.assertTrue(response.context['is_owner'])
+        self.assertContains(response, self.author.email)
+        self.assertContains(response, reverse('edit_profile'))
+
+    def test_member_route_shows_owner_controls_only_to_that_member(self):
+        profile_url = reverse('member_profile', args=[self.author.username])
+
+        self.client.force_login(self.author)
+        owner_response = self.client.get(profile_url)
+
+        self.assertContains(owner_response, self.author.email)
+        self.assertContains(owner_response, reverse('edit_profile'))
+
+        self.client.force_login(self.viewer)
+        viewer_response = self.client.get(profile_url)
+
+        self.assertNotContains(viewer_response, self.author.email)
+        self.assertNotContains(viewer_response, reverse('edit_profile'))
+
+    def test_missing_member_returns_not_found(self):
+        response = self.client.get(
+            reverse('member_profile', args=['missing-member'])
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_question_lists_link_the_author_username_to_their_profile(self):
+        response = self.client.get(reverse('index'))
+        profile_url = reverse(
+            'member_profile',
+            args=[self.author.username],
+        )
+
+        self.assertContains(
+            response,
+            f'href="{profile_url}" class="author-link">'
+            f'{self.author.username}</a>',
+        )
+
+    def test_thread_links_every_visible_username_to_a_public_profile(self):
+        response = self.client.get(
+            reverse('question_detail', args=[self.question.pk])
+        )
+
+        for user in [self.author, self.answer_author, self.comment_author]:
+            with self.subTest(username=user.username):
+                profile_url = reverse('member_profile', args=[user.username])
+
+                self.assertContains(
+                    response,
+                    f'href="{profile_url}" class="author-link">'
+                    f'{user.username}</a>',
+                )
+
+    def test_header_username_links_to_the_signed_in_members_public_profile(self):
+        self.client.force_login(self.author)
+
+        response = self.client.get(reverse('index'))
+
+        self.assertContains(
+            response,
+            f'href="{reverse("member_profile", args=[self.author.username])}">'
+            f'{self.author.username}</a>',
+        )
+
+
 class CommentTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(

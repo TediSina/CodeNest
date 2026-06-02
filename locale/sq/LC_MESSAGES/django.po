@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CodeNest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 20:36+0200\n"
+"POT-Creation-Date: 2026-06-02 20:52+0200\n"
 "PO-Revision-Date: 2026-06-02 19:10+0200\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgid "Search"
 msgstr "Kërkoni"
 
 #: .\CodeNest\templates\base.html:57 .\CodeNest\templates\base.html:130
-#: .\CodeNest\templates\profile.html:88
+#: .\CodeNest\templates\profile.html:42 .\CodeNest\templates\profile.html:92
 #: .\forum\templates\forum\confirm_delete.html:8
 #: .\forum\templates\forum\create_question.html:12
 #: .\forum\templates\forum\edit_answer.html:12
@@ -98,7 +98,7 @@ msgstr "Pyetje"
 msgid "Tags"
 msgstr "Etiketa"
 
-#: .\CodeNest\templates\base.html:64 .\CodeNest\templates\profile.html:29
+#: .\CodeNest\templates\base.html:64 .\CodeNest\templates\profile.html:32
 #: .\forum\templates\forum\index.html:15
 msgid "Ask question"
 msgstr "Bëni një pyetje"
@@ -188,11 +188,11 @@ msgstr "Ndërtuar në Tiranë, Shqipëri."
 #: .\CodeNest\templates\edit_profile.html:4
 #: .\CodeNest\templates\edit_profile.html:10
 #: .\CodeNest\templates\edit_profile.html:15
-#: .\CodeNest\templates\profile.html:25
+#: .\CodeNest\templates\profile.html:28
 msgid "Edit profile"
 msgstr "Ndryshoni profilin"
 
-#: .\CodeNest\templates\edit_profile.html:8 .\CodeNest\templates\profile.html:4
+#: .\CodeNest\templates\edit_profile.html:8
 msgid "Profile"
 msgstr "Profili"
 
@@ -238,20 +238,20 @@ msgstr "Fjalëkalimi juaj"
 msgid "New to CodeNest?"
 msgstr "Nuk keni ende llogari në CodeNest?"
 
-#: .\CodeNest\templates\profile.html:17
+#: .\CodeNest\templates\profile.html:18
 msgid "No email added"
 msgstr "Nuk është shtuar email"
 
-#: .\CodeNest\templates\profile.html:19
+#: .\CodeNest\templates\profile.html:21
 #, python-format
 msgid "Joined %(joined_at)s"
 msgstr "U bashkua më %(joined_at)s"
 
-#: .\CodeNest\templates\profile.html:38
+#: .\CodeNest\templates\profile.html:42
 msgid "Your questions"
 msgstr "Pyetjet tuaja"
 
-#: .\CodeNest\templates\profile.html:45
+#: .\CodeNest\templates\profile.html:49
 #: .\forum\templates\forum\question_detail.html:25
 #: .\forum\templates\forum\question_detail.html:93
 #: .\forum\templates\forum\question_detail.html:245
@@ -261,41 +261,54 @@ msgid_plural "%(answer_count)s answers"
 msgstr[0] "%(answer_count)s përgjigje"
 msgstr[1] "%(answer_count)s përgjigje"
 
-#: .\CodeNest\templates\profile.html:51
+#: .\CodeNest\templates\profile.html:55
 #: .\forum\templates\forum\includes\question_list.html:29
 #: .\forum\templates\forum\question_detail.html:31
 msgid "untagged"
 msgstr "pa etiketa"
 
-#: .\CodeNest\templates\profile.html:57
+#: .\CodeNest\templates\profile.html:61
 msgid "You have not posted any questions yet."
 msgstr "Nuk keni postuar ende asnjë pyetje."
 
-#: .\CodeNest\templates\profile.html:64
+#: .\CodeNest\templates\profile.html:61
+msgid "This member has not posted any questions yet."
+msgstr "Ky anëtar nuk ka postuar ende asnjë pyetje."
+
+#: .\CodeNest\templates\profile.html:68
 msgid "Your answers"
 msgstr "Përgjigjet tuaja"
 
-#: .\CodeNest\templates\profile.html:78
-msgid "You have not posted any answers yet."
-msgstr "Nuk keni postuar ende asnjë përgjigje."
-
-#: .\CodeNest\templates\profile.html:85
-msgid "Account details"
-msgstr "Të dhënat e llogarisë"
-
-#: .\CodeNest\templates\profile.html:92 .\forum\templates\forum\index.html:37
+#: .\CodeNest\templates\profile.html:68 .\CodeNest\templates\profile.html:96
+#: .\forum\templates\forum\index.html:37
 msgid "Answers"
 msgstr "Përgjigje"
 
-#: .\CodeNest\templates\profile.html:96
+#: .\CodeNest\templates\profile.html:82
+msgid "You have not posted any answers yet."
+msgstr "Nuk keni postuar ende asnjë përgjigje."
+
+#: .\CodeNest\templates\profile.html:82
+msgid "This member has not posted any answers yet."
+msgstr "Ky anëtar nuk ka postuar ende asnjë përgjigje."
+
+#: .\CodeNest\templates\profile.html:89
+msgid "Account details"
+msgstr "Të dhënat e llogarisë"
+
+#: .\CodeNest\templates\profile.html:89
+msgid "Member details"
+msgstr "Hollësitë e anëtarit"
+
+#: .\CodeNest\templates\profile.html:100
 msgid "First name"
 msgstr "Emri"
 
-#: .\CodeNest\templates\profile.html:97
+#: .\CodeNest\templates\profile.html:101
 msgid "Not set"
 msgstr "I papërcaktuar"
 
-#: .\CodeNest\templates\profile.html:101
+#: .\CodeNest\templates\profile.html:105
 msgid "Last name"
 msgstr "Mbiemri"
 
@@ -311,23 +324,23 @@ msgstr "Krijoni llogarinë"
 msgid "Already have an account?"
 msgstr "Keni tashmë një llogari?"
 
-#: .\CodeNest\views.py:44
+#: .\CodeNest\views.py:56
 msgid "Your profile has been successfully updated!"
 msgstr "Profili juaj u përditësua me sukses!"
 
-#: .\CodeNest\views.py:52
+#: .\CodeNest\views.py:64
 msgid "Your password has been successfully updated!"
 msgstr "Fjalëkalimi juaj u përditësua me sukses!"
 
-#: .\CodeNest\views.py:55
+#: .\CodeNest\views.py:67
 msgid "Please correct the errors in the password form."
 msgstr "Ju lutemi, korrigjoni gabimet në formularin e fjalëkalimit."
 
-#: .\CodeNest\views.py:76
+#: .\CodeNest\views.py:88
 msgid "Please correct the error(s) below."
 msgstr "Ju lutemi, korrigjoni gabimet më poshtë."
 
-#: .\CodeNest\views.py:91
+#: .\CodeNest\views.py:103
 msgid "Invalid username or password."
 msgstr "Emri i përdoruesit ose fjalëkalimi është i pasaktë."
 
@@ -617,9 +630,9 @@ msgid "comment"
 msgstr "komentin"
 
 #: .\forum\templates\forum\question_detail.html:23
-#, python-format
-msgid "Asked by %(username)s"
-msgstr "Pyetur nga %(username)s"
+#: .\forum\templates\forum\question_detail.html:220
+msgid "Asked by"
+msgstr "Pyetur nga"
 
 #: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:419
 msgid "Delete question"
@@ -688,10 +701,6 @@ msgstr "Hyni për të postuar një përgjigje."
 #: .\forum\templates\forum\question_detail.html:217
 msgid "Thread details"
 msgstr "Hollësitë e diskutimit"
-
-#: .\forum\templates\forum\question_detail.html:220
-msgid "Asked by"
-msgstr "Pyetur nga"
 
 #: .\forum\templates\forum\question_detail.html:224
 msgid "Published"
@@ -816,3 +825,7 @@ msgstr "Fshini komentin"
 #: .\forum\views.py:485
 msgid "This permanently deletes the comment."
 msgstr "Kjo fshin përgjithmonë komentin."
+
+#, python-format
+#~ msgid "Asked by %(username)s"
+#~ msgstr "Pyetur nga %(username)s"

@@ -15,7 +15,7 @@
             </div>
             <div>
                 <div class="meta-line">
-                    <span>{{ question.author.username }}</span>
+                    <a href="{% url 'member_profile' question.author.username %}" class="author-link">{{ question.author.username }}</a>
                     <span>{% blocktranslate with asked_at=question.created_at|timesince %}asked {{ asked_at }} ago{% endblocktranslate %}</span>
                 </div>
                 <h2>

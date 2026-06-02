@@ -510,6 +510,23 @@ body.app-body .site-search__input {
   font-size: 0.78rem;
 }
 
+.author-link {
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+
+.author-link:hover,
+.author-link:focus {
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.question-row .author-link {
+  position: relative;
+  z-index: 1;
+}
+
 .tag-row {
   display: flex;
   flex-wrap: wrap;
