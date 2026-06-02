@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 
 def _apply_form_field_classes(form):
@@ -21,7 +22,7 @@ def _apply_form_field_classes(form):
 
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(label=_('Email'), required=True)
 
     class Meta:
         model = User
@@ -30,10 +31,10 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _apply_form_field_classes(self)
-        self.fields['username'].widget.attrs.setdefault('placeholder', 'Choose a username')
-        self.fields['email'].widget.attrs.setdefault('placeholder', 'Enter your email')
-        self.fields['password1'].widget.attrs.setdefault('placeholder', 'Create a password')
-        self.fields['password2'].widget.attrs.setdefault('placeholder', 'Confirm your password')
+        self.fields['username'].widget.attrs.setdefault('placeholder', _('Choose a username'))
+        self.fields['email'].widget.attrs.setdefault('placeholder', _('Enter your email'))
+        self.fields['password1'].widget.attrs.setdefault('placeholder', _('Create a password'))
+        self.fields['password2'].widget.attrs.setdefault('placeholder', _('Confirm your password'))
 
 class CustomUserChangeForm(forms.ModelForm):
     class Meta:
@@ -43,7 +44,7 @@ class CustomUserChangeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _apply_form_field_classes(self)
-        self.fields['username'].widget.attrs.setdefault('placeholder', 'Your username')
-        self.fields['email'].widget.attrs.setdefault('placeholder', 'Your email address')
-        self.fields['first_name'].widget.attrs.setdefault('placeholder', 'Your first name')
-        self.fields['last_name'].widget.attrs.setdefault('placeholder', 'Your last name')
+        self.fields['username'].widget.attrs.setdefault('placeholder', _('Your username'))
+        self.fields['email'].widget.attrs.setdefault('placeholder', _('Your email address'))
+        self.fields['first_name'].widget.attrs.setdefault('placeholder', _('Your first name'))
+        self.fields['last_name'].widget.attrs.setdefault('placeholder', _('Your last name'))

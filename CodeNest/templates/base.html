@@ -1,7 +1,8 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,36 +19,44 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="site-brand" href="{% url 'index' %}" aria-label="CodeNest home">
+                <a class="site-brand" href="{% url 'index' %}" aria-label="{% translate 'CodeNest home' %}">
                     <img src="{% static 'images/codenest-logo.png' %}" alt="" class="site-brand__logo">
                     <span>CodeNest</span>
                 </a>
-                <button class="navbar-toggler site-header__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation" aria-controls="main-navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler site-header__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#main-navigation" aria-controls="main-navigation" aria-expanded="false" aria-label="{% translate 'Toggle navigation' %}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-navigation">
                     <ul class="navbar-nav ms-auto site-nav">
                         <li class="nav-item">
-                            <a class="site-nav__link" href="{% url 'index' %}">Questions</a>
+                            <a class="site-nav__link" href="{% url 'index' %}">{% translate "Questions" %}</a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="site-nav__link site-nav__link--primary" href="{% url 'create_question' %}">Ask question</a>
+                                <a class="site-nav__link site-nav__link--primary" href="{% url 'create_question' %}">{% translate "Ask question" %}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="site-nav__link" href="{% url 'profile' %}">{{ user.username }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="site-nav__link site-nav__link--muted" href="{% url 'logout' %}">Log out</a>
+                                <a class="site-nav__link site-nav__link--muted" href="{% url 'logout' %}">{% translate "Log out" %}</a>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="site-nav__link" href="{% url 'register' %}">Register</a>
+                                <a class="site-nav__link" href="{% url 'register' %}">{% translate "Register" %}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="site-nav__link site-nav__link--primary" href="{% url 'login' %}">Sign in</a>
+                                <a class="site-nav__link site-nav__link--primary" href="{% url 'login' %}">{% translate "Sign in" %}</a>
                             </li>
                         {% endif %}
+                        <li class="nav-item">
+                            <form action="{% url 'set_language' %}" method="post" class="language-switch" aria-label="{% translate 'Language' %}">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                                <button type="submit" name="language" value="sq" class="language-switch__button{% if LANGUAGE_CODE == 'sq' %} language-switch__button--active{% endif %}" aria-pressed="{% if LANGUAGE_CODE == 'sq' %}true{% else %}false{% endif %}">Shqip</button>
+                                <button type="submit" name="language" value="en" class="language-switch__button{% if LANGUAGE_CODE == 'en' %} language-switch__button--active{% endif %}" aria-pressed="{% if LANGUAGE_CODE == 'en' %}true{% else %}false{% endif %}">English</button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -71,32 +80,32 @@
         <div class="container">
             <div class="site-footer__main">
                 <div class="site-footer__about">
-                    <a class="site-footer__brand" href="{% url 'index' %}" aria-label="CodeNest home">
+                    <a class="site-footer__brand" href="{% url 'index' %}" aria-label="{% translate 'CodeNest home' %}">
                         <img src="{% static 'images/codenest-logo.png' %}" alt="" class="site-footer__logo">
                         <span>CodeNest</span>
                     </a>
-                    <p>A programming forum built for the Albanian developer community and open to everyone. Ask questions, share answers, and keep useful knowledge easy to find.</p>
+                    <p>{% translate "A programming forum built for the Albanian developer community and open to everyone. Ask questions, share answers, and keep useful knowledge easy to find." %}</p>
                 </div>
-                <nav class="site-footer__nav" aria-label="Explore CodeNest">
-                    <h2>Explore</h2>
-                    <a href="{% url 'index' %}">Questions</a>
+                <nav class="site-footer__nav" aria-label="{% translate 'Explore CodeNest' %}">
+                    <h2>{% translate "Explore" %}</h2>
+                    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'create_question' %}">Ask a question</a>
-                        <a href="{% url 'profile' %}">Your profile</a>
+                        <a href="{% url 'create_question' %}">{% translate "Ask a question" %}</a>
+                        <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
                     {% else %}
-                        <a href="{% url 'register' %}">Create an account</a>
-                        <a href="{% url 'login' %}">Sign in</a>
+                        <a href="{% url 'register' %}">{% translate "Create an account" %}</a>
+                        <a href="{% url 'login' %}">{% translate "Sign in" %}</a>
                     {% endif %}
                 </nav>
-                <nav class="site-footer__nav" aria-label="CodeNest project links">
-                    <h2>Project</h2>
-                    <a href="https://github.com/TediSina/CodeNest" target="_blank" rel="noopener noreferrer">GitHub repository</a>
-                    <a href="https://github.com/TediSina/CodeNest/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>
+                <nav class="site-footer__nav" aria-label="{% translate 'CodeNest project links' %}">
+                    <h2>{% translate "Project" %}</h2>
+                    <a href="https://github.com/TediSina/CodeNest" target="_blank" rel="noopener noreferrer">{% translate "GitHub repository" %}</a>
+                    <a href="https://github.com/TediSina/CodeNest/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">{% translate "MIT License" %}</a>
                 </nav>
             </div>
             <div class="site-footer__bottom">
                 <span>&copy; 2026 Tedi Sina, Tea Sina, Filip Dhamaj, Ersi Mansaku.</span>
-                <span>Built in Tirana, Albania.</span>
+                <span>{% translate "Built in Tirana, Albania." %}</span>
             </div>
         </div>
     </footer>

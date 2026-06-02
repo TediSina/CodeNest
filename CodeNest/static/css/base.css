@@ -129,6 +129,37 @@ textarea {
   color: var(--muted);
 }
 
+.language-switch {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  margin-left: 5px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+}
+
+.language-switch__button {
+  padding: 4px 6px;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  transition: color 150ms ease;
+}
+
+.language-switch__button:hover,
+.language-switch__button:focus,
+.language-switch__button--active {
+  color: var(--navy);
+}
+
+.language-switch__button--active {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .page-shell {
   flex: 1 0 auto;
   padding: 32px 0 48px;
@@ -1189,6 +1220,13 @@ a.timeline-item:hover h3 {
 
   .site-nav__link {
     display: flex;
+  }
+
+  .language-switch {
+    margin: 4px 0 0;
+    padding: 7px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
   }
 
   .content-grid,

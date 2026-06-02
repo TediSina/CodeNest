@@ -6,6 +6,7 @@ from django.db.models.functions import Coalesce
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, CommentForm, QuestionForm
@@ -57,10 +58,10 @@ def _save_vote(request, item, vote_model, target_field, redirect_url):
     try:
         value = int(request.POST.get('value', ''))
     except ValueError:
-        return HttpResponseBadRequest('Vote must be an upvote or downvote.')
+        return HttpResponseBadRequest(_('Vote must be an upvote or downvote.'))
 
     if value not in {Vote.UPVOTE, Vote.DOWNVOTE}:
-        return HttpResponseBadRequest('Vote must be an upvote or downvote.')
+        return HttpResponseBadRequest(_('Vote must be an upvote or downvote.'))
 
     lookup = {
         'user': request.user,
@@ -248,7 +249,7 @@ def add_question_comment(request, pk):
             f"#comment-{comment.pk}"
         )
 
-    messages.error(request, 'Comment cannot be empty.')
+    messages.error(request, _('Comment cannot be empty.'))
     return redirect('question_detail', pk=question.pk)
 
 
@@ -268,7 +269,7 @@ def add_answer_comment(request, pk):
             f"#comment-{comment.pk}"
         )
 
-    messages.error(request, 'Comment cannot be empty.')
+    messages.error(request, _('Comment cannot be empty.'))
     return redirect('question_detail', pk=answer.question_id)
 
 

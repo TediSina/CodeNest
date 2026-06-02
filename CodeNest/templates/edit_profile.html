@@ -1,25 +1,26 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Edit Profile | CodeNest{% endblock %}
+{% block title %}{% translate "Edit profile" %} | CodeNest{% endblock %}
 
 {% block content %}
 <div class="breadcrumb-line">
-    <a href="{% url 'profile' %}">Profile</a>
+    <a href="{% url 'profile' %}">{% translate "Profile" %}</a>
     <span>/</span>
-    <span>Edit profile</span>
+    <span>{% translate "Edit profile" %}</span>
 </div>
 
 <div class="page-header">
     <div>
-        <h1>Edit profile</h1>
-        <p>Update your account information or change your password.</p>
+        <h1>{% translate "Edit profile" %}</h1>
+        <p>{% translate "Update your account information or change your password." %}</p>
     </div>
 </div>
 
 <div class="settings-grid">
     <section class="panel">
         <div class="section-header">
-            <h2>Account information</h2>
+            <h2>{% translate "Account information" %}</h2>
         </div>
 
         <form method="post">
@@ -40,13 +41,13 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" name="profile_submit" class="app-btn">Save profile</button>
+            <button type="submit" name="profile_submit" class="app-btn">{% translate "Save profile" %}</button>
         </form>
     </section>
 
     <section class="panel">
         <div class="section-header">
-            <h2>Change password</h2>
+            <h2>{% translate "Change password" %}</h2>
         </div>
 
         <form method="post">
@@ -67,7 +68,7 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" name="password_submit" class="app-btn">Update password</button>
+            <button type="submit" name="password_submit" class="app-btn">{% translate "Update password" %}</button>
         </form>
     </section>
 </div>

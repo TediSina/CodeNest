@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% load question_preview %}
+{% load question_preview i18n %}
 
-{% block title %}Questions | CodeNest{% endblock %}
+{% block title %}{% translate "Questions" %} | CodeNest{% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h1>All questions</h1>
-        <p>Browse recent programming questions or share a problem with the community.</p>
+        <h1>{% translate "All questions" %}</h1>
+        <p>{% translate "Browse recent programming questions or share a problem with the community." %}</p>
     </div>
     {% if user.is_authenticated %}
         <a href="{% url 'create_question' %}" class="app-btn">
             <i class="bi bi-plus-lg"></i>
-            <span>Ask question</span>
+            <span>{% translate "Ask question" %}</span>
         </a>
     {% else %}
-        <a href="{% url 'login' %}" class="app-btn">Sign in to ask</a>
+        <a href="{% url 'login' %}" class="app-btn">{% translate "Sign in to ask" %}</a>
     {% endif %}
 </div>
 
@@ -27,17 +27,17 @@
                     <div class="question-row__stats">
                         <div>
                             <strong>{{ question.vote_score }}</strong>
-                            <span>vote{{ question.vote_score|pluralize }}</span>
+                            <span>{% blocktranslate count vote_count=question.vote_score %}vote{% plural %}votes{% endblocktranslate %}</span>
                         </div>
                         <div>
                             <strong>{{ question.answer_count }}</strong>
-                            <span>answer{{ question.answer_count|pluralize }}</span>
+                            <span>{% blocktranslate count answer_count=question.answer_count %}answer{% plural %}answers{% endblocktranslate %}</span>
                         </div>
                     </div>
                     <div>
                         <div class="meta-line">
                             <span>{{ question.author.username }}</span>
-                            <span>asked {{ question.created_at|timesince }} ago</span>
+                            <span>{% blocktranslate with asked_at=question.created_at|timesince %}asked {{ asked_at }} ago{% endblocktranslate %}</span>
                         </div>
                         <h2>{{ question.title }}</h2>
                         <p class="question-row__preview">{{ question.body|without_fenced_code|truncatechars:180 }}</p>
@@ -45,16 +45,16 @@
                             {% for tag in question.tags.all %}
                                 <span class="tag">#{{ tag.name }}</span>
                             {% empty %}
-                                <span class="tag tag--muted">untagged</span>
+                                <span class="tag tag--muted">{% translate "untagged" %}</span>
                             {% endfor %}
                         </div>
                     </div>
                 </a>
             {% empty %}
                 <div class="empty-state">
-                    <p>No questions have been posted yet.</p>
+                    <p>{% translate "No questions have been posted yet." %}</p>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'create_question' %}" class="app-btn">Ask the first question</a>
+                        <a href="{% url 'create_question' %}" class="app-btn">{% translate "Ask the first question" %}</a>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -63,28 +63,28 @@
 
     <aside>
         <div class="panel">
-            <h2>Community</h2>
+            <h2>{% translate "Community" %}</h2>
             <div class="stats-list">
                 <div class="stats-list__item">
-                    <span>Questions</span>
+                    <span>{% translate "Questions" %}</span>
                     <strong>{{ question_total }}</strong>
                 </div>
                 <div class="stats-list__item">
-                    <span>Answers</span>
+                    <span>{% translate "Answers" %}</span>
                     <strong>{{ answer_total }}</strong>
                 </div>
                 <div class="stats-list__item">
-                    <span>Members</span>
+                    <span>{% translate "Members" %}</span>
                     <strong>{{ member_total }}</strong>
                 </div>
             </div>
         </div>
         <div class="panel">
-            <h2>Asking a question</h2>
+            <h2>{% translate "Asking a question" %}</h2>
             <ul class="tips-list">
-                <li>Describe the expected result.</li>
-                <li>Include a small code example.</li>
-                <li>Add tags for the relevant tools.</li>
+                <li>{% translate "Describe the expected result." %}</li>
+                <li>{% translate "Include a small code example." %}</li>
+                <li>{% translate "Add tags for the relevant tools." %}</li>
             </ul>
         </div>
     </aside>

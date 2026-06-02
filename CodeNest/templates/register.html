@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Register | CodeNest{% endblock %}
+{% block title %}{% translate "Register" %} | CodeNest{% endblock %}
 
 {% block content %}
 <div class="auth-container">
-    <a class="auth-brand" href="{% url 'index' %}" aria-label="CodeNest home">
+    <a class="auth-brand" href="{% url 'index' %}" aria-label="{% translate 'CodeNest home' %}">
         <img src="{% static 'images/codenest-logo.png' %}" alt="CodeNest" class="site-brand__logo">
     </a>
     <section class="auth-card">
-        <h1>Create an account</h1>
-        <p>Register to ask questions and contribute answers.</p>
+        <h1>{% translate "Create an account" %}</h1>
+        <p>{% translate "Register to ask questions and contribute answers." %}</p>
 
         <form method="post">
             {% csrf_token %}
@@ -30,10 +30,10 @@
                 </div>
             {% endfor %}
 
-            <button type="submit" class="app-btn app-btn--block">Create account</button>
+            <button type="submit" class="app-btn app-btn--block">{% translate "Create account" %}</button>
         </form>
 
-        <p class="auth-card__footer">Already have an account? <a href="{% url 'login' %}">Sign in</a>.</p>
+        <p class="auth-card__footer">{% translate "Already have an account?" %} <a href="{% url 'login' %}">{% translate "Sign in" %}</a>.</p>
     </section>
 </div>
 {% endblock %}

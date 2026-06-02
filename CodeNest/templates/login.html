@@ -1,31 +1,31 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Sign In | CodeNest{% endblock %}
+{% block title %}{% translate "Sign in" %} | CodeNest{% endblock %}
 
 {% block content %}
 <div class="auth-container">
-    <a class="auth-brand" href="{% url 'index' %}" aria-label="CodeNest home">
+    <a class="auth-brand" href="{% url 'index' %}" aria-label="{% translate 'CodeNest home' %}">
         <img src="{% static 'images/codenest-logo.png' %}" alt="CodeNest" class="site-brand__logo">
     </a>
     <section class="auth-card">
-        <h1>Sign in</h1>
-        <p>Use your CodeNest account to ask questions and post answers.</p>
+        <h1>{% translate "Sign in" %}</h1>
+        <p>{% translate "Use your CodeNest account to ask questions and post answers." %}</p>
 
         <form method="post">
             {% csrf_token %}
             <div class="field-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Your username" value="{{ request.POST.username|default:'' }}" required>
+                <label for="username">{% translate "Username" %}</label>
+                <input type="text" id="username" name="username" placeholder="{% translate 'Your username' %}" value="{{ request.POST.username|default:'' }}" required>
             </div>
             <div class="field-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Your password" required>
+                <label for="password">{% translate "Password" %}</label>
+                <input type="password" id="password" name="password" placeholder="{% translate 'Your password' %}" required>
             </div>
-            <button type="submit" class="app-btn app-btn--block">Sign in</button>
+            <button type="submit" class="app-btn app-btn--block">{% translate "Sign in" %}</button>
         </form>
 
-        <p class="auth-card__footer">New to CodeNest? <a href="{% url 'register' %}">Create an account</a>.</p>
+        <p class="auth-card__footer">{% translate "New to CodeNest?" %} <a href="{% url 'register' %}">{% translate "Create an account" %}</a>.</p>
     </section>
 </div>
 {% endblock %}

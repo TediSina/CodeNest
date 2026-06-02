@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count
+from django.utils.translation import gettext as _
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from forum.models import Question, Answer
 
@@ -40,7 +41,7 @@ def edit_profile_view(request):
             profile_form = CustomUserChangeForm(request.POST, instance=request.user)
             if profile_form.is_valid():
                 profile_form.save()
-                messages.success(request, 'Your profile has been successfully updated!')
+                messages.success(request, _('Your profile has been successfully updated!'))
                 return redirect('profile')
 
         elif 'password_submit' in request.POST:
@@ -48,10 +49,10 @@ def edit_profile_view(request):
             if password_form.is_valid():
                 password_form.save()
                 update_session_auth_hash(request, password_form.user)
-                messages.success(request, 'Your password has been successfully updated!')
+                messages.success(request, _('Your password has been successfully updated!'))
                 return redirect('profile')
             else:
-                messages.error(request, 'Please correct the errors in the password form.')
+                messages.error(request, _('Please correct the errors in the password form.'))
 
     context = {
         'profile_form': profile_form,
@@ -72,7 +73,7 @@ def register_view(request):
                 login(request, user)
                 return redirect('index')
         else:
-            messages.error(request, 'Please correct the error(s) below.')
+            messages.error(request, _('Please correct the error(s) below.'))
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -87,7 +88,7 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            messages.error(request, 'Invalid username or password.')
+            messages.error(request, _('Invalid username or password.'))
 
     return render(request, 'login.html')
 

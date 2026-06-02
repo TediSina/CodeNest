@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!input.value.trim()) {
             preview.classList.add('preview-surface--empty');
-            preview.innerHTML = '<p class="preview-placeholder">Start typing in the editor to preview your question here.</p>';
+            preview.innerHTML = `<p class="preview-placeholder">${preview.dataset.emptyMessage}</p>`;
             return;
         }
 

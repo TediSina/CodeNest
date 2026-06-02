@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block title %}{{ question.title }} | CodeNest{% endblock %}
 
@@ -8,31 +8,34 @@
 {% endblock %}
 
 {% block content %}
+{% translate "question" context "vote target" as question_label %}
+{% translate "answer" context "vote target" as answer_label %}
+{% translate "comment" context "vote target" as comment_label %}
 <div class="breadcrumb-line">
-    <a href="{% url 'index' %}">Questions</a>
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
     <span>/</span>
-    <span>Thread</span>
+    <span>{% translate "Thread" %}</span>
 </div>
 
 <header class="thread-header">
     <h1>{{ question.title }}</h1>
     <div class="meta-line">
-        <span>Asked by {{ question.author.username }}</span>
-        <span>{{ question.created_at|date:"F j, Y, g:i a" }}</span>
-        <span>{{ answer_total }} answer{{ answer_total|pluralize }}</span>
+        <span>{% blocktranslate with username=question.author.username %}Asked by {{ username }}{% endblocktranslate %}</span>
+        <span>{{ question.created_at|date:"j F Y, H:i" }}</span>
+        <span>{% blocktranslate count answer_count=answer_total %}{{ answer_count }} answer{% plural %}{{ answer_count }} answers{% endblocktranslate %}</span>
     </div>
     <div class="tag-row">
         {% for tag in question.tags.all %}
             <span class="tag">#{{ tag.name }}</span>
         {% empty %}
-            <span class="tag tag--muted">untagged</span>
+            <span class="tag tag--muted">{% translate "untagged" %}</span>
         {% endfor %}
     </div>
     {% if user == question.author %}
         <div class="content-actions">
             <a href="{% url 'edit_question' question.pk %}" class="edit-link">
                 <i class="bi bi-pencil"></i>
-                <span>Edit question</span>
+                <span>{% translate "Edit question" %}</span>
             </a>
         </div>
     {% endif %}
@@ -42,24 +45,24 @@
     <div>
         <article class="post-card" id="question-{{ question.pk }}">
             <div class="post-content-layout">
-                {% include "forum/includes/vote_controls.html" with target=question vote_url="vote_question" target_name="question" %}
+                {% include "forum/includes/vote_controls.html" with target=question vote_url="vote_question" target_name="question" target_label=question_label %}
                 <div>
                     <div class="rich-markdown js-markdown">{{ question.body }}</div>
                     <section class="comments-section">
-                        <h3>Comments</h3>
+                        <h3>{% translate "Comments" %}</h3>
                         {% if question_comments %}
                             <div class="comment-list">
                                 {% for comment in question_comments %}
                                     <div class="comment-item" id="comment-{{ comment.pk }}">
                                         <div class="comment-item__layout">
-                                            {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" modifier="vote-controls--comment" %}
+                                            {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" target_label=comment_label modifier="vote-controls--comment" %}
                                             <div>
                                                 <p>{{ comment.content|linebreaksbr }}</p>
                                                 <div class="comment-meta">
                                                     <span>{{ comment.author.username }}</span>
-                                                    <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                                    <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                     {% if user == comment.author %}
-                                                        <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                                        <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -71,58 +74,58 @@
                         {% if user.is_authenticated %}
                             <form method="post" action="{% url 'add_question_comment' question.pk %}" class="comment-form">
                                 {% csrf_token %}
-                                <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this question" required></textarea>
-                                <button type="submit" class="comment-submit">Add comment</button>
+                            <textarea name="content" rows="2" placeholder="{% translate 'Add a comment' %}" aria-label="{% translate 'Comment on this question' %}" required></textarea>
+                            <button type="submit" class="comment-submit">{% translate "Add comment" %}</button>
                             </form>
                         {% else %}
-                            <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">{% translate "Sign in to add a comment" %}</a>
                         {% endif %}
                     </section>
                 </div>
             </div>
         </article>
 
-        <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
+        <h2 class="answer-heading">{% blocktranslate count answer_count=answer_total %}{{ answer_count }} answer{% plural %}{{ answer_count }} answers{% endblocktranslate %}</h2>
         <div class="answer-list">
             {% for answer in answers %}
                 <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}" id="answer-{{ answer.pk }}">
                     <div class="post-content-layout">
-                        {% include "forum/includes/vote_controls.html" with target=answer vote_url="vote_answer" target_name="answer" %}
+                        {% include "forum/includes/vote_controls.html" with target=answer vote_url="vote_answer" target_name="answer" target_label=answer_label %}
                         <div>
                             <div class="post-header">
                                 <div class="meta-line">
                                     <span>{{ answer.author.username }}</span>
-                                    <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
+                                    <span>{{ answer.created_at|date:"j F Y, H:i" }}</span>
                                 </div>
                                 {% if user == answer.author %}
                                     <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
                                         <i class="bi bi-pencil"></i>
-                                        <span>Edit answer</span>
+                                        <span>{% translate "Edit answer" %}</span>
                                     </a>
                                 {% endif %}
                             </div>
                             {% if answer.is_accepted %}
                                 <span class="accepted-label">
                                     <i class="bi bi-check-circle-fill"></i>
-                                    <span>Accepted answer</span>
+                                    <span>{% translate "Accepted answer" %}</span>
                                 </span>
                             {% endif %}
                             <div class="rich-markdown js-markdown">{{ answer.body }}</div>
                             <section class="comments-section">
-                                <h3>Comments</h3>
+                                <h3>{% translate "Comments" %}</h3>
                                 {% if answer.comment_set.all %}
                                     <div class="comment-list">
                                         {% for comment in answer.comment_set.all %}
                                             <div class="comment-item" id="comment-{{ comment.pk }}">
                                                 <div class="comment-item__layout">
-                                                    {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" modifier="vote-controls--comment" %}
+                                                    {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" target_label=comment_label modifier="vote-controls--comment" %}
                                                     <div>
                                                         <p>{{ comment.content|linebreaksbr }}</p>
                                                         <div class="comment-meta">
                                                             <span>{{ comment.author.username }}</span>
-                                                            <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                                            <span>{{ comment.created_at|date:"j M Y, H:i" }}</span>
                                                             {% if user == comment.author %}
-                                                                <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                                                <a href="{% url 'edit_comment' comment.pk %}">{% translate "Edit" %}</a>
                                                             {% endif %}
                                                         </div>
                                                     </div>
@@ -134,11 +137,11 @@
                                 {% if user.is_authenticated %}
                                     <form method="post" action="{% url 'add_answer_comment' answer.pk %}" class="comment-form">
                                         {% csrf_token %}
-                                        <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this answer" required></textarea>
-                                        <button type="submit" class="comment-submit">Add comment</button>
+                                        <textarea name="content" rows="2" placeholder="{% translate 'Add a comment' %}" aria-label="{% translate 'Comment on this answer' %}" required></textarea>
+                                        <button type="submit" class="comment-submit">{% translate "Add comment" %}</button>
                                     </form>
                                 {% else %}
-                                    <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
+                                    <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">{% translate "Sign in to add a comment" %}</a>
                                 {% endif %}
                             </section>
                         </div>
@@ -146,7 +149,7 @@
                 </article>
             {% empty %}
                 <div class="panel empty-state">
-                    <p>No answers yet.</p>
+                    <p>{% translate "No answers yet." %}</p>
                 </div>
             {% endfor %}
         </div>
@@ -155,8 +158,8 @@
             <section class="panel composer">
                 <div class="section-header">
                     <div>
-                        <h2>Add an answer</h2>
-                        <p>Share the fix and explain why it works.</p>
+                        <h2>{% translate "Add an answer" %}</h2>
+                        <p>{% translate "Share the fix and explain why it works." %}</p>
                     </div>
                 </div>
                 <div class="composer-grid">
@@ -172,26 +175,26 @@
                         </div>
                         <button type="submit" class="app-btn">
                             <i class="bi bi-send"></i>
-                            <span>Post answer</span>
+                            <span>{% translate "Post answer" %}</span>
                         </button>
                     </form>
                     <div>
                         <div class="preview-header">
-                            <h3>Preview</h3>
+                            <h3>{% translate "Preview" %}</h3>
                         </div>
-                        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
-                            <p class="preview-placeholder">Your formatted answer appears here as you type.</p>
+                        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty" data-empty-message="{% translate 'Your formatted answer appears here as you type.' %}">
+                            <p class="preview-placeholder">{% translate "Your formatted answer appears here as you type." %}</p>
                         </div>
                     </div>
                 </div>
             </section>
         {% else %}
             <section class="panel composer">
-                <h2>Want to answer this question?</h2>
-                <p>Sign in to post an answer.</p>
+                <h2>{% translate "Want to answer this question?" %}</h2>
+                <p>{% translate "Sign in to post an answer." %}</p>
                 <div class="button-row">
-                    <a href="{% url 'login' %}" class="app-btn">Sign in</a>
-                    <a href="{% url 'register' %}" class="app-btn app-btn--secondary">Register</a>
+                    <a href="{% url 'login' %}" class="app-btn">{% translate "Sign in" %}</a>
+                    <a href="{% url 'register' %}" class="app-btn app-btn--secondary">{% translate "Register" %}</a>
                 </div>
             </section>
         {% endif %}
@@ -199,22 +202,22 @@
 
     <aside>
         <section class="panel">
-            <h2>Thread details</h2>
+            <h2>{% translate "Thread details" %}</h2>
             <div class="detail-list">
                 <div class="detail-list__item">
-                    <span>Asked by</span>
+                    <span>{% translate "Asked by" %}</span>
                     <strong>{{ question.author.username }}</strong>
                 </div>
                 <div class="detail-list__item">
-                    <span>Published</span>
-                    <strong>{{ question.created_at|date:"M j, Y" }}</strong>
+                    <span>{% translate "Published" %}</span>
+                    <strong>{{ question.created_at|date:"j M Y" }}</strong>
                 </div>
                 <div class="detail-list__item">
-                    <span>Updated</span>
-                    <strong>{{ question.updated_at|date:"M j, Y" }}</strong>
+                    <span>{% translate "Updated" %}</span>
+                    <strong>{{ question.updated_at|date:"j M Y" }}</strong>
                 </div>
                 <div class="detail-list__item">
-                    <span>Vote score</span>
+                    <span>{% translate "Vote score" %}</span>
                     <strong data-vote-score-for="question-{{ question.pk }}">{{ question.vote_score }}</strong>
                 </div>
             </div>
@@ -222,12 +225,12 @@
 
         {% if related_questions %}
             <section class="panel">
-                <h2>Related questions</h2>
+                <h2>{% translate "Related questions" %}</h2>
                 <div class="related-list">
                     {% for related in related_questions %}
                         <a href="{% url 'question_detail' related.id %}" class="related-link">
                             <strong>{{ related.title }}</strong>
-                            <span>{{ related.vote_score }} vote{{ related.vote_score|pluralize }} &middot; {{ related.answer_count }} answer{{ related.answer_count|pluralize }}</span>
+                            <span>{% blocktranslate count vote_count=related.vote_score %}{{ vote_count }} vote{% plural %}{{ vote_count }} votes{% endblocktranslate %} &middot; {% blocktranslate count answer_count=related.answer_count %}{{ answer_count }} answer{% plural %}{{ answer_count }} answers{% endblocktranslate %}</span>
                         </a>
                     {% endfor %}
                 </div>

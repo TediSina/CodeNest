@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Edit Answer | CodeNest{% endblock %}
+{% block title %}{% translate "Edit answer" %} | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
@@ -9,17 +9,17 @@
 
 {% block content %}
 <div class="breadcrumb-line">
-    <a href="{% url 'index' %}">Questions</a>
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
     <span>/</span>
     <a href="{% url 'question_detail' answer.question.pk %}">{{ answer.question.title }}</a>
     <span>/</span>
-    <span>Edit answer</span>
+    <span>{% translate "Edit answer" %}</span>
 </div>
 
 <div class="page-header">
     <div>
-        <h1>Edit answer</h1>
-        <p>Update your answer and save the revised explanation.</p>
+        <h1>{% translate "Edit answer" %}</h1>
+        <p>{% translate "Update your answer and save the revised explanation." %}</p>
     </div>
 </div>
 
@@ -37,17 +37,17 @@
             </div>
             <button type="submit" class="app-btn">
                 <i class="bi bi-check-lg"></i>
-                <span>Save changes</span>
+                <span>{% translate "Save changes" %}</span>
             </button>
         </form>
     </section>
 
     <aside class="panel">
         <div class="preview-header">
-            <h2>Preview</h2>
+            <h2>{% translate "Preview" %}</h2>
         </div>
-        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
-            <p class="preview-placeholder">Your formatted answer appears here as you type.</p>
+        <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty" data-empty-message="{% translate 'Your formatted answer appears here as you type.' %}">
+            <p class="preview-placeholder">{% translate "Your formatted answer appears here as you type." %}</p>
         </div>
     </aside>
 </div>

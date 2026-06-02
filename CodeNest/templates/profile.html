@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}Profile | CodeNest{% endblock %}
+{% block title %}{% translate "Profile" %} | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
@@ -14,18 +14,19 @@
         <h1>{{ user.get_full_name|default:user.username }}</h1>
         <div class="meta-line">
             <span>@{{ user.username }}</span>
-            <span>{{ user.email|default:"No email added" }}</span>
-            <span>Joined {{ user.date_joined|date:"F Y" }}</span>
+            {% translate "No email added" as no_email_added %}
+            <span>{{ user.email|default:no_email_added }}</span>
+            <span>{% blocktranslate with joined_at=user.date_joined|date:"F Y" %}Joined {{ joined_at }}{% endblocktranslate %}</span>
         </div>
     </div>
     <div class="button-row">
         <a href="{% url 'edit_profile' %}" class="app-btn app-btn--secondary">
             <i class="bi bi-pencil"></i>
-            <span>Edit profile</span>
+            <span>{% translate "Edit profile" %}</span>
         </a>
         <a href="{% url 'create_question' %}" class="app-btn">
             <i class="bi bi-plus-lg"></i>
-            <span>Ask question</span>
+            <span>{% translate "Ask question" %}</span>
         </a>
     </div>
 </header>
@@ -34,39 +35,39 @@
     <div class="profile-panels">
         <section class="panel">
             <div class="section-header">
-                <h2>Your questions</h2>
+                <h2>{% translate "Your questions" %}</h2>
             </div>
             {% for question in questions %}
                 <a href="{% url 'question_detail' question.id %}" class="timeline-item">
                     <h3>{{ question.title }}</h3>
                     <div class="meta-line">
-                        <span>{{ question.created_at|date:"F j, Y, g:i a" }}</span>
-                        <span>{{ question.answer_count }} answer{{ question.answer_count|pluralize }}</span>
+                        <span>{{ question.created_at|date:"j F Y, H:i" }}</span>
+                        <span>{% blocktranslate count answer_count=question.answer_count %}{{ answer_count }} answer{% plural %}{{ answer_count }} answers{% endblocktranslate %}</span>
                     </div>
                     <div class="tag-row">
                         {% for tag in question.tags.all %}
                             <span class="tag">#{{ tag.name }}</span>
                         {% empty %}
-                            <span class="tag tag--muted">untagged</span>
+                            <span class="tag tag--muted">{% translate "untagged" %}</span>
                         {% endfor %}
                     </div>
                 </a>
             {% empty %}
                 <div class="empty-state">
-                    <p>You have not posted any questions yet.</p>
+                    <p>{% translate "You have not posted any questions yet." %}</p>
                 </div>
             {% endfor %}
         </section>
 
         <section class="panel">
             <div class="section-header">
-                <h2>Your answers</h2>
+                <h2>{% translate "Your answers" %}</h2>
             </div>
             {% for answer in answers %}
                 <article class="timeline-item">
                     <h3><a href="{% url 'question_detail' answer.question.id %}">{{ answer.question.title }}</a></h3>
                     <div class="meta-line">
-                        <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
+                        <span>{{ answer.created_at|date:"j F Y, H:i" }}</span>
                     </div>
                     <div class="timeline-answer">
                         <div class="rich-markdown js-markdown">{{ answer.body }}</div>
@@ -74,30 +75,31 @@
                 </article>
             {% empty %}
                 <div class="empty-state">
-                    <p>You have not posted any answers yet.</p>
+                    <p>{% translate "You have not posted any answers yet." %}</p>
                 </div>
             {% endfor %}
         </section>
     </div>
 
     <aside class="panel">
-        <h2>Account details</h2>
+        <h2>{% translate "Account details" %}</h2>
         <div class="detail-list">
             <div class="detail-list__item">
-                <span>Questions</span>
+                <span>{% translate "Questions" %}</span>
                 <strong>{{ question_total }}</strong>
             </div>
             <div class="detail-list__item">
-                <span>Answers</span>
+                <span>{% translate "Answers" %}</span>
                 <strong>{{ answer_total }}</strong>
             </div>
             <div class="detail-list__item">
-                <span>First name</span>
-                <strong>{{ user.first_name|default:"Not set" }}</strong>
+                <span>{% translate "First name" %}</span>
+                {% translate "Not set" as not_set %}
+                <strong>{{ user.first_name|default:not_set }}</strong>
             </div>
             <div class="detail-list__item">
-                <span>Last name</span>
-                <strong>{{ user.last_name|default:"Not set" }}</strong>
+                <span>{% translate "Last name" %}</span>
+                <strong>{{ user.last_name|default:not_set }}</strong>
             </div>
         </div>
     </aside>

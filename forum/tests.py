@@ -104,7 +104,10 @@ class CreateQuestionTagsTests(TestCase):
         })
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Tags must be 50 characters or fewer.')
+        self.assertContains(
+            response,
+            'Etiketat duhet të kenë jo më shumë se 50 karaktere.',
+        )
         self.assertFalse(Question.objects.exists())
 
 
@@ -180,7 +183,7 @@ class CommentTests(TestCase):
 
         self.assertContains(response, 'Question comment')
         self.assertContains(response, 'Answer comment')
-        self.assertContains(response, 'Sign in to add a comment', count=2)
+        self.assertContains(response, 'Hyni për të shtuar një koment', count=2)
 
     def test_anonymous_user_cannot_add_a_comment(self):
         response = self.client.post(
@@ -466,8 +469,36 @@ class VoteTests(TestCase):
 
         self.assertContains(
             response,
-            'aria-label="Upvote question" aria-pressed="true"',
+            'aria-label="Votoni pozitivisht pyetjen" aria-pressed="true"',
         )
+
+
+class TranslationTests(TestCase):
+    def test_albanian_is_the_default_interface_language(self):
+        response = self.client.get(reverse('index'))
+
+        self.assertContains(response, '<html lang="sq">')
+        self.assertContains(response, 'Të gjitha pyetjet')
+        self.assertContains(response, 'Hyni për të bërë një pyetje')
+
+    def test_user_can_switch_to_english(self):
+        response = self.client.post(
+            reverse('set_language'),
+            {
+                'language': 'en',
+                'next': reverse('index'),
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, '<html lang="en">')
+        self.assertContains(response, 'All questions')
+        self.assertContains(response, 'Sign in to ask')
+
+        next_response = self.client.get(reverse('index'))
+
+        self.assertContains(next_response, '<html lang="en">')
+        self.assertContains(next_response, 'All questions')
 
 
 class ContentEditTests(TestCase):

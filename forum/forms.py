@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from .models import Answer, Comment, Question, Tag
 
@@ -13,33 +14,38 @@ def _add_widget_classes(field, classes, placeholder=None):
 
 class QuestionForm(forms.ModelForm):
     tags = forms.CharField(
+        label=_('Tags'),
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control app-field',
             'placeholder': 'python, django, javascript',
         }),
-        help_text='Add tags separated by commas. New tags are created automatically.',
+        help_text=_('Add tags separated by commas. New tags are created automatically.'),
     )
 
     class Meta:
         model = Question
         fields = ['title', 'body', 'tags']
+        labels = {
+            'title': _('Title'),
+            'body': _('Details'),
+        }
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control app-field',
-                'placeholder': 'Enter your question title'
+                'placeholder': _('Enter your question title')
             }),
             'body': forms.Textarea(attrs={
                 'class': 'form-control app-field app-field--textarea markdown-input',
                 'rows': 18,
-                'placeholder': 'Write your question using Markdown'
+                'placeholder': _('Write your question using Markdown')
             }),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        _add_widget_classes(self.fields['title'], 'form-control app-field', 'Summarize the problem in one clear sentence')
-        _add_widget_classes(self.fields['body'], 'form-control app-field app-field--textarea markdown-input', 'Add context, the code you tried, and the result you expected')
+        _add_widget_classes(self.fields['title'], 'form-control app-field', _('Summarize the problem in one clear sentence'))
+        _add_widget_classes(self.fields['body'], 'form-control app-field app-field--textarea markdown-input', _('Add context, the code you tried, and the result you expected'))
         _add_widget_classes(self.fields['tags'], 'form-control app-field', 'python, django, javascript')
 
         if self.instance.pk:
@@ -60,7 +66,8 @@ class QuestionForm(forms.ModelForm):
 
             if len(name) > max_length:
                 raise forms.ValidationError(
-                    f'Tags must be {max_length} characters or fewer.'
+                    _('Tags must be %(max_length)s characters or fewer.')
+                    % {'max_length': max_length}
                 )
 
             tag_names.append(name)
@@ -85,11 +92,14 @@ class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ['body']
+        labels = {
+            'body': _('Answer'),
+        }
         widgets = {
             'body': forms.Textarea(attrs={
                 'class': 'form-control app-field app-field--textarea markdown-input',
                 'rows': 16,
-                'placeholder': 'Write your answer using Markdown'
+                'placeholder': _('Write your answer using Markdown')
             }),
         }
 
@@ -98,7 +108,7 @@ class AnswerForm(forms.ModelForm):
         _add_widget_classes(
             self.fields['body'],
             'form-control app-field app-field--textarea markdown-input',
-            'Share the fix, why it works, and any caveats someone should know'
+            _('Share the fix, why it works, and any caveats someone should know')
         )
 
 
@@ -106,9 +116,12 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+        labels = {
+            'content': _('Comment'),
+        }
         widgets = {
             'content': forms.Textarea(attrs={
                 'rows': 2,
-                'placeholder': 'Add a comment',
+                'placeholder': _('Add a comment'),
             }),
         }

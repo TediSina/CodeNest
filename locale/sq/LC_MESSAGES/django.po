@@ -1,0 +1,672 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeNest\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-02 18:52+0200\n"
+"PO-Revision-Date: 2026-06-02 19:10+0200\n"
+"Language: sq\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\CodeNest\forms.py:25
+msgid "Email"
+msgstr "Email"
+
+#: .\CodeNest\forms.py:34
+msgid "Choose a username"
+msgstr "Zgjidhni një emër përdoruesi"
+
+#: .\CodeNest\forms.py:35
+msgid "Enter your email"
+msgstr "Shkruani email-in tuaj"
+
+#: .\CodeNest\forms.py:36
+msgid "Create a password"
+msgstr "Krijoni një fjalëkalim"
+
+#: .\CodeNest\forms.py:37
+msgid "Confirm your password"
+msgstr "Konfirmoni fjalëkalimin tuaj"
+
+#: .\CodeNest\forms.py:47 .\CodeNest\templates\login.html:19
+msgid "Your username"
+msgstr "Emri juaj i përdoruesit"
+
+#: .\CodeNest\forms.py:48
+msgid "Your email address"
+msgstr "Adresa juaj e email-it"
+
+#: .\CodeNest\forms.py:49
+msgid "Your first name"
+msgstr "Emri juaj"
+
+#: .\CodeNest\forms.py:50
+msgid "Your last name"
+msgstr "Mbiemri juaj"
+
+#: .\CodeNest\settings.py:118
+msgid "Albanian"
+msgstr "Shqip"
+
+#: .\CodeNest\settings.py:119
+msgid "English"
+msgstr "Anglisht"
+
+#: .\CodeNest\templates\base.html:22 .\CodeNest\templates\base.html:83
+#: .\CodeNest\templates\login.html:8 .\CodeNest\templates\register.html:8
+msgid "CodeNest home"
+msgstr "Faqja kryesore e CodeNest"
+
+#: .\CodeNest\templates\base.html:26
+msgid "Toggle navigation"
+msgstr "Hapni ose mbyllni menunë"
+
+#: .\CodeNest\templates\base.html:32 .\CodeNest\templates\base.html:91
+#: .\CodeNest\templates\profile.html:88
+#: .\forum\templates\forum\create_question.html:12
+#: .\forum\templates\forum\edit_answer.html:12
+#: .\forum\templates\forum\edit_comment.html:8
+#: .\forum\templates\forum\index.html:4 .\forum\templates\forum\index.html:69
+#: .\forum\templates\forum\question_detail.html:15
+msgid "Questions"
+msgstr "Pyetje"
+
+#: .\CodeNest\templates\base.html:36 .\CodeNest\templates\profile.html:29
+#: .\forum\templates\forum\index.html:15
+msgid "Ask question"
+msgstr "Bëni një pyetje"
+
+#: .\CodeNest\templates\base.html:42
+msgid "Log out"
+msgstr "Dilni"
+
+#: .\CodeNest\templates\base.html:46 .\CodeNest\templates\register.html:4
+#: .\forum\templates\forum\question_detail.html:197
+msgid "Register"
+msgstr "Regjistrohuni"
+
+#: .\CodeNest\templates\base.html:49 .\CodeNest\templates\base.html:97
+#: .\CodeNest\templates\login.html:4 .\CodeNest\templates\login.html:12
+#: .\CodeNest\templates\login.html:25 .\CodeNest\templates\register.html:36
+#: .\forum\templates\forum\question_detail.html:196
+msgid "Sign in"
+msgstr "Hyni"
+
+#: .\CodeNest\templates\base.html:53
+msgid "Language"
+msgstr "Gjuha"
+
+#: .\CodeNest\templates\base.html:87
+msgid ""
+"A programming forum built for the Albanian developer community and open to "
+"everyone. Ask questions, share answers, and keep useful knowledge easy to "
+"find."
+msgstr ""
+"Një forum programimi i krijuar për komunitetin shqiptar të zhvilluesve dhe i "
+"hapur për të gjithë. Bëni pyetje, ndani përgjigje dhe mbajini njohuritë e "
+"dobishme të lehta për t'u gjetur."
+
+#: .\CodeNest\templates\base.html:89
+msgid "Explore CodeNest"
+msgstr "Eksploroni CodeNest"
+
+#: .\CodeNest\templates\base.html:90
+msgid "Explore"
+msgstr "Eksploroni"
+
+#: .\CodeNest\templates\base.html:93
+#: .\forum\templates\forum\create_question.html:4
+#: .\forum\templates\forum\create_question.html:19
+#: .\forum\templates\forum\create_question.html:29
+msgid "Ask a question"
+msgstr "Bëni një pyetje"
+
+#: .\CodeNest\templates\base.html:94
+msgid "Your profile"
+msgstr "Profili juaj"
+
+#: .\CodeNest\templates\base.html:96 .\CodeNest\templates\login.html:28
+#: .\CodeNest\templates\register.html:12
+msgid "Create an account"
+msgstr "Krijoni një llogari"
+
+#: .\CodeNest\templates\base.html:100
+msgid "CodeNest project links"
+msgstr "Lidhjet e projektit CodeNest"
+
+#: .\CodeNest\templates\base.html:101
+msgid "Project"
+msgstr "Projekti"
+
+#: .\CodeNest\templates\base.html:102
+msgid "GitHub repository"
+msgstr "Depoja në GitHub"
+
+#: .\CodeNest\templates\base.html:103
+msgid "MIT License"
+msgstr "Licenca MIT"
+
+#: .\CodeNest\templates\base.html:108
+msgid "Built in Tirana, Albania."
+msgstr "Ndërtuar në Tiranë, Shqipëri."
+
+#: .\CodeNest\templates\edit_profile.html:4
+#: .\CodeNest\templates\edit_profile.html:10
+#: .\CodeNest\templates\edit_profile.html:15
+#: .\CodeNest\templates\profile.html:25
+msgid "Edit profile"
+msgstr "Ndryshoni profilin"
+
+#: .\CodeNest\templates\edit_profile.html:8 .\CodeNest\templates\profile.html:4
+msgid "Profile"
+msgstr "Profili"
+
+#: .\CodeNest\templates\edit_profile.html:16
+msgid "Update your account information or change your password."
+msgstr "Përditësoni të dhënat e llogarisë ose ndryshoni fjalëkalimin."
+
+#: .\CodeNest\templates\edit_profile.html:23
+msgid "Account information"
+msgstr "Të dhënat e llogarisë"
+
+#: .\CodeNest\templates\edit_profile.html:44
+msgid "Save profile"
+msgstr "Ruani profilin"
+
+#: .\CodeNest\templates\edit_profile.html:50
+msgid "Change password"
+msgstr "Ndryshoni fjalëkalimin"
+
+#: .\CodeNest\templates\edit_profile.html:71
+msgid "Update password"
+msgstr "Përditësoni fjalëkalimin"
+
+#: .\CodeNest\templates\login.html:13
+msgid "Use your CodeNest account to ask questions and post answers."
+msgstr ""
+"Përdorni llogarinë tuaj CodeNest për të bërë pyetje dhe për të postuar "
+"përgjigje."
+
+#: .\CodeNest\templates\login.html:18
+msgid "Username"
+msgstr "Emri i përdoruesit"
+
+#: .\CodeNest\templates\login.html:22
+msgid "Password"
+msgstr "Fjalëkalimi"
+
+#: .\CodeNest\templates\login.html:23
+msgid "Your password"
+msgstr "Fjalëkalimi juaj"
+
+#: .\CodeNest\templates\login.html:28
+msgid "New to CodeNest?"
+msgstr "Nuk keni ende llogari në CodeNest?"
+
+#: .\CodeNest\templates\profile.html:17
+msgid "No email added"
+msgstr "Nuk është shtuar email"
+
+#: .\CodeNest\templates\profile.html:19
+#, python-format
+msgid "Joined %(joined_at)s"
+msgstr "U bashkua më %(joined_at)s"
+
+#: .\CodeNest\templates\profile.html:38
+msgid "Your questions"
+msgstr "Pyetjet tuaja"
+
+#: .\CodeNest\templates\profile.html:45
+#: .\forum\templates\forum\question_detail.html:25
+#: .\forum\templates\forum\question_detail.html:88
+#: .\forum\templates\forum\question_detail.html:233
+#, python-format
+msgid "%(answer_count)s answer"
+msgid_plural "%(answer_count)s answers"
+msgstr[0] "%(answer_count)s përgjigje"
+msgstr[1] "%(answer_count)s përgjigje"
+
+#: .\CodeNest\templates\profile.html:51 .\forum\templates\forum\index.html:48
+#: .\forum\templates\forum\question_detail.html:31
+msgid "untagged"
+msgstr "pa etiketa"
+
+#: .\CodeNest\templates\profile.html:57
+msgid "You have not posted any questions yet."
+msgstr "Nuk keni postuar ende asnjë pyetje."
+
+#: .\CodeNest\templates\profile.html:64
+msgid "Your answers"
+msgstr "Përgjigjet tuaja"
+
+#: .\CodeNest\templates\profile.html:78
+msgid "You have not posted any answers yet."
+msgstr "Nuk keni postuar ende asnjë përgjigje."
+
+#: .\CodeNest\templates\profile.html:85
+msgid "Account details"
+msgstr "Të dhënat e llogarisë"
+
+#: .\CodeNest\templates\profile.html:92 .\forum\templates\forum\index.html:73
+msgid "Answers"
+msgstr "Përgjigje"
+
+#: .\CodeNest\templates\profile.html:96
+msgid "First name"
+msgstr "Emri"
+
+#: .\CodeNest\templates\profile.html:97
+msgid "Not set"
+msgstr "I papërcaktuar"
+
+#: .\CodeNest\templates\profile.html:101
+msgid "Last name"
+msgstr "Mbiemri"
+
+#: .\CodeNest\templates\register.html:13
+msgid "Register to ask questions and contribute answers."
+msgstr "Regjistrohuni për të bërë pyetje dhe për të dhënë përgjigje."
+
+#: .\CodeNest\templates\register.html:33
+msgid "Create account"
+msgstr "Krijoni llogarinë"
+
+#: .\CodeNest\templates\register.html:36
+msgid "Already have an account?"
+msgstr "Keni tashmë një llogari?"
+
+#: .\CodeNest\views.py:44
+msgid "Your profile has been successfully updated!"
+msgstr "Profili juaj u përditësua me sukses!"
+
+#: .\CodeNest\views.py:52
+msgid "Your password has been successfully updated!"
+msgstr "Fjalëkalimi juaj u përditësua me sukses!"
+
+#: .\CodeNest\views.py:55
+msgid "Please correct the errors in the password form."
+msgstr "Ju lutemi, korrigjoni gabimet në formularin e fjalëkalimit."
+
+#: .\CodeNest\views.py:76
+msgid "Please correct the error(s) below."
+msgstr "Ju lutemi, korrigjoni gabimet më poshtë."
+
+#: .\CodeNest\views.py:91
+msgid "Invalid username or password."
+msgstr "Emri i përdoruesit ose fjalëkalimi është i pasaktë."
+
+#: .\forum\forms.py:17
+msgid "Tags"
+msgstr "Etiketa"
+
+#: .\forum\forms.py:23
+msgid "Add tags separated by commas. New tags are created automatically."
+msgstr ""
+"Shtoni etiketa të ndara me presje. Etiketat e reja krijohen automatikisht."
+
+#: .\forum\forms.py:30
+msgid "Title"
+msgstr "Titulli"
+
+#: .\forum\forms.py:31
+msgid "Details"
+msgstr "Hollësitë"
+
+#: .\forum\forms.py:36
+msgid "Enter your question title"
+msgstr "Shkruani titullin e pyetjes"
+
+#: .\forum\forms.py:41
+msgid "Write your question using Markdown"
+msgstr "Shkruani pyetjen duke përdorur Markdown"
+
+#: .\forum\forms.py:47
+msgid "Summarize the problem in one clear sentence"
+msgstr "Përmblidheni problemin me një fjali të qartë"
+
+#: .\forum\forms.py:48
+msgid "Add context, the code you tried, and the result you expected"
+msgstr "Shtoni kontekstin, kodin që provuat dhe rezultatin që prisnit"
+
+#: .\forum\forms.py:69
+#, python-format
+msgid "Tags must be %(max_length)s characters or fewer."
+msgstr "Etiketat duhet të kenë jo më shumë se %(max_length)s karaktere."
+
+#: .\forum\forms.py:96
+msgid "Answer"
+msgstr "Përgjigjja"
+
+#: .\forum\forms.py:102
+msgid "Write your answer using Markdown"
+msgstr "Shkruani përgjigjen duke përdorur Markdown"
+
+#: .\forum\forms.py:111
+msgid "Share the fix, why it works, and any caveats someone should know"
+msgstr "Ndani zgjidhjen, arsyen pse funksionon dhe çdo kufizim që duhet ditur"
+
+#: .\forum\forms.py:120
+msgid "Comment"
+msgstr "Komenti"
+
+#: .\forum\forms.py:125 .\forum\templates\forum\question_detail.html:77
+#: .\forum\templates\forum\question_detail.html:140
+msgid "Add a comment"
+msgstr "Shtoni një koment"
+
+#: .\forum\models.py:55
+msgid "A comment must belong to exactly one question or answer."
+msgstr "Një koment duhet t'i përkasë vetëm një pyetjeje ose një përgjigjeje."
+
+#: .\forum\models.py:66
+msgid "Upvote"
+msgstr "Votë pozitive"
+
+#: .\forum\models.py:67
+msgid "Downvote"
+msgstr "Votë negative"
+
+#: .\forum\templates\forum\create_question.html:4
+#: .\forum\templates\forum\create_question.html:26
+#: .\forum\templates\forum\question_detail.html:38
+msgid "Edit question"
+msgstr "Ndryshoni pyetjen"
+
+#: .\forum\templates\forum\create_question.html:17
+#: .\forum\templates\forum\question_detail.html:65
+#: .\forum\templates\forum\question_detail.html:128
+msgid "Edit"
+msgstr "Ndryshoni"
+
+#: .\forum\templates\forum\create_question.html:27
+msgid "Update the title, details, or tags for your question."
+msgstr "Përditësoni titullin, hollësitë ose etiketat e pyetjes."
+
+#: .\forum\templates\forum\create_question.html:30
+msgid "Explain the problem, include the code you tried, and add relevant tags."
+msgstr ""
+"Shpjegoni problemin, përfshini kodin që provuat dhe shtoni etiketat "
+"përkatëse."
+
+#: .\forum\templates\forum\create_question.html:67
+#: .\forum\templates\forum\edit_answer.html:40
+#: .\forum\templates\forum\edit_comment.html:34
+msgid "Save changes"
+msgstr "Ruani ndryshimet"
+
+#: .\forum\templates\forum\create_question.html:67
+msgid "Publish question"
+msgstr "Publikoni pyetjen"
+
+#: .\forum\templates\forum\create_question.html:75
+#: .\forum\templates\forum\edit_answer.html:47
+#: .\forum\templates\forum\question_detail.html:183
+msgid "Preview"
+msgstr "Paraafishimi"
+
+#: .\forum\templates\forum\create_question.html:77
+msgid "Start typing in the editor to preview your question here."
+msgstr "Filloni të shkruani në redaktues për të paraafishuar pyetjen këtu."
+
+#: .\forum\templates\forum\create_question.html:78
+msgid "Your formatted question appears here as you type."
+msgstr "Pyetja e formatuar shfaqet këtu ndërsa shkruani."
+
+#: .\forum\templates\forum\create_question.html:82
+msgid "Before posting"
+msgstr "Para se të postoni"
+
+#: .\forum\templates\forum\create_question.html:84
+msgid "Use a title that clearly describes the problem."
+msgstr "Përdorni një titull që e përshkruan qartë problemin."
+
+#: .\forum\templates\forum\create_question.html:85
+msgid "Keep code samples as small as possible."
+msgstr "Mbajini shembujt e kodit sa më të shkurtër."
+
+#: .\forum\templates\forum\create_question.html:86
+msgid "Mention the debugging steps you already tried."
+msgstr "Përmendni hapat e diagnostikimit që keni provuar."
+
+#: .\forum\templates\forum\edit_answer.html:4
+#: .\forum\templates\forum\edit_answer.html:16
+#: .\forum\templates\forum\edit_answer.html:21
+#: .\forum\templates\forum\question_detail.html:103
+msgid "Edit answer"
+msgstr "Ndryshoni përgjigjen"
+
+#: .\forum\templates\forum\edit_answer.html:22
+msgid "Update your answer and save the revised explanation."
+msgstr "Përditësoni përgjigjen dhe ruani shpjegimin e rishikuar."
+
+#: .\forum\templates\forum\edit_answer.html:49
+#: .\forum\templates\forum\edit_answer.html:50
+#: .\forum\templates\forum\question_detail.html:185
+#: .\forum\templates\forum\question_detail.html:186
+msgid "Your formatted answer appears here as you type."
+msgstr "Përgjigjja e formatuar shfaqet këtu ndërsa shkruani."
+
+#: .\forum\templates\forum\edit_comment.html:4
+#: .\forum\templates\forum\edit_comment.html:12
+#: .\forum\templates\forum\edit_comment.html:17
+msgid "Edit comment"
+msgstr "Ndryshoni komentin"
+
+#: .\forum\templates\forum\edit_comment.html:10
+#: .\forum\templates\forum\question_detail.html:17
+msgid "Thread"
+msgstr "Diskutimi"
+
+#: .\forum\templates\forum\edit_comment.html:18
+msgid "Update your comment and save the changes."
+msgstr "Përditësoni komentin dhe ruani ndryshimet."
+
+#: .\forum\templates\forum\edit_comment.html:35
+msgid "Cancel"
+msgstr "Anuloni"
+
+#: .\forum\templates\forum\includes\vote_controls.html:6
+#, python-format
+msgid "Upvote %(item)s"
+msgstr "Votoni pozitivisht %(item)s"
+
+#: .\forum\templates\forum\includes\vote_controls.html:11
+#, python-format
+msgid "Sign in to upvote %(item)s"
+msgstr "Hyni për të votuar pozitivisht %(item)s"
+
+#: .\forum\templates\forum\includes\vote_controls.html:15
+#, python-brace-format
+msgid "Vote score: {score}"
+msgstr "Rezultati i votave: {score}"
+
+#: .\forum\templates\forum\includes\vote_controls.html:15
+#, python-format
+msgid "Vote score: %(score)s"
+msgstr "Rezultati i votave: %(score)s"
+
+#: .\forum\templates\forum\includes\vote_controls.html:19
+#, python-format
+msgid "Downvote %(item)s"
+msgstr "Votoni negativisht %(item)s"
+
+#: .\forum\templates\forum\includes\vote_controls.html:24
+#, python-format
+msgid "Sign in to downvote %(item)s"
+msgstr "Hyni për të votuar negativisht %(item)s"
+
+#: .\forum\templates\forum\index.html:9
+msgid "All questions"
+msgstr "Të gjitha pyetjet"
+
+#: .\forum\templates\forum\index.html:10
+msgid ""
+"Browse recent programming questions or share a problem with the community."
+msgstr ""
+"Shfletoni pyetjet e fundit rreth programimit ose ndani një problem me "
+"komunitetin."
+
+#: .\forum\templates\forum\index.html:18
+msgid "Sign in to ask"
+msgstr "Hyni për të bërë një pyetje"
+
+#: .\forum\templates\forum\index.html:30
+msgid "vote"
+msgid_plural "votes"
+msgstr[0] "votë"
+msgstr[1] "vota"
+
+#: .\forum\templates\forum\index.html:34
+msgid "answer"
+msgid_plural "answers"
+msgstr[0] "përgjigje"
+msgstr[1] "përgjigje"
+
+#: .\forum\templates\forum\index.html:40
+#, python-format
+msgid "asked %(asked_at)s ago"
+msgstr "pyetur %(asked_at)s më parë"
+
+#: .\forum\templates\forum\index.html:55
+msgid "No questions have been posted yet."
+msgstr "Ende nuk është postuar asnjë pyetje."
+
+#: .\forum\templates\forum\index.html:57
+msgid "Ask the first question"
+msgstr "Bëni pyetjen e parë"
+
+#: .\forum\templates\forum\index.html:66
+msgid "Community"
+msgstr "Komuniteti"
+
+#: .\forum\templates\forum\index.html:77
+msgid "Members"
+msgstr "Anëtarë"
+
+#: .\forum\templates\forum\index.html:83
+msgid "Asking a question"
+msgstr "Si të bëni një pyetje"
+
+#: .\forum\templates\forum\index.html:85
+msgid "Describe the expected result."
+msgstr "Përshkruani rezultatin e pritur."
+
+#: .\forum\templates\forum\index.html:86
+msgid "Include a small code example."
+msgstr "Përfshini një shembull të shkurtër kodi."
+
+#: .\forum\templates\forum\index.html:87
+msgid "Add tags for the relevant tools."
+msgstr "Shtoni etiketa për mjetet përkatëse."
+
+#: .\forum\templates\forum\question_detail.html:11
+msgctxt "vote target"
+msgid "question"
+msgstr "pyetjen"
+
+#: .\forum\templates\forum\question_detail.html:12
+msgctxt "vote target"
+msgid "answer"
+msgstr "përgjigjen"
+
+#: .\forum\templates\forum\question_detail.html:13
+msgctxt "vote target"
+msgid "comment"
+msgstr "komentin"
+
+#: .\forum\templates\forum\question_detail.html:23
+#, python-format
+msgid "Asked by %(username)s"
+msgstr "Pyetur nga %(username)s"
+
+#: .\forum\templates\forum\question_detail.html:52
+#: .\forum\templates\forum\question_detail.html:115
+msgid "Comments"
+msgstr "Komente"
+
+#: .\forum\templates\forum\question_detail.html:77
+msgid "Comment on this question"
+msgstr "Komentoni këtë pyetje"
+
+#: .\forum\templates\forum\question_detail.html:78
+#: .\forum\templates\forum\question_detail.html:141
+msgid "Add comment"
+msgstr "Shtoni komentin"
+
+#: .\forum\templates\forum\question_detail.html:81
+#: .\forum\templates\forum\question_detail.html:144
+msgid "Sign in to add a comment"
+msgstr "Hyni për të shtuar një koment"
+
+#: .\forum\templates\forum\question_detail.html:110
+msgid "Accepted answer"
+msgstr "Përgjigje e pranuar"
+
+#: .\forum\templates\forum\question_detail.html:140
+msgid "Comment on this answer"
+msgstr "Komentoni këtë përgjigje"
+
+#: .\forum\templates\forum\question_detail.html:152
+msgid "No answers yet."
+msgstr "Ende nuk ka përgjigje."
+
+#: .\forum\templates\forum\question_detail.html:161
+msgid "Add an answer"
+msgstr "Shtoni një përgjigje"
+
+#: .\forum\templates\forum\question_detail.html:162
+msgid "Share the fix and explain why it works."
+msgstr "Ndani zgjidhjen dhe shpjegoni pse funksionon."
+
+#: .\forum\templates\forum\question_detail.html:178
+msgid "Post answer"
+msgstr "Postoni përgjigjen"
+
+#: .\forum\templates\forum\question_detail.html:193
+msgid "Want to answer this question?"
+msgstr "Dëshironi t'i përgjigjeni kësaj pyetjeje?"
+
+#: .\forum\templates\forum\question_detail.html:194
+msgid "Sign in to post an answer."
+msgstr "Hyni për të postuar një përgjigje."
+
+#: .\forum\templates\forum\question_detail.html:205
+msgid "Thread details"
+msgstr "Hollësitë e diskutimit"
+
+#: .\forum\templates\forum\question_detail.html:208
+msgid "Asked by"
+msgstr "Pyetur nga"
+
+#: .\forum\templates\forum\question_detail.html:212
+msgid "Published"
+msgstr "Publikuar"
+
+#: .\forum\templates\forum\question_detail.html:216
+msgid "Updated"
+msgstr "Përditësuar"
+
+#: .\forum\templates\forum\question_detail.html:220
+msgid "Vote score"
+msgstr "Rezultati i votave"
+
+#: .\forum\templates\forum\question_detail.html:228
+msgid "Related questions"
+msgstr "Pyetje të ngjashme"
+
+#: .\forum\templates\forum\question_detail.html:233
+#, python-format
+msgid "%(vote_count)s vote"
+msgid_plural "%(vote_count)s votes"
+msgstr[0] "%(vote_count)s votë"
+msgstr[1] "%(vote_count)s vota"
+
+#: .\forum\views.py:61 .\forum\views.py:64
+msgid "Vote must be an upvote or downvote."
+msgstr "Vota duhet të jetë pozitive ose negative."
+
+#: .\forum\views.py:252 .\forum\views.py:272
+msgid "Comment cannot be empty."
+msgstr "Komenti nuk mund të jetë bosh."

@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!markdownContent) {
             preview.classList.add('preview-surface--empty');
-            preview.innerHTML = '<p class="preview-placeholder">Your live preview appears here as you type.</p>';
+            preview.innerHTML = `<p class="preview-placeholder">${preview.dataset.emptyMessage}</p>`;
             return;
         }
 
@@ -91,7 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     document.querySelectorAll(`[data-vote-score-for="${controls.dataset.voteTarget}"]`).forEach((score) => {
                         score.textContent = vote.score;
-                        score.setAttribute('aria-label', `${vote.score} vote score`);
+                        if (score.dataset.scoreLabelTemplate) {
+                            score.setAttribute('aria-label', score.dataset.scoreLabelTemplate.replace('{score}', vote.score));
+                        }
                     });
 
                     controls.querySelectorAll('.vote-controls__button[name="value"]').forEach((button) => {

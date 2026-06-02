@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -51,7 +52,7 @@ class Comment(models.Model):
     def clean(self):
         if (self.question_id is None) == (self.answer_id is None):
             raise ValidationError(
-                'A comment must belong to exactly one question or answer.'
+                _('A comment must belong to exactly one question or answer.')
             )
 
     def __str__(self):
@@ -62,8 +63,8 @@ class Vote(models.Model):
     UPVOTE = 1
     DOWNVOTE = -1
     VALUE_CHOICES = [
-        (UPVOTE, 'Upvote'),
-        (DOWNVOTE, 'Downvote'),
+        (UPVOTE, _('Upvote')),
+        (DOWNVOTE, _('Downvote')),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

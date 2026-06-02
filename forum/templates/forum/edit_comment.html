@@ -1,20 +1,21 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Edit Comment | CodeNest{% endblock %}
+{% block title %}{% translate "Edit comment" %} | CodeNest{% endblock %}
 
 {% block content %}
 <div class="breadcrumb-line">
-    <a href="{% url 'index' %}">Questions</a>
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
     <span>/</span>
-    <a href="{% url 'question_detail' question_pk %}">Thread</a>
+    <a href="{% url 'question_detail' question_pk %}">{% translate "Thread" %}</a>
     <span>/</span>
-    <span>Edit comment</span>
+    <span>{% translate "Edit comment" %}</span>
 </div>
 
 <div class="page-header">
     <div>
-        <h1>Edit comment</h1>
-        <p>Update your comment and save the changes.</p>
+        <h1>{% translate "Edit comment" %}</h1>
+        <p>{% translate "Update your comment and save the changes." %}</p>
     </div>
 </div>
 
@@ -30,8 +31,8 @@
             {{ form.content.errors }}
         </div>
         <div class="button-row">
-            <button type="submit" class="app-btn">Save changes</button>
-            <a href="{% url 'question_detail' question_pk %}#comment-{{ comment.pk }}" class="app-btn app-btn--secondary">Cancel</a>
+            <button type="submit" class="app-btn">{% translate "Save changes" %}</button>
+            <a href="{% url 'question_detail' question_pk %}#comment-{{ comment.pk }}" class="app-btn app-btn--secondary">{% translate "Cancel" %}</a>
         </div>
     </form>
 </section>

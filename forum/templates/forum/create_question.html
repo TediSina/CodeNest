@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static i18n %}
 
-{% block title %}{% if is_edit %}Edit Question{% else %}Ask a Question{% endif %} | CodeNest{% endblock %}
+{% block title %}{% if is_edit %}{% translate "Edit question" %}{% else %}{% translate "Ask a question" %}{% endif %} | CodeNest{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
@@ -9,25 +9,25 @@
 
 {% block content %}
 <div class="breadcrumb-line">
-    <a href="{% url 'index' %}">Questions</a>
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
     <span>/</span>
     {% if is_edit %}
         <a href="{% url 'question_detail' question.pk %}">{{ question.title }}</a>
         <span>/</span>
-        <span>Edit</span>
+        <span>{% translate "Edit" %}</span>
     {% else %}
-        <span>Ask a question</span>
+        <span>{% translate "Ask a question" %}</span>
     {% endif %}
 </div>
 
 <div class="page-header">
     <div>
         {% if is_edit %}
-            <h1>Edit question</h1>
-            <p>Update the title, details, or tags for your question.</p>
+            <h1>{% translate "Edit question" %}</h1>
+            <p>{% translate "Update the title, details, or tags for your question." %}</p>
         {% else %}
-            <h1>Ask a question</h1>
-            <p>Explain the problem, include the code you tried, and add relevant tags.</p>
+            <h1>{% translate "Ask a question" %}</h1>
+            <p>{% translate "Explain the problem, include the code you tried, and add relevant tags." %}</p>
         {% endif %}
     </div>
 </div>
@@ -64,7 +64,7 @@
 
             <button type="submit" class="app-btn">
                 <i class="bi bi-{% if is_edit %}check-lg{% else %}send{% endif %}"></i>
-                <span>{% if is_edit %}Save changes{% else %}Publish question{% endif %}</span>
+                <span>{% if is_edit %}{% translate "Save changes" %}{% else %}{% translate "Publish question" %}{% endif %}</span>
             </button>
         </form>
     </section>
@@ -72,18 +72,18 @@
     <aside>
         <section class="panel">
             <div class="preview-header">
-                <h2>Preview</h2>
+                <h2>{% translate "Preview" %}</h2>
             </div>
-            <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty">
-                <p class="preview-placeholder">Your formatted question appears here as you type.</p>
+            <div id="markdown-preview" class="preview-surface rich-markdown preview-surface--empty" data-empty-message="{% translate 'Start typing in the editor to preview your question here.' %}">
+                <p class="preview-placeholder">{% translate "Your formatted question appears here as you type." %}</p>
             </div>
         </section>
         <section class="panel">
-            <h2>Before posting</h2>
+            <h2>{% translate "Before posting" %}</h2>
             <ul class="tips-list">
-                <li>Use a title that clearly describes the problem.</li>
-                <li>Keep code samples as small as possible.</li>
-                <li>Mention the debugging steps you already tried.</li>
+                <li>{% translate "Use a title that clearly describes the problem." %}</li>
+                <li>{% translate "Keep code samples as small as possible." %}</li>
+                <li>{% translate "Mention the debugging steps you already tried." %}</li>
             </ul>
         </section>
     </aside>
