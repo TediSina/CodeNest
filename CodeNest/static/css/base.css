@@ -208,6 +208,42 @@ textarea {
   color: var(--muted);
 }
 
+.site-search {
+  position: relative;
+  width: min(220px, 100%);
+  margin-left: auto;
+}
+
+body.app-body .site-search__input {
+  min-height: 38px;
+  padding: 7px 36px 7px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.site-search__button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  place-items: center;
+  transition: color 150ms ease;
+}
+
+.site-search__button:hover,
+.site-search__button:focus {
+  color: var(--navy);
+}
+
 .language-switch {
   display: flex;
   align-items: center;
@@ -937,6 +973,37 @@ body.app-body .comment-form textarea {
   max-width: 680px;
 }
 
+.search-panel {
+  max-width: 760px;
+}
+
+.search-page-form {
+  display: grid;
+  gap: 6px;
+}
+
+.search-page-form label {
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.search-page-form__controls {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.search-results {
+  margin-top: 24px;
+}
+
+.search-hint {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .delete-confirmation > p {
   margin: 0;
 }
@@ -1418,6 +1485,11 @@ a.timeline-item:hover h3 {
 }
 
 @media (max-width: 991.98px) {
+  .site-search {
+    width: 100%;
+    margin: 8px 0 0;
+  }
+
   .site-nav {
     align-items: stretch;
     padding-top: 8px;
@@ -1492,6 +1564,10 @@ a.timeline-item:hover h3 {
   }
 
   .comment-form {
+    display: grid;
+  }
+
+  .search-page-form__controls {
     display: grid;
   }
 

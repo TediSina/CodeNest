@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Exists, IntegerField, OuterRef, Prefetch, Subquery, Sum, Value
+from django.db.models import Count, Exists, IntegerField, OuterRef, Prefetch, Q, Subquery, Sum, Value
 from django.db.models.functions import Coalesce, Lower
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -116,6 +116,34 @@ def index(request):
         'question_total': Question.objects.count(),
         'answer_total': Answer.objects.count(),
         'member_total': User.objects.count(),
+    })
+
+
+def search(request):
+    query = request.GET.get('q', '').strip()[:200]
+    questions = Question.objects.none()
+
+    if query:
+        questions = _ranked_questions(
+            request.user,
+            Question.objects.filter(
+                Q(title__icontains=query)
+                | Q(body__icontains=query)
+                | Q(tags__name__icontains=query)
+                | Q(author__username__icontains=query)
+                | Q(answers__body__icontains=query)
+                | Q(answers__author__username__icontains=query)
+                | Q(comment__content__icontains=query)
+                | Q(comment__author__username__icontains=query)
+                | Q(answers__comment__content__icontains=query)
+                | Q(answers__comment__author__username__icontains=query)
+            ).distinct(),
+        )
+
+    return render(request, 'forum/search.html', {
+        'query': query,
+        'questions': questions,
+        'result_total': questions.count(),
     })
 
 

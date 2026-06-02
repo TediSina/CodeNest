@@ -39,6 +39,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="main-navigation">
+                    <form action="{% url 'search' %}" method="get" class="site-search" role="search">
+                        <label for="site-search-input" class="visually-hidden">{% translate "Search CodeNest" %}</label>
+                        <input id="site-search-input"
+                               type="search"
+                               name="q"
+                               value="{{ request.GET.q }}"
+                               class="site-search__input"
+                               placeholder="{% translate 'Search CodeNest' %}"
+                               maxlength="200">
+                        <button type="submit" class="site-search__button" aria-label="{% translate 'Search' %}">
+                            <i class="bi bi-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
                     <ul class="navbar-nav ms-auto site-nav">
                         <li class="nav-item">
                             <a class="site-nav__link" href="{% url 'index' %}">{% translate "Questions" %}</a>

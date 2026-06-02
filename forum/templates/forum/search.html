@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Search" %} | CodeNest{% endblock %}
+
+{% block content %}
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
+    <span>/</span>
+    <span>{% translate "Search" %}</span>
+</div>
+
+<div class="page-header">
+    <div>
+        <h1>{% translate "Search" %}</h1>
+        <p>{% translate "Search questions, answers, comments, tags, or authors." %}</p>
+    </div>
+</div>
+
+<section class="panel search-panel">
+    <form action="{% url 'search' %}" method="get" class="search-page-form" role="search">
+        <label for="search-page-input">{% translate "Search CodeNest" %}</label>
+        <div class="search-page-form__controls">
+            <input id="search-page-input"
+                   type="search"
+                   name="q"
+                   value="{{ query }}"
+                   class="app-field"
+                   placeholder="{% translate 'Enter a search term' %}"
+                   maxlength="200"
+                   autofocus>
+            <button type="submit" class="app-btn">
+                <i class="bi bi-search" aria-hidden="true"></i>
+                <span>{% translate "Search" %}</span>
+            </button>
+        </div>
+    </form>
+</section>
+
+{% if query %}
+    <section class="search-results">
+        <div class="section-header">
+            <div>
+                <h2>{% translate "Search results" %}</h2>
+                <p>{% blocktranslate count result_count=result_total with query_text=query %}{{ result_count }} discussion found for “{{ query_text }}”.{% plural %}{{ result_count }} discussions found for “{{ query_text }}”.{% endblocktranslate %}</p>
+            </div>
+        </div>
+        {% blocktranslate with query_text=query asvar empty_message %}No discussions match “{{ query_text }}”.{% endblocktranslate %}
+        {% include "forum/includes/question_list.html" with empty_message=empty_message %}
+    </section>
+{% else %}
+    <p class="search-hint">{% translate "Enter a term to search across CodeNest discussions." %}</p>
+{% endif %}
+{% endblock %}

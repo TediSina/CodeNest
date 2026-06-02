@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CodeNest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 20:26+0200\n"
+"POT-Creation-Date: 2026-06-02 20:36+0200\n"
 "PO-Revision-Date: 2026-06-02 19:10+0200\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Shqip"
 msgid "English"
 msgstr "Anglisht"
 
-#: .\CodeNest\templates\base.html:34 .\CodeNest\templates\base.html:109
+#: .\CodeNest\templates\base.html:34 .\CodeNest\templates\base.html:122
 #: .\CodeNest\templates\login.html:8 .\CodeNest\templates\register.html:8
 msgid "CodeNest home"
 msgstr "Faqja kryesore e CodeNest"
@@ -63,7 +63,19 @@ msgstr "Faqja kryesore e CodeNest"
 msgid "Toggle navigation"
 msgstr "Hapni ose mbyllni menunë"
 
-#: .\CodeNest\templates\base.html:44 .\CodeNest\templates\base.html:117
+#: .\CodeNest\templates\base.html:43 .\CodeNest\templates\base.html:49
+#: .\forum\templates\forum\search.html:22
+msgid "Search CodeNest"
+msgstr "Kërkoni në CodeNest"
+
+#: .\CodeNest\templates\base.html:51 .\forum\templates\forum\search.html:4
+#: .\forum\templates\forum\search.html:10
+#: .\forum\templates\forum\search.html:15
+#: .\forum\templates\forum\search.html:34
+msgid "Search"
+msgstr "Kërkoni"
+
+#: .\CodeNest\templates\base.html:57 .\CodeNest\templates\base.html:130
 #: .\CodeNest\templates\profile.html:88
 #: .\forum\templates\forum\confirm_delete.html:8
 #: .\forum\templates\forum\create_question.html:12
@@ -71,13 +83,14 @@ msgstr "Hapni ose mbyllni menunë"
 #: .\forum\templates\forum\edit_comment.html:8
 #: .\forum\templates\forum\index.html:4 .\forum\templates\forum\index.html:33
 #: .\forum\templates\forum\question_detail.html:15
+#: .\forum\templates\forum\search.html:8
 #: .\forum\templates\forum\tag_list.html:8
 #: .\forum\templates\forum\tag_questions.html:8
 #: .\forum\templates\forum\tag_questions.html:34
 msgid "Questions"
 msgstr "Pyetje"
 
-#: .\CodeNest\templates\base.html:47 .\CodeNest\templates\base.html:118
+#: .\CodeNest\templates\base.html:60 .\CodeNest\templates\base.html:131
 #: .\forum\forms.py:17 .\forum\templates\forum\tag_list.html:4
 #: .\forum\templates\forum\tag_list.html:10
 #: .\forum\templates\forum\tag_list.html:15
@@ -85,40 +98,40 @@ msgstr "Pyetje"
 msgid "Tags"
 msgstr "Etiketa"
 
-#: .\CodeNest\templates\base.html:51 .\CodeNest\templates\profile.html:29
+#: .\CodeNest\templates\base.html:64 .\CodeNest\templates\profile.html:29
 #: .\forum\templates\forum\index.html:15
 msgid "Ask question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:57
+#: .\CodeNest\templates\base.html:70
 msgid "Log out"
 msgstr "Dilni"
 
-#: .\CodeNest\templates\base.html:61 .\CodeNest\templates\register.html:4
+#: .\CodeNest\templates\base.html:74 .\CodeNest\templates\register.html:4
 #: .\forum\templates\forum\question_detail.html:209
 msgid "Register"
 msgstr "Regjistrohuni"
 
-#: .\CodeNest\templates\base.html:64 .\CodeNest\templates\base.html:124
+#: .\CodeNest\templates\base.html:77 .\CodeNest\templates\base.html:137
 #: .\CodeNest\templates\login.html:4 .\CodeNest\templates\login.html:12
 #: .\CodeNest\templates\login.html:25 .\CodeNest\templates\register.html:36
 #: .\forum\templates\forum\question_detail.html:208
 msgid "Sign in"
 msgstr "Hyni"
 
-#: .\CodeNest\templates\base.html:71
+#: .\CodeNest\templates\base.html:84
 msgid "Use light mode"
 msgstr "Aktivizoni modalitetin e çelët"
 
-#: .\CodeNest\templates\base.html:72 .\CodeNest\templates\base.html:73
+#: .\CodeNest\templates\base.html:85 .\CodeNest\templates\base.html:86
 msgid "Use dark mode"
 msgstr "Aktivizoni modalitetin e errët"
 
-#: .\CodeNest\templates\base.html:79
+#: .\CodeNest\templates\base.html:92
 msgid "Language"
 msgstr "Gjuha"
 
-#: .\CodeNest\templates\base.html:113
+#: .\CodeNest\templates\base.html:126
 msgid ""
 "A programming forum built for the Albanian developer community and open to "
 "everyone. Ask questions, share answers, and keep useful knowledge easy to "
@@ -128,47 +141,47 @@ msgstr ""
 "hapur për të gjithë. Bëni pyetje, ndani përgjigje dhe mbajini njohuritë e "
 "dobishme të lehta për t'u gjetur."
 
-#: .\CodeNest\templates\base.html:115
+#: .\CodeNest\templates\base.html:128
 msgid "Explore CodeNest"
 msgstr "Eksploroni CodeNest"
 
-#: .\CodeNest\templates\base.html:116
+#: .\CodeNest\templates\base.html:129
 msgid "Explore"
 msgstr "Eksploroni"
 
-#: .\CodeNest\templates\base.html:120
+#: .\CodeNest\templates\base.html:133
 #: .\forum\templates\forum\create_question.html:4
 #: .\forum\templates\forum\create_question.html:19
 #: .\forum\templates\forum\create_question.html:29
 msgid "Ask a question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:121
+#: .\CodeNest\templates\base.html:134
 msgid "Your profile"
 msgstr "Profili juaj"
 
-#: .\CodeNest\templates\base.html:123 .\CodeNest\templates\login.html:28
+#: .\CodeNest\templates\base.html:136 .\CodeNest\templates\login.html:28
 #: .\CodeNest\templates\register.html:12
 msgid "Create an account"
 msgstr "Krijoni një llogari"
 
-#: .\CodeNest\templates\base.html:127
+#: .\CodeNest\templates\base.html:140
 msgid "CodeNest project links"
 msgstr "Lidhjet e projektit CodeNest"
 
-#: .\CodeNest\templates\base.html:128
+#: .\CodeNest\templates\base.html:141
 msgid "Project"
 msgstr "Projekti"
 
-#: .\CodeNest\templates\base.html:129
+#: .\CodeNest\templates\base.html:142
 msgid "GitHub repository"
 msgstr "Depoja në GitHub"
 
-#: .\CodeNest\templates\base.html:130
+#: .\CodeNest\templates\base.html:143
 msgid "MIT License"
 msgstr "Licenca MIT"
 
-#: .\CodeNest\templates\base.html:135
+#: .\CodeNest\templates\base.html:148
 msgid "Built in Tirana, Albania."
 msgstr "Ndërtuar në Tiranë, Shqipëri."
 
@@ -608,7 +621,7 @@ msgstr "komentin"
 msgid "Asked by %(username)s"
 msgstr "Pyetur nga %(username)s"
 
-#: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:391
+#: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:419
 msgid "Delete question"
 msgstr "Fshini pyetjen"
 
@@ -636,7 +649,7 @@ msgstr "Shtoni komentin"
 msgid "Sign in to add a comment"
 msgstr "Hyni për të shtuar një koment"
 
-#: .\forum\templates\forum\question_detail.html:113 .\forum\views.py:416
+#: .\forum\templates\forum\question_detail.html:113 .\forum\views.py:444
 msgid "Delete answer"
 msgstr "Fshini përgjigjen"
 
@@ -703,6 +716,34 @@ msgid_plural "%(vote_count)s votes"
 msgstr[0] "%(vote_count)s votë"
 msgstr[1] "%(vote_count)s vota"
 
+#: .\forum\templates\forum\search.html:16
+msgid "Search questions, answers, comments, tags, or authors."
+msgstr "Kërkoni në pyetje, përgjigje, komente, etiketa ose autorë."
+
+#: .\forum\templates\forum\search.html:29
+msgid "Enter a search term"
+msgstr "Shkruani një term kërkimi"
+
+#: .\forum\templates\forum\search.html:44
+msgid "Search results"
+msgstr "Rezultatet e kërkimit"
+
+#: .\forum\templates\forum\search.html:45
+#, python-format
+msgid "%(result_count)s discussion found for “%(query_text)s”."
+msgid_plural "%(result_count)s discussions found for “%(query_text)s”."
+msgstr[0] "%(result_count)s diskutim u gjet për “%(query_text)s”."
+msgstr[1] "%(result_count)s diskutime u gjetën për “%(query_text)s”."
+
+#: .\forum\templates\forum\search.html:48
+#, python-format
+msgid "No discussions match “%(query_text)s”."
+msgstr "Asnjë diskutim nuk përputhet me “%(query_text)s”."
+
+#: .\forum\templates\forum\search.html:52
+msgid "Enter a term to search across CodeNest discussions."
+msgstr "Shkruani një term për të kërkuar në diskutimet e CodeNest."
+
 #: .\forum\templates\forum\tag_list.html:16
 msgid "Browse the topics used across CodeNest questions."
 msgstr "Shfletoni temat e përdorura në pyetjet e CodeNest."
@@ -744,34 +785,34 @@ msgstr "Shikoni të gjitha pyetjet"
 msgid "Vote must be an upvote or downvote."
 msgstr "Vota duhet të jetë pozitive ose negative."
 
-#: .\forum\views.py:281 .\forum\views.py:301
+#: .\forum\views.py:309 .\forum\views.py:329
 msgid "Comment cannot be empty."
 msgstr "Komenti nuk mund të jetë bosh."
 
-#: .\forum\views.py:387
+#: .\forum\views.py:415
 msgid "Question deleted."
 msgstr "Pyetja u fshi."
 
-#: .\forum\views.py:393
+#: .\forum\views.py:421
 msgid "This permanently deletes the question, its answers, and its comments."
 msgstr "Kjo fshin përgjithmonë pyetjen, përgjigjet dhe komentet e saj."
 
-#: .\forum\views.py:412
+#: .\forum\views.py:440
 msgid "Answer deleted."
 msgstr "Përgjigjja u fshi."
 
-#: .\forum\views.py:418
+#: .\forum\views.py:446
 msgid "This permanently deletes the answer and its comments."
 msgstr "Kjo fshin përgjithmonë përgjigjen dhe komentet e saj."
 
-#: .\forum\views.py:449
+#: .\forum\views.py:477
 msgid "Comment deleted."
 msgstr "Komenti u fshi."
 
-#: .\forum\views.py:456
+#: .\forum\views.py:484
 msgid "Delete comment"
 msgstr "Fshini komentin"
 
-#: .\forum\views.py:457
+#: .\forum\views.py:485
 msgid "This permanently deletes the comment."
 msgstr "Kjo fshin përgjithmonë komentin."

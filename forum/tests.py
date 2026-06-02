@@ -216,6 +216,170 @@ class TagBrowseTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
+class SearchTests(TestCase):
+    def setUp(self):
+        self.author = User.objects.create_user(
+            username='search-author',
+            password='test-password',
+        )
+        self.matching_author = User.objects.create_user(
+            username='needle-writer',
+            password='test-password',
+        )
+        self.matching_tag = Tag.objects.create(name='needle-tools')
+        self.title_question = Question.objects.create(
+            title='Needle in the title',
+            body='Ordinary body',
+            author=self.author,
+        )
+        self.body_question = Question.objects.create(
+            title='Body match',
+            body='The needle appears in this question body.',
+            author=self.author,
+        )
+        self.tag_question = Question.objects.create(
+            title='Tag match',
+            body='Ordinary body',
+            author=self.author,
+        )
+        self.tag_question.tags.add(self.matching_tag)
+        self.answer_question = Question.objects.create(
+            title='Answer match',
+            body='Ordinary body',
+            author=self.author,
+        )
+        Answer.objects.create(
+            question=self.answer_question,
+            body='The needle appears in this answer.',
+            author=self.author,
+        )
+        self.question_comment_question = Question.objects.create(
+            title='Question comment match',
+            body='Ordinary body',
+            author=self.author,
+        )
+        Comment.objects.create(
+            question=self.question_comment_question,
+            content='The needle appears in this question comment.',
+            author=self.author,
+        )
+        self.answer_comment_question = Question.objects.create(
+            title='Answer comment match',
+            body='Ordinary body',
+            author=self.author,
+        )
+        answer = Answer.objects.create(
+            question=self.answer_comment_question,
+            body='Ordinary answer',
+            author=self.author,
+        )
+        Comment.objects.create(
+            answer=answer,
+            content='The needle appears in this answer comment.',
+            author=self.author,
+        )
+        self.author_question = Question.objects.create(
+            title='Author match',
+            body='Ordinary body',
+            author=self.matching_author,
+        )
+        self.irrelevant_question = Question.objects.create(
+            title='Unrelated discussion',
+            body='Nothing relevant here.',
+            author=self.author,
+        )
+
+    def test_search_matches_threads_across_posts_tags_and_authors(self):
+        response = self.client.get(reverse('search'), {'q': 'NEEDLE'})
+        questions = list(response.context['questions'])
+
+        self.assertCountEqual(questions, [
+            self.title_question,
+            self.body_question,
+            self.tag_question,
+            self.answer_question,
+            self.question_comment_question,
+            self.answer_comment_question,
+            self.author_question,
+        ])
+        self.assertEqual(response.context['result_total'], 7)
+        self.assertNotContains(response, self.irrelevant_question.title)
+
+    def test_search_deduplicates_a_thread_that_matches_multiple_fields(self):
+        self.title_question.body = 'Needle also appears in the body.'
+        self.title_question.save(update_fields=['body'])
+        self.title_question.tags.add(self.matching_tag)
+        Answer.objects.create(
+            question=self.title_question,
+            body='Needle also appears in the answer.',
+            author=self.author,
+        )
+
+        response = self.client.get(reverse('search'), {'q': 'needle'})
+        question_ids = [
+            question.pk for question in response.context['questions']
+        ]
+
+        self.assertEqual(question_ids.count(self.title_question.pk), 1)
+        self.assertEqual(response.context['result_total'], 7)
+
+    def test_search_results_keep_vote_first_ranking(self):
+        lower_question = Question.objects.create(
+            title='Ranked signal lower',
+            body='Ordinary body',
+            author=self.author,
+        )
+        higher_question = Question.objects.create(
+            title='Ranked signal higher',
+            body='Ordinary body',
+            author=self.author,
+        )
+        voter = User.objects.create_user(
+            username='search-voter',
+            password='test-password',
+        )
+        other_voter = User.objects.create_user(
+            username='search-other-voter',
+            password='test-password',
+        )
+        QuestionVote.objects.create(
+            user=voter,
+            question=lower_question,
+            value=-1,
+        )
+        QuestionVote.objects.create(
+            user=voter,
+            question=higher_question,
+            value=1,
+        )
+        QuestionVote.objects.create(
+            user=other_voter,
+            question=higher_question,
+            value=1,
+        )
+
+        response = self.client.get(reverse('search'), {'q': 'ranked signal'})
+        questions = list(response.context['questions'])
+
+        self.assertEqual(questions, [higher_question, lower_question])
+        self.assertEqual(questions[0].vote_score, 2)
+        self.assertEqual(questions[1].vote_score, -1)
+
+    def test_blank_search_does_not_list_every_thread(self):
+        response = self.client.get(reverse('search'), {'q': '   '})
+
+        self.assertEqual(response.context['query'], '')
+        self.assertEqual(list(response.context['questions']), [])
+        self.assertEqual(response.context['result_total'], 0)
+
+    def test_header_exposes_the_global_search_form(self):
+        response = self.client.get(reverse('index'))
+
+        self.assertContains(response, f'action="{reverse("search")}"')
+        self.assertContains(response, 'name="q"')
+        self.assertContains(response, 'role="search"')
+
+
 class CommentTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
