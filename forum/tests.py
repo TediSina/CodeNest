@@ -4,6 +4,45 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from .models import Answer, Comment, Question, Tag
+from .templatetags.question_preview import without_fenced_code
+
+
+class QuestionListPreviewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='preview-author',
+            password='test-password',
+        )
+
+    def test_question_preview_omits_fenced_code_before_truncating(self):
+        Question.objects.create(
+            title='How do previews handle code?',
+            body=(
+                'Keep the introduction.\n'
+                '```python\n'
+                f'print("{"x" * 200}")\n'
+                '```\n'
+                'Keep the conclusion.'
+            ),
+            author=self.user,
+        )
+
+        response = self.client.get(reverse('index'))
+
+        self.assertContains(response, 'Keep the introduction.')
+        self.assertContains(response, 'Keep the conclusion.')
+        self.assertNotContains(response, '```')
+        self.assertNotContains(response, 'print(&quot;')
+
+    def test_question_preview_preserves_inline_code(self):
+        preview = without_fenced_code(
+            'Use `python manage.py test` to run the suite.'
+        )
+
+        self.assertEqual(
+            preview,
+            'Use `python manage.py test` to run the suite.',
+        )
 
 
 class CreateQuestionTagsTests(TestCase):

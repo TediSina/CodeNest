@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load question_preview %}
 
 {% block title %}Questions | CodeNest{% endblock %}
 
@@ -33,7 +34,7 @@
                             <span>asked {{ question.created_at|timesince }} ago</span>
                         </div>
                         <h2>{{ question.title }}</h2>
-                        <p class="question-row__preview">{{ question.body|truncatechars:180 }}</p>
+                        <p class="question-row__preview">{{ question.body|without_fenced_code|truncatechars:180 }}</p>
                         <div class="tag-row">
                             {% for tag in question.tags.all %}
                                 <span class="tag">#{{ tag.name }}</span>
