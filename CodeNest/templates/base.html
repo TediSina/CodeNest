@@ -69,9 +69,34 @@
 
     <footer class="site-footer">
         <div class="container">
-            <div class="site-footer__inner">
-                <span>CodeNest</span>
-                <span>Programming questions and answers</span>
+            <div class="site-footer__main">
+                <div class="site-footer__about">
+                    <a class="site-footer__brand" href="{% url 'index' %}" aria-label="CodeNest home">
+                        <img src="{% static 'images/codenest-logo.png' %}" alt="" class="site-footer__logo">
+                        <span>CodeNest</span>
+                    </a>
+                    <p>A programming forum built for the Albanian developer community and open to everyone. Ask questions, share answers, and keep useful knowledge easy to find.</p>
+                </div>
+                <nav class="site-footer__nav" aria-label="Explore CodeNest">
+                    <h2>Explore</h2>
+                    <a href="{% url 'index' %}">Questions</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'create_question' %}">Ask a question</a>
+                        <a href="{% url 'profile' %}">Your profile</a>
+                    {% else %}
+                        <a href="{% url 'register' %}">Create an account</a>
+                        <a href="{% url 'login' %}">Sign in</a>
+                    {% endif %}
+                </nav>
+                <nav class="site-footer__nav" aria-label="CodeNest project links">
+                    <h2>Project</h2>
+                    <a href="https://github.com/TediSina/CodeNest" target="_blank" rel="noopener noreferrer">GitHub repository</a>
+                    <a href="https://github.com/TediSina/CodeNest/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>
+                </nav>
+            </div>
+            <div class="site-footer__bottom">
+                <span>&copy; 2026 Tedi Sina, Tea Sina, Filip Dhamaj, Ersi Mansaku.</span>
+                <span>Built in Tirana, Albania.</span>
             </div>
         </div>
     </footer>
