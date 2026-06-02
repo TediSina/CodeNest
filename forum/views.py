@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Exists, IntegerField, OuterRef, Prefetch, Subquery, Sum, Value
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, Lower
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST
 
 from .forms import AnswerForm, CommentForm, QuestionForm
-from .models import Answer, AnswerVote, Comment, CommentVote, Question, QuestionVote, Vote
+from .models import Answer, AnswerVote, Comment, CommentVote, Question, QuestionVote, Tag, Vote
 
 
 def _with_vote_data(queryset, vote_model, target_field, user):
@@ -92,25 +92,54 @@ def _save_vote(request, item, vote_model, target_field, redirect_url):
 
     return redirect(redirect_url)
 
-def index(request):
-    questions = (
+
+def _ranked_questions(user, queryset=None):
+    if queryset is None:
+        queryset = Question.objects.all()
+
+    return (
         _with_vote_data(
-            Question.objects.select_related('author')
+            queryset.select_related('author')
             .prefetch_related('tags')
             .annotate(answer_count=Count('answers', distinct=True)),
             QuestionVote,
             'question',
-            request.user,
+            user,
         )
         .order_by('-vote_score', '-created_at')
     )
 
+
+def index(request):
     return render(request, 'forum/index.html', {
-        'questions': questions,
+        'questions': _ranked_questions(request.user),
         'question_total': Question.objects.count(),
         'answer_total': Answer.objects.count(),
         'member_total': User.objects.count(),
     })
+
+
+def tag_list(request):
+    tags = (
+        Tag.objects.annotate(question_count=Count('question', distinct=True))
+        .filter(question_count__gt=0)
+        .order_by(Lower('name'))
+    )
+
+    return render(request, 'forum/tag_list.html', {
+        'tags': tags,
+    })
+
+
+def tag_questions(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+
+    return render(request, 'forum/tag_questions.html', {
+        'tag': tag,
+        'questions': _ranked_questions(request.user, tag.question_set.all()),
+        'question_total': tag.question_set.count(),
+    })
+
 
 def question_detail(request, pk):
     question = get_object_or_404(

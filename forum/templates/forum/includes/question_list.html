@@ -1,0 +1,42 @@
+{% load question_preview i18n %}
+
+<div class="question-list">
+    {% for question in questions %}
+        <article class="question-row">
+            <div class="question-row__stats">
+                <div>
+                    <strong>{{ question.vote_score }}</strong>
+                    <span>{% blocktranslate count vote_count=question.vote_score %}vote{% plural %}votes{% endblocktranslate %}</span>
+                </div>
+                <div>
+                    <strong>{{ question.answer_count }}</strong>
+                    <span>{% blocktranslate count answer_count=question.answer_count %}answer{% plural %}answers{% endblocktranslate %}</span>
+                </div>
+            </div>
+            <div>
+                <div class="meta-line">
+                    <span>{{ question.author.username }}</span>
+                    <span>{% blocktranslate with asked_at=question.created_at|timesince %}asked {{ asked_at }} ago{% endblocktranslate %}</span>
+                </div>
+                <h2>
+                    <a href="{% url 'question_detail' question.id %}" class="question-row__link">{{ question.title }}</a>
+                </h2>
+                <p class="question-row__preview">{{ question.body|without_fenced_code|truncatechars:180 }}</p>
+                <div class="tag-row">
+                    {% for tag in question.tags.all %}
+                        <a href="{% url 'tag_questions' tag.pk %}" class="tag">#{{ tag.name }}</a>
+                    {% empty %}
+                        <span class="tag tag--muted">{% translate "untagged" %}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state">
+            <p>{{ empty_message }}</p>
+            {% if show_empty_ask and user.is_authenticated %}
+                <a href="{% url 'create_question' %}" class="app-btn">{% translate "Ask the first question" %}</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

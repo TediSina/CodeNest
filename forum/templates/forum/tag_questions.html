@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}#{{ tag.name }} | CodeNest{% endblock %}
+
+{% block content %}
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
+    <span>/</span>
+    <a href="{% url 'tag_list' %}">{% translate "Tags" %}</a>
+    <span>/</span>
+    <span>#{{ tag.name }}</span>
+</div>
+
+<div class="page-header">
+    <div>
+        <h1>#{{ tag.name }}</h1>
+        <p>{% blocktranslate with tag_name=tag.name %}Questions tagged with #{{ tag_name }}.{% endblocktranslate %}</p>
+    </div>
+    <a href="{% url 'tag_list' %}" class="app-btn app-btn--secondary">{% translate "Browse all tags" %}</a>
+</div>
+
+<div class="content-grid">
+    <section>
+        {% blocktranslate with tag_name=tag.name asvar empty_message %}No questions use #{{ tag_name }} yet.{% endblocktranslate %}
+        {% include "forum/includes/question_list.html" with empty_message=empty_message %}
+    </section>
+
+    <aside>
+        <div class="panel">
+            <h2>{% translate "Tag details" %}</h2>
+            <div class="stats-list">
+                <div class="stats-list__item">
+                    <span>{% translate "Questions" %}</span>
+                    <strong>{{ question_total }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-actions">
+            <a href="{% url 'index' %}" class="app-btn app-btn--secondary">{% translate "View all questions" %}</a>
+        </div>
+    </aside>
+</div>
+{% endblock %}

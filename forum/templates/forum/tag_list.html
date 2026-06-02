@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Tags" %} | CodeNest{% endblock %}
+
+{% block content %}
+<div class="breadcrumb-line">
+    <a href="{% url 'index' %}">{% translate "Questions" %}</a>
+    <span>/</span>
+    <span>{% translate "Tags" %}</span>
+</div>
+
+<div class="page-header">
+    <div>
+        <h1>{% translate "Tags" %}</h1>
+        <p>{% translate "Browse the topics used across CodeNest questions." %}</p>
+    </div>
+</div>
+
+<section class="panel">
+    {% if tags %}
+        <div class="tag-directory">
+            {% for tag in tags %}
+                <a href="{% url 'tag_questions' tag.pk %}" class="tag-directory__item">
+                    <span class="tag">#{{ tag.name }}</span>
+                    <span>{% blocktranslate count question_count=tag.question_count %}{{ question_count }} question{% plural %}{{ question_count }} questions{% endblocktranslate %}</span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>{% translate "No tags have been used yet." %}</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

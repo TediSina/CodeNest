@@ -111,6 +111,111 @@ class CreateQuestionTagsTests(TestCase):
         self.assertFalse(Question.objects.exists())
 
 
+class TagBrowseTests(TestCase):
+    def setUp(self):
+        self.author = User.objects.create_user(
+            username='tag-browser-author',
+            password='test-password',
+        )
+        self.voter = User.objects.create_user(
+            username='tag-browser-voter',
+            password='test-password',
+        )
+        self.other_voter = User.objects.create_user(
+            username='tag-browser-other-voter',
+            password='test-password',
+        )
+        self.python_tag = Tag.objects.create(name='python')
+        self.django_tag = Tag.objects.create(name='django')
+        self.unused_tag = Tag.objects.create(name='unused')
+        self.python_question = Question.objects.create(
+            title='Python-only question',
+            body='This should appear on the Python tag page.',
+            author=self.author,
+        )
+        self.python_question.tags.add(self.python_tag)
+        self.shared_question = Question.objects.create(
+            title='Django and Python question',
+            body='This should appear on two tag pages.',
+            author=self.author,
+        )
+        self.shared_question.tags.add(self.django_tag, self.python_tag)
+        self.untagged_question = Question.objects.create(
+            title='Untagged question',
+            body='This should not appear on a tag page.',
+            author=self.author,
+        )
+
+    def test_tag_directory_only_lists_used_tags_with_question_counts(self):
+        response = self.client.get(reverse('tag_list'))
+        tags = list(response.context['tags'])
+
+        self.assertEqual(tags, [self.django_tag, self.python_tag])
+        self.assertEqual(tags[0].question_count, 1)
+        self.assertEqual(tags[1].question_count, 2)
+        self.assertContains(
+            response,
+            reverse('tag_questions', args=[self.python_tag.pk]),
+        )
+        self.assertNotContains(response, '#unused')
+
+    def test_tag_page_only_lists_matching_questions_ranked_by_vote_score(self):
+        QuestionVote.objects.create(
+            user=self.voter,
+            question=self.python_question,
+            value=-1,
+        )
+        QuestionVote.objects.create(
+            user=self.voter,
+            question=self.shared_question,
+            value=1,
+        )
+        QuestionVote.objects.create(
+            user=self.other_voter,
+            question=self.shared_question,
+            value=1,
+        )
+
+        response = self.client.get(
+            reverse('tag_questions', args=[self.python_tag.pk])
+        )
+        questions = list(response.context['questions'])
+
+        self.assertEqual(questions, [self.shared_question, self.python_question])
+        self.assertEqual(questions[0].vote_score, 2)
+        self.assertEqual(questions[1].vote_score, -1)
+        self.assertEqual(response.context['question_total'], 2)
+        self.assertNotContains(response, self.untagged_question.title)
+
+    def test_question_list_and_thread_tags_link_to_the_tag_page(self):
+        tag_url = reverse('tag_questions', args=[self.python_tag.pk])
+
+        list_response = self.client.get(reverse('index'))
+        thread_response = self.client.get(
+            reverse('question_detail', args=[self.python_question.pk])
+        )
+
+        self.assertContains(list_response, f'href="{tag_url}"')
+        self.assertContains(thread_response, f'href="{tag_url}"')
+
+    def test_free_form_tag_names_can_be_browsed(self):
+        special_tag = Tag.objects.create(name='c++ / cli')
+        self.python_question.tags.add(special_tag)
+
+        response = self.client.get(
+            reverse('tag_questions', args=[special_tag.pk])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '#c++ / cli')
+        self.assertContains(response, self.python_question.title)
+
+    def test_missing_tag_returns_not_found(self):
+        response = self.client.get(reverse('tag_questions', args=[999999]))
+
+        self.assertEqual(response.status_code, 404)
+
+
 class CommentTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(

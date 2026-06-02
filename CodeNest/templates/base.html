@@ -43,6 +43,9 @@
                         <li class="nav-item">
                             <a class="site-nav__link" href="{% url 'index' %}">{% translate "Questions" %}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="site-nav__link" href="{% url 'tag_list' %}">{% translate "Tags" %}</a>
+                        </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item">
                                 <a class="site-nav__link site-nav__link--primary" href="{% url 'create_question' %}">{% translate "Ask question" %}</a>
@@ -112,6 +115,7 @@
                 <nav class="site-footer__nav" aria-label="{% translate 'Explore CodeNest' %}">
                     <h2>{% translate "Explore" %}</h2>
                     <a href="{% url 'index' %}">{% translate "Questions" %}</a>
+                    <a href="{% url 'tag_list' %}">{% translate "Tags" %}</a>
                     {% if user.is_authenticated %}
                         <a href="{% url 'create_question' %}">{% translate "Ask a question" %}</a>
                         <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>

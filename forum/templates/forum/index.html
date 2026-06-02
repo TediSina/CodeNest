@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load question_preview i18n %}
+{% load i18n %}
 
 {% block title %}{% translate "Questions" %} | CodeNest{% endblock %}
 
@@ -21,44 +21,8 @@
 
 <div class="content-grid">
     <section>
-        <div class="question-list">
-            {% for question in questions %}
-                <a href="{% url 'question_detail' question.id %}" class="question-row">
-                    <div class="question-row__stats">
-                        <div>
-                            <strong>{{ question.vote_score }}</strong>
-                            <span>{% blocktranslate count vote_count=question.vote_score %}vote{% plural %}votes{% endblocktranslate %}</span>
-                        </div>
-                        <div>
-                            <strong>{{ question.answer_count }}</strong>
-                            <span>{% blocktranslate count answer_count=question.answer_count %}answer{% plural %}answers{% endblocktranslate %}</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="meta-line">
-                            <span>{{ question.author.username }}</span>
-                            <span>{% blocktranslate with asked_at=question.created_at|timesince %}asked {{ asked_at }} ago{% endblocktranslate %}</span>
-                        </div>
-                        <h2>{{ question.title }}</h2>
-                        <p class="question-row__preview">{{ question.body|without_fenced_code|truncatechars:180 }}</p>
-                        <div class="tag-row">
-                            {% for tag in question.tags.all %}
-                                <span class="tag">#{{ tag.name }}</span>
-                            {% empty %}
-                                <span class="tag tag--muted">{% translate "untagged" %}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </a>
-            {% empty %}
-                <div class="empty-state">
-                    <p>{% translate "No questions have been posted yet." %}</p>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'create_question' %}" class="app-btn">{% translate "Ask the first question" %}</a>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
+        {% translate "No questions have been posted yet." as empty_message %}
+        {% include "forum/includes/question_list.html" with empty_message=empty_message show_empty_ask=True %}
     </section>
 
     <aside>

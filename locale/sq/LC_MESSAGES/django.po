@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CodeNest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 19:54+0200\n"
+"POT-Creation-Date: 2026-06-02 20:26+0200\n"
 "PO-Revision-Date: 2026-06-02 19:10+0200\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Shqip"
 msgid "English"
 msgstr "Anglisht"
 
-#: .\CodeNest\templates\base.html:34 .\CodeNest\templates\base.html:106
+#: .\CodeNest\templates\base.html:34 .\CodeNest\templates\base.html:109
 #: .\CodeNest\templates\login.html:8 .\CodeNest\templates\register.html:8
 msgid "CodeNest home"
 msgstr "Faqja kryesore e CodeNest"
@@ -63,51 +63,62 @@ msgstr "Faqja kryesore e CodeNest"
 msgid "Toggle navigation"
 msgstr "Hapni ose mbyllni menunë"
 
-#: .\CodeNest\templates\base.html:44 .\CodeNest\templates\base.html:114
+#: .\CodeNest\templates\base.html:44 .\CodeNest\templates\base.html:117
 #: .\CodeNest\templates\profile.html:88
 #: .\forum\templates\forum\confirm_delete.html:8
 #: .\forum\templates\forum\create_question.html:12
 #: .\forum\templates\forum\edit_answer.html:12
 #: .\forum\templates\forum\edit_comment.html:8
-#: .\forum\templates\forum\index.html:4 .\forum\templates\forum\index.html:69
+#: .\forum\templates\forum\index.html:4 .\forum\templates\forum\index.html:33
 #: .\forum\templates\forum\question_detail.html:15
+#: .\forum\templates\forum\tag_list.html:8
+#: .\forum\templates\forum\tag_questions.html:8
+#: .\forum\templates\forum\tag_questions.html:34
 msgid "Questions"
 msgstr "Pyetje"
 
-#: .\CodeNest\templates\base.html:48 .\CodeNest\templates\profile.html:29
+#: .\CodeNest\templates\base.html:47 .\CodeNest\templates\base.html:118
+#: .\forum\forms.py:17 .\forum\templates\forum\tag_list.html:4
+#: .\forum\templates\forum\tag_list.html:10
+#: .\forum\templates\forum\tag_list.html:15
+#: .\forum\templates\forum\tag_questions.html:10
+msgid "Tags"
+msgstr "Etiketa"
+
+#: .\CodeNest\templates\base.html:51 .\CodeNest\templates\profile.html:29
 #: .\forum\templates\forum\index.html:15
 msgid "Ask question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:54
+#: .\CodeNest\templates\base.html:57
 msgid "Log out"
 msgstr "Dilni"
 
-#: .\CodeNest\templates\base.html:58 .\CodeNest\templates\register.html:4
+#: .\CodeNest\templates\base.html:61 .\CodeNest\templates\register.html:4
 #: .\forum\templates\forum\question_detail.html:209
 msgid "Register"
 msgstr "Regjistrohuni"
 
-#: .\CodeNest\templates\base.html:61 .\CodeNest\templates\base.html:120
+#: .\CodeNest\templates\base.html:64 .\CodeNest\templates\base.html:124
 #: .\CodeNest\templates\login.html:4 .\CodeNest\templates\login.html:12
 #: .\CodeNest\templates\login.html:25 .\CodeNest\templates\register.html:36
 #: .\forum\templates\forum\question_detail.html:208
 msgid "Sign in"
 msgstr "Hyni"
 
-#: .\CodeNest\templates\base.html:68
+#: .\CodeNest\templates\base.html:71
 msgid "Use light mode"
 msgstr "Aktivizoni modalitetin e çelët"
 
-#: .\CodeNest\templates\base.html:69 .\CodeNest\templates\base.html:70
+#: .\CodeNest\templates\base.html:72 .\CodeNest\templates\base.html:73
 msgid "Use dark mode"
 msgstr "Aktivizoni modalitetin e errët"
 
-#: .\CodeNest\templates\base.html:76
+#: .\CodeNest\templates\base.html:79
 msgid "Language"
 msgstr "Gjuha"
 
-#: .\CodeNest\templates\base.html:110
+#: .\CodeNest\templates\base.html:113
 msgid ""
 "A programming forum built for the Albanian developer community and open to "
 "everyone. Ask questions, share answers, and keep useful knowledge easy to "
@@ -117,47 +128,47 @@ msgstr ""
 "hapur për të gjithë. Bëni pyetje, ndani përgjigje dhe mbajini njohuritë e "
 "dobishme të lehta për t'u gjetur."
 
-#: .\CodeNest\templates\base.html:112
+#: .\CodeNest\templates\base.html:115
 msgid "Explore CodeNest"
 msgstr "Eksploroni CodeNest"
 
-#: .\CodeNest\templates\base.html:113
+#: .\CodeNest\templates\base.html:116
 msgid "Explore"
 msgstr "Eksploroni"
 
-#: .\CodeNest\templates\base.html:116
+#: .\CodeNest\templates\base.html:120
 #: .\forum\templates\forum\create_question.html:4
 #: .\forum\templates\forum\create_question.html:19
 #: .\forum\templates\forum\create_question.html:29
 msgid "Ask a question"
 msgstr "Bëni një pyetje"
 
-#: .\CodeNest\templates\base.html:117
+#: .\CodeNest\templates\base.html:121
 msgid "Your profile"
 msgstr "Profili juaj"
 
-#: .\CodeNest\templates\base.html:119 .\CodeNest\templates\login.html:28
+#: .\CodeNest\templates\base.html:123 .\CodeNest\templates\login.html:28
 #: .\CodeNest\templates\register.html:12
 msgid "Create an account"
 msgstr "Krijoni një llogari"
 
-#: .\CodeNest\templates\base.html:123
+#: .\CodeNest\templates\base.html:127
 msgid "CodeNest project links"
 msgstr "Lidhjet e projektit CodeNest"
 
-#: .\CodeNest\templates\base.html:124
+#: .\CodeNest\templates\base.html:128
 msgid "Project"
 msgstr "Projekti"
 
-#: .\CodeNest\templates\base.html:125
+#: .\CodeNest\templates\base.html:129
 msgid "GitHub repository"
 msgstr "Depoja në GitHub"
 
-#: .\CodeNest\templates\base.html:126
+#: .\CodeNest\templates\base.html:130
 msgid "MIT License"
 msgstr "Licenca MIT"
 
-#: .\CodeNest\templates\base.html:131
+#: .\CodeNest\templates\base.html:135
 msgid "Built in Tirana, Albania."
 msgstr "Ndërtuar në Tiranë, Shqipëri."
 
@@ -237,7 +248,8 @@ msgid_plural "%(answer_count)s answers"
 msgstr[0] "%(answer_count)s përgjigje"
 msgstr[1] "%(answer_count)s përgjigje"
 
-#: .\CodeNest\templates\profile.html:51 .\forum\templates\forum\index.html:48
+#: .\CodeNest\templates\profile.html:51
+#: .\forum\templates\forum\includes\question_list.html:29
 #: .\forum\templates\forum\question_detail.html:31
 msgid "untagged"
 msgstr "pa etiketa"
@@ -258,7 +270,7 @@ msgstr "Nuk keni postuar ende asnjë përgjigje."
 msgid "Account details"
 msgstr "Të dhënat e llogarisë"
 
-#: .\CodeNest\templates\profile.html:92 .\forum\templates\forum\index.html:73
+#: .\CodeNest\templates\profile.html:92 .\forum\templates\forum\index.html:37
 msgid "Answers"
 msgstr "Përgjigje"
 
@@ -305,10 +317,6 @@ msgstr "Ju lutemi, korrigjoni gabimet më poshtë."
 #: .\CodeNest\views.py:91
 msgid "Invalid username or password."
 msgstr "Emri i përdoruesit ose fjalëkalimi është i pasaktë."
-
-#: .\forum\forms.py:17
-msgid "Tags"
-msgstr "Etiketa"
 
 #: .\forum\forms.py:23
 msgid "Add tags separated by commas. New tags are created automatically."
@@ -486,6 +494,27 @@ msgstr "Ndryshoni komentin"
 msgid "Update your comment and save the changes."
 msgstr "Përditësoni komentin dhe ruani ndryshimet."
 
+#: .\forum\templates\forum\includes\question_list.html:9
+msgid "vote"
+msgid_plural "votes"
+msgstr[0] "votë"
+msgstr[1] "vota"
+
+#: .\forum\templates\forum\includes\question_list.html:13
+msgid "answer"
+msgid_plural "answers"
+msgstr[0] "përgjigje"
+msgstr[1] "përgjigje"
+
+#: .\forum\templates\forum\includes\question_list.html:19
+#, python-format
+msgid "asked %(asked_at)s ago"
+msgstr "pyetur %(asked_at)s më parë"
+
+#: .\forum\templates\forum\includes\question_list.html:38
+msgid "Ask the first question"
+msgstr "Bëni pyetjen e parë"
+
 #: .\forum\templates\forum\includes\vote_controls.html:6
 #, python-format
 msgid "Upvote %(item)s"
@@ -531,52 +560,31 @@ msgstr ""
 msgid "Sign in to ask"
 msgstr "Hyni për të bërë një pyetje"
 
-#: .\forum\templates\forum\index.html:30
-msgid "vote"
-msgid_plural "votes"
-msgstr[0] "votë"
-msgstr[1] "vota"
-
-#: .\forum\templates\forum\index.html:34
-msgid "answer"
-msgid_plural "answers"
-msgstr[0] "përgjigje"
-msgstr[1] "përgjigje"
-
-#: .\forum\templates\forum\index.html:40
-#, python-format
-msgid "asked %(asked_at)s ago"
-msgstr "pyetur %(asked_at)s më parë"
-
-#: .\forum\templates\forum\index.html:55
+#: .\forum\templates\forum\index.html:24
 msgid "No questions have been posted yet."
 msgstr "Ende nuk është postuar asnjë pyetje."
 
-#: .\forum\templates\forum\index.html:57
-msgid "Ask the first question"
-msgstr "Bëni pyetjen e parë"
-
-#: .\forum\templates\forum\index.html:66
+#: .\forum\templates\forum\index.html:30
 msgid "Community"
 msgstr "Komuniteti"
 
-#: .\forum\templates\forum\index.html:77
+#: .\forum\templates\forum\index.html:41
 msgid "Members"
 msgstr "Anëtarë"
 
-#: .\forum\templates\forum\index.html:83
+#: .\forum\templates\forum\index.html:47
 msgid "Asking a question"
 msgstr "Si të bëni një pyetje"
 
-#: .\forum\templates\forum\index.html:85
+#: .\forum\templates\forum\index.html:49
 msgid "Describe the expected result."
 msgstr "Përshkruani rezultatin e pritur."
 
-#: .\forum\templates\forum\index.html:86
+#: .\forum\templates\forum\index.html:50
 msgid "Include a small code example."
 msgstr "Përfshini një shembull të shkurtër kodi."
 
-#: .\forum\templates\forum\index.html:87
+#: .\forum\templates\forum\index.html:51
 msgid "Add tags for the relevant tools."
 msgstr "Shtoni etiketa për mjetet përkatëse."
 
@@ -600,7 +608,7 @@ msgstr "komentin"
 msgid "Asked by %(username)s"
 msgstr "Pyetur nga %(username)s"
 
-#: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:362
+#: .\forum\templates\forum\question_detail.html:42 .\forum\views.py:391
 msgid "Delete question"
 msgstr "Fshini pyetjen"
 
@@ -628,7 +636,7 @@ msgstr "Shtoni komentin"
 msgid "Sign in to add a comment"
 msgstr "Hyni për të shtuar një koment"
 
-#: .\forum\templates\forum\question_detail.html:113 .\forum\views.py:387
+#: .\forum\templates\forum\question_detail.html:113 .\forum\views.py:416
 msgid "Delete answer"
 msgstr "Fshini përgjigjen"
 
@@ -695,38 +703,75 @@ msgid_plural "%(vote_count)s votes"
 msgstr[0] "%(vote_count)s votë"
 msgstr[1] "%(vote_count)s vota"
 
+#: .\forum\templates\forum\tag_list.html:16
+msgid "Browse the topics used across CodeNest questions."
+msgstr "Shfletoni temat e përdorura në pyetjet e CodeNest."
+
+#: .\forum\templates\forum\tag_list.html:26
+#, python-format
+msgid "%(question_count)s question"
+msgid_plural "%(question_count)s questions"
+msgstr[0] "%(question_count)s pyetje"
+msgstr[1] "%(question_count)s pyetje"
+
+#: .\forum\templates\forum\tag_list.html:32
+msgid "No tags have been used yet."
+msgstr "Ende nuk është përdorur asnjë etiketë."
+
+#: .\forum\templates\forum\tag_questions.html:18
+#, python-format
+msgid "Questions tagged with #%(tag_name)s."
+msgstr "Pyetje me etiketën #%(tag_name)s."
+
+#: .\forum\templates\forum\tag_questions.html:20
+msgid "Browse all tags"
+msgstr "Shfletoni të gjitha etiketat"
+
+#: .\forum\templates\forum\tag_questions.html:25
+#, python-format
+msgid "No questions use #%(tag_name)s yet."
+msgstr "Ende nuk ka pyetje me etiketën #%(tag_name)s."
+
+#: .\forum\templates\forum\tag_questions.html:31
+msgid "Tag details"
+msgstr "Hollësitë e etiketës"
+
+#: .\forum\templates\forum\tag_questions.html:40
+msgid "View all questions"
+msgstr "Shikoni të gjitha pyetjet"
+
 #: .\forum\views.py:61 .\forum\views.py:64
 msgid "Vote must be an upvote or downvote."
 msgstr "Vota duhet të jetë pozitive ose negative."
 
-#: .\forum\views.py:252 .\forum\views.py:272
+#: .\forum\views.py:281 .\forum\views.py:301
 msgid "Comment cannot be empty."
 msgstr "Komenti nuk mund të jetë bosh."
 
-#: .\forum\views.py:358
+#: .\forum\views.py:387
 msgid "Question deleted."
 msgstr "Pyetja u fshi."
 
-#: .\forum\views.py:364
+#: .\forum\views.py:393
 msgid "This permanently deletes the question, its answers, and its comments."
 msgstr "Kjo fshin përgjithmonë pyetjen, përgjigjet dhe komentet e saj."
 
-#: .\forum\views.py:383
+#: .\forum\views.py:412
 msgid "Answer deleted."
 msgstr "Përgjigjja u fshi."
 
-#: .\forum\views.py:389
+#: .\forum\views.py:418
 msgid "This permanently deletes the answer and its comments."
 msgstr "Kjo fshin përgjithmonë përgjigjen dhe komentet e saj."
 
-#: .\forum\views.py:420
+#: .\forum\views.py:449
 msgid "Comment deleted."
 msgstr "Komenti u fshi."
 
-#: .\forum\views.py:427
+#: .\forum\views.py:456
 msgid "Delete comment"
 msgstr "Fshini komentin"
 
-#: .\forum\views.py:428
+#: .\forum\views.py:457
 msgid "This permanently deletes the comment."
 msgstr "Kjo fshin përgjithmonë komentin."
