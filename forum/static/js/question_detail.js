@@ -58,7 +58,60 @@ document.addEventListener('DOMContentLoaded', () => {
         decorateCodeBlocks(preview);
     }
 
+    function bindVoteControls() {
+        document.querySelectorAll('.vote-controls__form').forEach((form) => {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const submitter = event.submitter || form.querySelector('.vote-controls__button[type="submit"]');
+                const controls = form.closest('.vote-controls');
+                const buttons = controls.querySelectorAll('.vote-controls__button[type="submit"]');
+                const formData = new FormData(form);
+                formData.set(submitter.name, submitter.value);
+
+                buttons.forEach((button) => {
+                    button.disabled = true;
+                });
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        credentials: 'same-origin',
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Vote request failed.');
+                    }
+
+                    const vote = await response.json();
+
+                    document.querySelectorAll(`[data-vote-score-for="${controls.dataset.voteTarget}"]`).forEach((score) => {
+                        score.textContent = vote.score;
+                        score.setAttribute('aria-label', `${vote.score} vote score`);
+                    });
+
+                    controls.querySelectorAll('.vote-controls__button[name="value"]').forEach((button) => {
+                        const isActive = Number(button.value) === vote.user_vote;
+                        button.classList.toggle('vote-controls__button--active', isActive);
+                        button.setAttribute('aria-pressed', String(isActive));
+                    });
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    buttons.forEach((button) => {
+                        button.disabled = false;
+                    });
+                }
+            });
+        });
+    }
+
     renderMarkdownBlocks('.js-markdown');
+    bindVoteControls();
 
     const markdownInput = document.querySelector('.markdown-input');
     const previewElement = document.getElementById('markdown-preview');

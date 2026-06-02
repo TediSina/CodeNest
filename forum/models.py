@@ -56,3 +56,78 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author}'
+
+
+class Vote(models.Model):
+    UPVOTE = 1
+    DOWNVOTE = -1
+    VALUE_CHOICES = [
+        (UPVOTE, 'Upvote'),
+        (DOWNVOTE, 'Downvote'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(choices=VALUE_CHOICES)
+
+    class Meta:
+        abstract = True
+
+
+class QuestionVote(Vote):
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        related_name='votes',
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'question'],
+                name='unique_question_vote_per_user',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(value__in=[Vote.DOWNVOTE, Vote.UPVOTE]),
+                name='question_vote_value_is_valid',
+            ),
+        ]
+
+
+class AnswerVote(Vote):
+    answer = models.ForeignKey(
+        Answer,
+        on_delete=models.CASCADE,
+        related_name='votes',
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'answer'],
+                name='unique_answer_vote_per_user',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(value__in=[Vote.DOWNVOTE, Vote.UPVOTE]),
+                name='answer_vote_value_is_valid',
+            ),
+        ]
+
+
+class CommentVote(Vote):
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='votes',
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'comment'],
+                name='unique_comment_vote_per_user',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(value__in=[Vote.DOWNVOTE, Vote.UPVOTE]),
+                name='comment_vote_value_is_valid',
+            ),
+        ]

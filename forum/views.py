@@ -1,20 +1,107 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Prefetch
+from django.db.models import Count, Exists, IntegerField, OuterRef, Prefetch, Subquery, Sum, Value
+from django.db.models.functions import Coalesce
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, CommentForm, QuestionForm
-from .models import Answer, Comment, Question
+from .models import Answer, AnswerVote, Comment, CommentVote, Question, QuestionVote, Vote
+
+
+def _with_vote_data(queryset, vote_model, target_field, user):
+    target_lookup = {target_field: OuterRef('pk')}
+    vote_totals = (
+        vote_model.objects.filter(**target_lookup)
+        .values(target_field)
+        .annotate(total=Sum('value'))
+        .values('total')
+    )
+    annotations = {
+        'vote_score': Coalesce(
+            Subquery(vote_totals, output_field=IntegerField()),
+            Value(0),
+        ),
+    }
+
+    if user.is_authenticated:
+        annotations.update({
+            'is_upvoted': Exists(
+                vote_model.objects.filter(
+                    user=user,
+                    value=Vote.UPVOTE,
+                    **target_lookup,
+                )
+            ),
+            'is_downvoted': Exists(
+                vote_model.objects.filter(
+                    user=user,
+                    value=Vote.DOWNVOTE,
+                    **target_lookup,
+                )
+            ),
+        })
+    else:
+        annotations.update({
+            'is_upvoted': Value(False),
+            'is_downvoted': Value(False),
+        })
+
+    return queryset.annotate(**annotations)
+
+
+def _save_vote(request, item, vote_model, target_field, redirect_url):
+    try:
+        value = int(request.POST.get('value', ''))
+    except ValueError:
+        return HttpResponseBadRequest('Vote must be an upvote or downvote.')
+
+    if value not in {Vote.UPVOTE, Vote.DOWNVOTE}:
+        return HttpResponseBadRequest('Vote must be an upvote or downvote.')
+
+    lookup = {
+        'user': request.user,
+        target_field: item,
+    }
+    existing_vote = vote_model.objects.filter(**lookup).first()
+
+    if existing_vote is None:
+        vote_model.objects.create(value=value, **lookup)
+        user_vote = value
+    elif existing_vote.value == value:
+        existing_vote.delete()
+        user_vote = 0
+    else:
+        existing_vote.value = value
+        existing_vote.save(update_fields=['value'])
+        user_vote = value
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        score = (
+            vote_model.objects.filter(**{target_field: item})
+            .aggregate(score=Coalesce(Sum('value'), Value(0)))['score']
+        )
+        return JsonResponse({
+            'score': score,
+            'user_vote': user_vote,
+        })
+
+    return redirect(redirect_url)
 
 def index(request):
     questions = (
-        Question.objects.select_related('author')
-        .prefetch_related('tags')
-        .annotate(answer_count=Count('answers'))
-        .order_by('-created_at')
+        _with_vote_data(
+            Question.objects.select_related('author')
+            .prefetch_related('tags')
+            .annotate(answer_count=Count('answers', distinct=True)),
+            QuestionVote,
+            'question',
+            request.user,
+        )
+        .order_by('-vote_score', '-created_at')
     )
 
     return render(request, 'forum/index.html', {
@@ -26,27 +113,53 @@ def index(request):
 
 def question_detail(request, pk):
     question = get_object_or_404(
-        Question.objects.select_related('author').prefetch_related('tags'),
+        _with_vote_data(
+            Question.objects.select_related('author').prefetch_related('tags'),
+            QuestionVote,
+            'question',
+            request.user,
+        ),
         pk=pk
     )
     answers = (
-        question.answers.select_related('author')
+        _with_vote_data(
+            question.answers.select_related('author'),
+            AnswerVote,
+            'answer',
+            request.user,
+        )
         .prefetch_related(
             Prefetch(
                 'comment_set',
-                queryset=Comment.objects.select_related('author').order_by('created_at'),
+                queryset=_with_vote_data(
+                    Comment.objects.select_related('author'),
+                    CommentVote,
+                    'comment',
+                    request.user,
+                ).order_by('-vote_score', 'created_at'),
             )
         )
-        .order_by('-is_accepted', 'created_at')
+        .order_by('-vote_score', '-is_accepted', 'created_at')
     )
     question_comments = (
-        question.comment_set.select_related('author').order_by('created_at')
+        _with_vote_data(
+            question.comment_set.select_related('author'),
+            CommentVote,
+            'comment',
+            request.user,
+        )
+        .order_by('-vote_score', 'created_at')
     )
     related_questions = (
-        Question.objects.exclude(pk=question.pk)
-        .select_related('author')
-        .annotate(answer_count=Count('answers'))
-        .order_by('-created_at')[:3]
+        _with_vote_data(
+            Question.objects.exclude(pk=question.pk)
+            .select_related('author')
+            .annotate(answer_count=Count('answers', distinct=True)),
+            QuestionVote,
+            'question',
+            request.user,
+        )
+        .order_by('-vote_score', '-created_at')[:3]
     )
     form = AnswerForm()
 
@@ -70,6 +183,53 @@ def question_detail(request, pk):
         'answer_total': answers.count(),
         'related_questions': related_questions,
     })
+
+
+@login_required
+@require_POST
+def vote_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    return _save_vote(
+        request,
+        question,
+        QuestionVote,
+        'question',
+        reverse('question_detail', kwargs={'pk': question.pk}),
+    )
+
+
+@login_required
+@require_POST
+def vote_answer(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    return _save_vote(
+        request,
+        answer,
+        AnswerVote,
+        'answer',
+        reverse('question_detail', kwargs={'pk': answer.question_id}),
+    )
+
+
+@login_required
+@require_POST
+def vote_comment(request, pk):
+    comment = get_object_or_404(
+        Comment.objects.select_related('answer'),
+        pk=pk,
+    )
+    question_pk = (
+        comment.question_id
+        if comment.question_id is not None
+        else comment.answer.question_id
+    )
+    return _save_vote(
+        request,
+        comment,
+        CommentVote,
+        'comment',
+        reverse('question_detail', kwargs={'pk': question_pk}),
+    )
 
 
 @login_required

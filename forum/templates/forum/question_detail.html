@@ -40,89 +40,109 @@
 
 <div class="thread-layout">
     <div>
-        <article class="post-card">
-            <div class="rich-markdown js-markdown">{{ question.body }}</div>
-            <section class="comments-section">
-                <h3>Comments</h3>
-                {% if question_comments %}
-                    <div class="comment-list">
-                        {% for comment in question_comments %}
-                            <div class="comment-item" id="comment-{{ comment.pk }}">
-                                <p>{{ comment.content|linebreaksbr }}</p>
-                                <div class="comment-meta">
-                                    <span>{{ comment.author.username }}</span>
-                                    <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
-                                    {% if user == comment.author %}
-                                        <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'add_question_comment' question.pk %}" class="comment-form">
-                        {% csrf_token %}
-                        <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this question" required></textarea>
-                        <button type="submit" class="comment-submit">Add comment</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
-                {% endif %}
-            </section>
-        </article>
-
-        <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
-        <div class="answer-list">
-            {% for answer in answers %}
-                <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}" id="answer-{{ answer.pk }}">
-                    <div class="post-header">
-                        <div class="meta-line">
-                            <span>{{ answer.author.username }}</span>
-                            <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
-                        </div>
-                        {% if user == answer.author %}
-                            <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
-                                <i class="bi bi-pencil"></i>
-                                <span>Edit answer</span>
-                            </a>
-                        {% endif %}
-                    </div>
-                    {% if answer.is_accepted %}
-                        <span class="accepted-label">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Accepted answer</span>
-                        </span>
-                    {% endif %}
-                    <div class="rich-markdown js-markdown">{{ answer.body }}</div>
+        <article class="post-card" id="question-{{ question.pk }}">
+            <div class="post-content-layout">
+                {% include "forum/includes/vote_controls.html" with target=question vote_url="vote_question" target_name="question" %}
+                <div>
+                    <div class="rich-markdown js-markdown">{{ question.body }}</div>
                     <section class="comments-section">
                         <h3>Comments</h3>
-                        {% if answer.comment_set.all %}
+                        {% if question_comments %}
                             <div class="comment-list">
-                                {% for comment in answer.comment_set.all %}
+                                {% for comment in question_comments %}
                                     <div class="comment-item" id="comment-{{ comment.pk }}">
-                                        <p>{{ comment.content|linebreaksbr }}</p>
-                                        <div class="comment-meta">
-                                            <span>{{ comment.author.username }}</span>
-                                            <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
-                                            {% if user == comment.author %}
-                                                <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
-                                            {% endif %}
+                                        <div class="comment-item__layout">
+                                            {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" modifier="vote-controls--comment" %}
+                                            <div>
+                                                <p>{{ comment.content|linebreaksbr }}</p>
+                                                <div class="comment-meta">
+                                                    <span>{{ comment.author.username }}</span>
+                                                    <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                                    {% if user == comment.author %}
+                                                        <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}
                             </div>
                         {% endif %}
                         {% if user.is_authenticated %}
-                            <form method="post" action="{% url 'add_answer_comment' answer.pk %}" class="comment-form">
+                            <form method="post" action="{% url 'add_question_comment' question.pk %}" class="comment-form">
                                 {% csrf_token %}
-                                <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this answer" required></textarea>
+                                <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this question" required></textarea>
                                 <button type="submit" class="comment-submit">Add comment</button>
                             </form>
                         {% else %}
                             <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
                         {% endif %}
                     </section>
+                </div>
+            </div>
+        </article>
+
+        <h2 class="answer-heading">{{ answer_total }} answer{{ answer_total|pluralize }}</h2>
+        <div class="answer-list">
+            {% for answer in answers %}
+                <article class="post-card answer-card{% if answer.is_accepted %} answer-card--accepted{% endif %}" id="answer-{{ answer.pk }}">
+                    <div class="post-content-layout">
+                        {% include "forum/includes/vote_controls.html" with target=answer vote_url="vote_answer" target_name="answer" %}
+                        <div>
+                            <div class="post-header">
+                                <div class="meta-line">
+                                    <span>{{ answer.author.username }}</span>
+                                    <span>{{ answer.created_at|date:"F j, Y, g:i a" }}</span>
+                                </div>
+                                {% if user == answer.author %}
+                                    <a href="{% url 'edit_answer' answer.pk %}" class="edit-link">
+                                        <i class="bi bi-pencil"></i>
+                                        <span>Edit answer</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            {% if answer.is_accepted %}
+                                <span class="accepted-label">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>Accepted answer</span>
+                                </span>
+                            {% endif %}
+                            <div class="rich-markdown js-markdown">{{ answer.body }}</div>
+                            <section class="comments-section">
+                                <h3>Comments</h3>
+                                {% if answer.comment_set.all %}
+                                    <div class="comment-list">
+                                        {% for comment in answer.comment_set.all %}
+                                            <div class="comment-item" id="comment-{{ comment.pk }}">
+                                                <div class="comment-item__layout">
+                                                    {% include "forum/includes/vote_controls.html" with target=comment vote_url="vote_comment" target_name="comment" modifier="vote-controls--comment" %}
+                                                    <div>
+                                                        <p>{{ comment.content|linebreaksbr }}</p>
+                                                        <div class="comment-meta">
+                                                            <span>{{ comment.author.username }}</span>
+                                                            <span>{{ comment.created_at|date:"M j, Y, g:i a" }}</span>
+                                                            {% if user == comment.author %}
+                                                                <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                    <form method="post" action="{% url 'add_answer_comment' answer.pk %}" class="comment-form">
+                                        {% csrf_token %}
+                                        <textarea name="content" rows="2" placeholder="Add a comment" aria-label="Comment on this answer" required></textarea>
+                                        <button type="submit" class="comment-submit">Add comment</button>
+                                    </form>
+                                {% else %}
+                                    <a href="{% url 'login' %}?next={{ request.path }}" class="comment-login">Sign in to add a comment</a>
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
                 </article>
             {% empty %}
                 <div class="panel empty-state">
@@ -193,6 +213,10 @@
                     <span>Updated</span>
                     <strong>{{ question.updated_at|date:"M j, Y" }}</strong>
                 </div>
+                <div class="detail-list__item">
+                    <span>Vote score</span>
+                    <strong data-vote-score-for="question-{{ question.pk }}">{{ question.vote_score }}</strong>
+                </div>
             </div>
         </section>
 
@@ -203,7 +227,7 @@
                     {% for related in related_questions %}
                         <a href="{% url 'question_detail' related.id %}" class="related-link">
                             <strong>{{ related.title }}</strong>
-                            <span>{{ related.answer_count }} answer{{ related.answer_count|pluralize }}</span>
+                            <span>{{ related.vote_score }} vote{{ related.vote_score|pluralize }} &middot; {{ related.answer_count }} answer{{ related.answer_count|pluralize }}</span>
                         </a>
                     {% endfor %}
                 </div>

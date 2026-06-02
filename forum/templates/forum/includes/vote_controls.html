@@ -1,0 +1,27 @@
+<div class="vote-controls{% if modifier %} {{ modifier }}{% endif %}" data-vote-target="{{ target_name }}-{{ target.pk }}">
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url vote_url target.pk %}" class="vote-controls__form">
+            {% csrf_token %}
+            <button type="submit" name="value" value="1" class="vote-controls__button{% if target.is_upvoted %} vote-controls__button--active{% endif %}" aria-label="Upvote {{ target_name }}" aria-pressed="{% if target.is_upvoted %}true{% else %}false{% endif %}">
+                <i class="bi bi-caret-up-fill"></i>
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}" class="vote-controls__button" aria-label="Sign in to upvote {{ target_name }}">
+            <i class="bi bi-caret-up-fill"></i>
+        </a>
+    {% endif %}
+    <span class="vote-controls__score" data-vote-score-for="{{ target_name }}-{{ target.pk }}" aria-label="{{ target.vote_score }} vote score">{{ target.vote_score }}</span>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url vote_url target.pk %}" class="vote-controls__form">
+            {% csrf_token %}
+            <button type="submit" name="value" value="-1" class="vote-controls__button{% if target.is_downvoted %} vote-controls__button--active{% endif %}" aria-label="Downvote {{ target_name }}" aria-pressed="{% if target.is_downvoted %}true{% else %}false{% endif %}">
+                <i class="bi bi-caret-down-fill"></i>
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}" class="vote-controls__button" aria-label="Sign in to downvote {{ target_name }}">
+            <i class="bi bi-caret-down-fill"></i>
+        </a>
+    {% endif %}
+</div>

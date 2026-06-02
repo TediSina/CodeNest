@@ -280,16 +280,23 @@ textarea {
   background: var(--blue-pale);
 }
 
-.question-row__answers {
+.question-row__stats {
+  display: grid;
+  align-content: start;
+  gap: 9px;
   color: var(--muted);
   font-size: 0.75rem;
   text-align: center;
 }
 
-.question-row__answers strong {
+.question-row__stats strong,
+.question-row__stats span {
   display: block;
+}
+
+.question-row__stats strong {
   color: var(--navy);
-  font-size: 1.5rem;
+  font-size: 1.22rem;
   line-height: 1.05;
 }
 
@@ -511,6 +518,58 @@ button.app-btn {
   margin-top: 0;
 }
 
+.post-content-layout {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.vote-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  align-self: start;
+}
+
+.vote-controls__form {
+  margin: 0;
+}
+
+.vote-controls__button {
+  display: grid;
+  width: 28px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font-size: 1rem;
+  line-height: 1;
+  place-items: center;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.vote-controls__button:hover,
+.vote-controls__button:focus {
+  color: var(--blue-dark);
+  background: var(--blue-soft);
+}
+
+.vote-controls__button--active {
+  color: var(--blue-dark);
+}
+
+.vote-controls__score {
+  min-width: 28px;
+  color: var(--navy);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+}
+
 .answer-heading {
   margin: 24px 0 12px;
   color: var(--navy);
@@ -572,6 +631,29 @@ button.app-btn {
   color: var(--text);
   font-size: 0.86rem;
   line-height: 1.45;
+}
+
+.comment-item__layout {
+  display: flex;
+  align-items: start;
+  gap: 7px;
+}
+
+.vote-controls--comment {
+  flex-direction: row;
+  gap: 0;
+  margin-left: -4px;
+}
+
+.vote-controls--comment .vote-controls__button {
+  width: 21px;
+  height: 20px;
+  font-size: 0.77rem;
+}
+
+.vote-controls--comment .vote-controls__score {
+  min-width: 18px;
+  font-size: 0.7rem;
 }
 
 .comment-meta {
@@ -1153,7 +1235,7 @@ a.timeline-item:hover h3 {
   }
 
   .question-row {
-    grid-template-columns: 54px minmax(0, 1fr);
+    grid-template-columns: 64px minmax(0, 1fr);
     gap: 10px;
     padding: 13px;
   }

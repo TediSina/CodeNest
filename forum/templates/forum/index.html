@@ -24,9 +24,15 @@
         <div class="question-list">
             {% for question in questions %}
                 <a href="{% url 'question_detail' question.id %}" class="question-row">
-                    <div class="question-row__answers">
-                        <strong>{{ question.answer_count }}</strong>
-                        <span>answer{{ question.answer_count|pluralize }}</span>
+                    <div class="question-row__stats">
+                        <div>
+                            <strong>{{ question.vote_score }}</strong>
+                            <span>vote{{ question.vote_score|pluralize }}</span>
+                        </div>
+                        <div>
+                            <strong>{{ question.answer_count }}</strong>
+                            <span>answer{{ question.answer_count|pluralize }}</span>
+                        </div>
                     </div>
                     <div>
                         <div class="meta-line">
